@@ -4,7 +4,7 @@
       <form action="https://postman-echo.com/post" method="post">
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
-            <h4 class="title">Purchase Order Application</h4>
+            <h4 class="title">Purchase, Service and Requisition Application</h4>
             <!-- <p class="category">Complete your profile</p> -->
           </md-card-header>
 
@@ -22,77 +22,89 @@
                   <th></th>
                 </tr>
                 <tr>
-                  <td class="desc">Date:</td>
+                  <td class="desc">Services:</td>
                   <td>
                     <md-field>
-                      <md-input type="date" v-model="details.dates">Date</md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Our Reference:</td>
-                  <td>
-                    <md-field>
-                      <md-input v-model="details.reference"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Your Quotation:</td>
-                  <td>
-                    <md-field>
-                      <md-input v-model="details.quotation"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Delivery Due Date:</td>
-                  <td>
-                    <md-field>
-                      <md-input type="date" v-model="details.dueDate"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Mode of Payment:</td>
-                  <td>
-                    <md-field>
-                      <select v-model="details.paymentMode">
+                      <select v-model="details.services">
                         <option disabled value>Please select one</option>
-                        <option>Land</option>
-                        <option>Ship</option>
-                        <option>Air</option>
+                        <option>Dinastia Jati</option>
+                        <option>DJ Marine Services</option>
                       </select>
                     </md-field>
                   </td>
                 </tr>
                 <tr>
-                  <td class="desc">PSR No.:</td>
+                  <td class="desc">Purchase Classification:</td>
                   <td>
                     <md-field>
-                      <md-input v-model="details.PSRNo"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">CCA No.:</td>
-                  <td>
-                    <md-field>
-                      <md-input v-model="details.CCANo"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Mode of Payment:</td>
-                  <td>
-                    <md-field>
-                      <!-- <label>Company (disabled)</label> -->
-                      <select>
+                      <select v-model="details.purchaseClassification">
                         <option disabled value>Please select one</option>
-                        <option>Debit</option>
-                        <option>Credit</option>
-                        <option>As per invoice</option>
+                        <option>CAPEX</option>
+                        <option>OPEX</option>
                       </select>
+                    </md-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="desc">Purchase Type:</td>
+                  <td>
+                    <md-field>
+                      <select v-model="details.purchaseType">
+                        <option disabled value>Please select one</option>
+                        <option>Project Material</option>
+                        <option>Project Consumerable</option>
+                        <option>Tools and Equipment</option>
+                        <option>Tools(Consumerable)</option>
+                        <option>Services</option>
+                      </select>
+                    </md-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="desc">Justification For Purchase:</td>
+                  <td>
+                    <md-field>
+                      <select v-model="details.purchaseJustification">
+                        <option disabled value>Please select one</option>
+                        <option>Project Use(Consumerable)</option>
+                        <option>Operations</option>
+                        <option>Continue Rentals</option>
+                        <option>Client Materials</option>
+                        <option>Single Sources</option>
+                        <option>Others</option>
+                      </select>
+                    </md-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="desc">Date Required:</td>
+                  <td>
+                    <md-field>
+                      <md-input type="date" v-model="details.dateRequired">Date</md-input>
+                    </md-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="desc">Delivery:</td>
+                  <td>
+                    <md-field>
+                      <md-input v-model="details.delivery"></md-input>
+                    </md-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="desc">Project Title:</td>
+                  <td>
+                    <md-field>
+                      <md-input v-model="details.projectTitle"></md-input>
+                    </md-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="desc">Vessel Code:</td>
+                  <td>
+                    md-field>
+                      <md-input type="date" v-model="details.vesselCode">Date</md-input>
                     </md-field>
                   </td>
                 </tr>
@@ -103,7 +115,6 @@
                 @click.prevent="next()"
                 style="float:right"
               >Next</md-button>
-              {{details}}
               <!-- </div> -->
             </div>
 
@@ -163,7 +174,6 @@
                 style="float:right"
               >Previous</md-button>
               <!-- <input type="submit" value="Save"> -->
-              {{item}}
             </div>
           </md-card-content>
         </md-card>
@@ -179,14 +189,14 @@ export default {
       step: 1,
       index: 2,
       details: {
-          dates: null,
-          reference: null,
-          quotation: null,
-          dueDate: null,
-          modeOfPayment: null,
-          PSRNo: null,
-          paymentMode: null,
-          CCANo: null,
+          services: null,
+          purchaseClassification: null,
+          purchaseType: null,
+          purchaseJustification: null,
+          dateRequired: null,
+          delivery: null,
+          projectTitle: null,
+          vesselCode: null,
       },
       users: [
         {

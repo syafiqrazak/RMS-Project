@@ -7,6 +7,7 @@
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content>
+      <div class="md-layout">
         <b-field label="Start Date:">
             <md-field>
               <md-input v-model="user.startDate" type="date" ></md-input>
@@ -17,9 +18,10 @@
               <md-input v-model="user.endDate" type="date" ></md-input>
             </md-field>
         </b-field>
+        </div>
         <b-field label="Reasons:">
             <md-field>
-              <md-input v-model="user.reason" type="textbox"  ></md-input>
+              <md-textarea v-model="user.reason" type="textbox"  ></md-textarea>
             </md-field>
         </b-field>
         {{user}}
@@ -60,6 +62,10 @@ export default {
       border-radius: 3px;
       color: rgba(0,0,0, 0.87);
       background: #fff;
+  }
+  .md-textarea {
+        border: 1px solid #ccc!important;
+        border-radius: 16px;
   }
 </style>
 

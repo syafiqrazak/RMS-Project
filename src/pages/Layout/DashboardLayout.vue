@@ -12,6 +12,10 @@
         <md-icon>dashboard</md-icon>
         <p>Purchase Order</p>
       </sidebar-link>
+      <sidebar-link to="/PSR">
+        <md-icon>thumb_up</md-icon>
+        <p>PSR</p>
+      </sidebar-link>
       <sidebar-link to="/stepForm">
         <md-icon>dashboard</md-icon>
         <p>2 Steps Form</p>

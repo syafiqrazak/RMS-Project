@@ -1,4 +1,5 @@
 import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
+import loginLayout from "@/pages/Layout/loginLayout.vue";
 
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
@@ -13,65 +14,73 @@ import stepForm from "@/pages/2stepForm.vue";
 import dynamicForm from "@/pages/dynamicForm.vue";
 import purchaseOrder from "@/pages/purchaseOrder.vue";
 import login from "@/pages/login.vue";
+import PSR from "@/pages/PSR.vue";
+
 
 const routes = [
   {
-    path: "/",
+        path: "/login",
+        name: "Login Page",
+        component: login,
+        // redirect: "/login"
+      },
+  {
+    path: "/dashboard",
     component: DashboardLayout,
-    redirect: "/login",
+    // redirect: "/dashboard",
     children: [
       {
-        path: "login",
-        name: "Login Page",
-        component: login
+        path: "/PSR",
+        name: "PSR",
+        component: PSR
       },
       {
-        path: "leaveApplication",
+        path: "/leaveApplication",
         name: "Leave Application",
         component: leaveApplication
       },
       {
-        path: "purchaseOrder",
+        path: "/purchaseOrder",
         name: "Purchase Order",
         component: purchaseOrder
       },
       {
-        path: "dynamicForm",
+        path: "/dynamicForm",
         name: "Dynamic Form",
         component: dynamicForm
       },
       {
-        path: "stepForm",
+        path: "/stepForm",
         name: "2 Step Form",
         component: stepForm
       },
       {
-        path: "dashboard",
+        path: "/dashboard",
         name: "Dashboard",
         component: Dashboard
       },
       {
-        path: "user",
+        path: "/user",
         name: "User Profile",
         component: UserProfile
       },
       {
-        path: "table",
+        path: "/table",
         name: "Table List",
         component: TableList
       },
       {
-        path: "typography",
+        path: "/typography",
         name: "Typography",
         component: Typography
       },
       {
-        path: "icons",
+        path: "/icons",
         name: "Icons",
         component: Icons
       },
       {
-        path: "maps",
+        path: "/maps",
         name: "Maps",
         meta: {
           hideFooter: true
@@ -89,7 +98,12 @@ const routes = [
         component: UpgradeToPRO
       }
     ]
-  }
+  },
+  // {
+  //   path:"/",
+  //   component: loginLayout,
+  //   redirect:"/login",
+  // },
 ];
 
 export default routes;
