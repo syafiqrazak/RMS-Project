@@ -15,6 +15,8 @@ import dynamicForm from "@/pages/dynamicForm.vue";
 import purchaseOrder from "@/pages/purchaseOrder.vue";
 import login from "@/pages/login.vue";
 import PSR from "@/pages/PSR.vue";
+import notifications from "@/pages/notification.vue";
+
 
 
 const routes = [
@@ -29,6 +31,11 @@ const routes = [
     component: DashboardLayout,
     // redirect: "/dashboard",
     children: [
+      {
+        path: "/notification",
+        name: "Notification",
+        component: notifications
+      },
       {
         path: "/PSR",
         name: "PSR",

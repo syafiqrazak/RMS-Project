@@ -6,8 +6,8 @@
       >
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Simple Table</h4>
-            <p class="category">Here is a subtitle for this table</p>
+            <h4 class="title">Purchase Order to Approve</h4>
+            <!-- <p class="category">Here is a subtitle for this table</p> -->
           </md-card-header>
           <md-card-content>
             <simple-table table-header-color="green"></simple-table>
@@ -22,7 +22,7 @@
             <p class="category">Here is a subtitle for this table</p>
           </md-card-header>
           <md-card-content>
-            <ordered-table></ordered-table>
+            <notify-leave></notify-leave>
           </md-card-content>
         </md-card>
       </div>
@@ -31,12 +31,13 @@
 </template>
 
 <script>
-import { SimpleTable, OrderedTable } from "@/components";
+import { SimpleTable, OrderedTable, notifyLeave } from "@/components";
 
 export default {
   components: {
     OrderedTable,
-    SimpleTable
+    SimpleTable,
+    notifyLeave
   }
 };
 </script>

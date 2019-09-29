@@ -16,14 +16,18 @@
         <md-icon>thumb_up</md-icon>
         <p>PSR</p>
       </sidebar-link>
-      <sidebar-link to="/stepForm">
+      <sidebar-link to="/notification">
+        <md-icon>thumb_up</md-icon>
+        <p>Notifications</p>
+      </sidebar-link>
+      <!-- <sidebar-link to="/stepForm">
         <md-icon>dashboard</md-icon>
         <p>2 Steps Form</p>
-      </sidebar-link>
-      <sidebar-link to="/dynamicForm">
+      </sidebar-link> -->
+      <!-- <sidebar-link to="/dynamicForm">
         <md-icon>dashboard</md-icon>
         <p>Dynamic Form</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <sidebar-link to="/dashboard">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
@@ -48,14 +52,14 @@
         <md-icon>location_on</md-icon>
         <p>Maps</p>
       </sidebar-link>
-      <sidebar-link to="/notifications">
+      <!-- <sidebar-link to="/notifications">
         <md-icon>notifications</md-icon>
-        <p>Notifications</p>
+        <p>Notifications</p> -->
       </sidebar-link>
-      <sidebar-link to="/upgrade" class="active-pro">
+      <!-- <sidebar-link to="/upgrade" class="active-pro">
         <md-icon>unarchive</md-icon>
         <p>Upgrade to PRO</p>
-      </sidebar-link>
+      </sidebar-link> -->
     </side-bar>
 
     <div class="main-panel">

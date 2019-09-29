@@ -103,7 +103,7 @@
                 <tr>
                   <td class="desc">Vessel Code:</td>
                   <td>
-                    md-field>
+                    <md-field>
                       <md-input type="date" v-model="details.vesselCode">Date</md-input>
                     </md-field>
                   </td>
@@ -115,6 +115,7 @@
                 @click.prevent="next()"
                 style="float:right"
               >Next</md-button>
+              {{details}}
               <!-- </div> -->
             </div>
 
@@ -165,7 +166,7 @@
 
               <md-button
                 class="md-raised md-success"
-                @click.prevent="save()"
+                @click.prevent="psr_add()"
                 style="float:right"
               >Save</md-button>
               <md-button
@@ -183,12 +184,15 @@
 </template>
 
 <script>
+import user from "@/pages/js/psr.js"; //directory to psr.js
 export default {
   data() {
     return {
+      error: '',
       step: 1,
       index: 2,
       details: {
+          psr_no:null,
           services: null,
           purchaseClassification: null,
           purchaseType: null,
@@ -197,14 +201,9 @@ export default {
           delivery: null,
           projectTitle: null,
           vesselCode: null,
+          date: new Date(),
+          psr_data: null
       },
-      users: [
-        {
-          username: null,
-          disabled: null,
-          emailadress: null
-        }
-      ],
       item: [
         {
           index: 1,
@@ -216,44 +215,59 @@ export default {
       ]
     };
   },
+    async created() {
+
+    },
   methods: {
-    prev() {
-      this.step--;
-    },
-    next() {
-      this.step++;
-    },
-    submit() {
-      alert("Submit to blah and show blah and etc.");
-    },
-    addRow() {
-      this.inputs.push({
-        one: "",
-        two: ""
-      });
-    },
-    deleteRow(index) {
-      this.inputs.splice(index, 1);
-    },
-    clone() {
-      this.item.push({
-        index: this.index,
-        description: null,
-        quantity: 0,
-        unitPrice: 0
-      });
-      this.index++;
-    },
-    remove() {
-      this.item.pop({
-        description: this.index,
-        quantity: 0,
-        unitPrice: 0
-      });
-      this.index--;
+       async psr_add() {
+            try {
+                const psr = await psr.psr_add(this.details.psr_no, this.details.date, this.details.psr_data, 
+                    this.details.purchaseClassification, this.details.purchaseType, this.details.purchaseJustification, 
+                    this.details.dateRequired, this.details.projectTitle, this.details.vesselCode, this.details.delivery, 
+                    this.item);
+                console.log(psr); //can be ignored
+                //add redirect to other page here
+            } catch (err) {
+                this.error = err.message;
+            }
+        },
+        prev() {
+        this.step--;
+        },
+        next() {
+        this.step++;
+        },
+        submit() {
+        alert("Submit to blah and show blah and etc.");
+        },
+        addRow() {
+        this.inputs.push({
+            one: "",
+            two: ""
+        });
+        },
+        deleteRow(index) {
+        this.inputs.splice(index, 1);
+        },
+        clone() {
+        this.item.push({
+            index: this.index,
+            description: null,
+            quantity: 0,
+            unitPrice: 0
+        });
+        this.index++;
+        },
+        remove() {
+        this.item.pop({
+            description: this.index,
+            quantity: 0,
+            unitPrice: 0
+        });
+        this.index--;
+        }
     }
-  }
-};
+    };
 </script>
 
 <style scoped>

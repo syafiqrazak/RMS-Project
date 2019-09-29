@@ -8,23 +8,31 @@
       </md-card-header>
       <md-card-content>
       <div class="md-layout">
-        <b-field label="Start Date:">
+        <b-field label="Start Date:" style="display:inline-block; float:left; width:47%">
             <md-field>
-              <md-input v-model="user.startDate" type="date" ></md-input>
+              <md-datepicker v-model="leave.startDate" />
+              <!-- <md-input v-model="leave.startDate" type="date" ></md-input> -->
             </md-field>
         </b-field>
-        <b-field label="End Date:">
+        <!-- <b-field></b-field> -->
+        <b-field label="End Date:" style="display:inline-block; float:right; width:47%">
             <md-field>
-              <md-input v-model="user.endDate" type="date" ></md-input>
+              <md-datepicker v-model="leave.endDate" />
+              <!-- <md-input v-model="leave.endDate" type="date" ></md-input> -->
             </md-field>
         </b-field>
         </div>
         <b-field label="Reasons:">
             <md-field>
-              <md-textarea v-model="user.reason" type="textbox"  ></md-textarea>
+              <md-textarea v-model="leave.reason" type="textbox"  ></md-textarea>
             </md-field>
         </b-field>
         {{user}}
+        <md-button
+                class="md-raised md-success"
+                @click.prevent="add_leave()"
+                style="float:right"
+              >Apply</md-button>
       </md-card-content>
       
       </md-card>
@@ -33,18 +41,31 @@
 </template>
 
 <script>
+import user from "@/pages/js/leave.js"; //directory to leave.js
 export default {
   name: "edit-profile-form",
   data() {
     return {
-        user:{
+      error: '',
+        leave:{
             startDate:null,
             endDate:null,
             reason:null
         },
     };
   },
-   methods:{
+  async created() {
+  },
+  methods: {
+        async add_leave() {
+            try {
+                const leave = await leave.add_leave(this.leave.startDate, this.leave.endDate, this.leave.reason);
+                console.log(leave); //can be ignored
+                //add redirect to other page here
+            } catch (err) {
+                this.error = err.message;
+            }
+        }
     }
 }
 </script>

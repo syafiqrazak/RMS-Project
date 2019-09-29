@@ -154,7 +154,7 @@
 
               <md-button
                 class="md-raised md-success"
-                @click.prevent="save()"
+                @click.prevent="po_add()"
                 style="float:right"
               >Save</md-button>
               <md-button
@@ -173,28 +173,24 @@
 </template>
 
 <script>
+import user from "@/pages/js/po.js"; //directory to po.js
 export default {
   data() {
     return {
       step: 1,
       index: 2,
       details: {
-          dates: null,
+          date:new Date(),
           reference: null,
           quotation: null,
           dueDate: null,
-          modeOfPayment: null,
+          modeOfShipment: null,
           PSRNo: null,
           paymentMode: null,
           CCANo: null,
+          po_no: null,
+          address: null,
       },
-      users: [
-        {
-          username: null,
-          disabled: null,
-          emailadress: null
-        }
-      ],
       item: [
         {
           index: 1,
@@ -206,7 +202,20 @@ export default {
       ]
     };
   },
-  methods: {
+  async created() {
+
+    },
+    methods: {
+        async po_add() {
+            try {
+                const po = await po.po_add(this.details.po_no, this.date, this.details.reference, this.details.dueDate, this.details.modeOfShipment, 
+                          this.details.PSRNo, this.details.CCANo, this.details.paymentMode, this.details.address, this.details.quotation, this.item);
+                console.log(po); //can be ignored
+                //add redirect to other page here
+            } catch (err) {
+                this.error = err.message;
+            }
+        },
     prev() {
       this.step--;
     },
