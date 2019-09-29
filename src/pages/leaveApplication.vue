@@ -1,9 +1,10 @@
 <template>
   <div class ="container">
+  
     <form>
       <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">Leave Application</h4>
+        <h4 class="title">Leave Application {{$route.params.nama}}</h4>
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content>
@@ -47,6 +48,7 @@ export default {
   data() {
     return {
       error: '',
+      name:  "null",
         leave:{
             startDate:null,
             endDate:null,
@@ -58,10 +60,12 @@ export default {
   },
   methods: {
         async add_leave() {
+                          this.$router.push({path:'/leaveSubmitSuccess'});//add redirect to other page here
+
             try {
                 const leave = await leave.add_leave(this.leave.startDate, this.leave.endDate, this.leave.reason);
                 console.log(leave); //can be ignored
-                //add redirect to other page here
+                this.$router.push({path:'/leaveSubmitSuccess'});//add redirect to other page here
             } catch (err) {
                 this.error = err.message;
             }

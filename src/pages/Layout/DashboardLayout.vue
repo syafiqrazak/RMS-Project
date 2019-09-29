@@ -52,9 +52,9 @@
         <md-icon>location_on</md-icon>
         <p>Maps</p>
       </sidebar-link>
-      <!-- <sidebar-link to="/notifications">
+      <sidebar-link to="/notifications">
         <md-icon>notifications</md-icon>
-        <p>Notifications</p> -->
+        <p>Notifications</p>
       </sidebar-link>
       <!-- <sidebar-link to="/upgrade" class="active-pro">
         <md-icon>unarchive</md-icon>

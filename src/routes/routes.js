@@ -16,6 +16,11 @@ import purchaseOrder from "@/pages/purchaseOrder.vue";
 import login from "@/pages/login.vue";
 import PSR from "@/pages/PSR.vue";
 import notifications from "@/pages/notification.vue";
+import editPO from "@/pages/editPO.vue";
+import leaveSubmitSuccess from "@/pages/leaveSubmitSuccess.vue";
+import POSubmitSuccess from "@/pages/POSubmitSuccess.vue";
+
+
 
 
 
@@ -32,6 +37,21 @@ const routes = [
     // redirect: "/dashboard",
     children: [
       {
+        path: "/editPO/:PO_num",
+        name: "Edit PO",
+        component: editPO
+      },
+      {
+        path: "/leaveSubmitSuccess",
+        name: "Leave Application Successful",
+        component: leaveSubmitSuccess
+      },
+       {
+        path: "/POSubmitSuccess",
+        name: "Purchase Order Application Successful",
+        component: POSubmitSuccess
+      },
+      {
         path: "/notification",
         name: "Notification",
         component: notifications
@@ -42,7 +62,7 @@ const routes = [
         component: PSR
       },
       {
-        path: "/leaveApplication",
+        path: "/leaveApplication/:nama",
         name: "Leave Application",
         component: leaveApplication
       },
@@ -95,7 +115,7 @@ const routes = [
         component: Maps
       },
       {
-        path: "notifications",
+        path: "/notifications",
         name: "Notifications",
         component: Notifications
       },

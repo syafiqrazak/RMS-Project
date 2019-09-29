@@ -1,21 +1,30 @@
 <template>
   <!-- Material form login -->
   <div class="background">
-    <div class="container">
+    <!-- <div class="container"> -->
+    <md-card>
     <form>
-        <p>Name: </p>
-        <md-input v-model="data.name"></md-input>
-        <p>Password: </p>
-        <md-input v-model="data.password"></md-input>
+        <b-field label="Username:">
+            <md-field>
+              <md-input v-model="nama"  ></md-input>
+            </md-field>
+        </b-field>
+        <b-field label="Password:">
+            <md-field>
+              <md-input v-model="data.password" type="password" ></md-input>
+            </md-field>
+        </b-field>
         <br>
         <md-button class="md-raised md-success"  @click="navigate()" style="float:right" >Submit</md-button>
         
         {{data}}
+        {{nama}}
     </form>
+    </md-card>
     <!-- <h1>Testign</h1> -->
 
     </div>
-  </div>
+  <!-- </div> -->
 
   <!-- Material form login -->
 </template>
@@ -26,6 +35,7 @@
 export default {
     data(){
         return{
+            nama: null,
             data: 
                 {
                 name: null,
@@ -36,9 +46,10 @@ export default {
     methods: {
             navigate() {
                 console.log(this.data.name);
-                this.$router.push({ path: "/leaveApplication" });
+                // this.$router.router.push({ path: `/leaveApplication/${this.nama}` });
+                this.$router.push({path: `/leaveApplication/${this.nama}`});
             }
-        }
+        },
     
 }
 </script>
@@ -49,11 +60,13 @@ export default {
         margin-left: auto;
         margin-right: auto;
     }
-    .container{
+    .md-card{
         background-color:#07b5e6;
         margin: auto;
         /* margin-top: 10%; */
         margin-bottom: 10%;
+        margin-left: 25%;
+        margin-right: 25%;
         width: 40%;
         height: 80vh;
         border: 1px;
