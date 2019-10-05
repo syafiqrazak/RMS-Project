@@ -49,13 +49,21 @@ export default {
             //     this.$router.push({path: `/leaveApplication/${this.nama}`});
             // }
                 async login() {
-                try {
-                    const login = await user.login(this.name, this.password);
-                    console.log(login); //can be ignored
-                    this.$router.push({path: `/leaveApplication/${login.id}`});
-                } catch (err) {
-                    this.error = err.message;
-                }
+                    try {
+                        const login = await user.login(this.name, this.password);
+                        
+                        if (await login.hasOwnProperty("err")) {
+                            console.log("wrong")
+                            this.error = login.err;
+                        } else if (await login.hasOwnProperty("id")) {
+                            this.error = "Work";
+                            console.log('Work');
+                            this.$router.push({path: `/leaveApplication/${login.id}`});
+                        }
+                        console.log(login); //can be ignored
+                    } catch (err) {
+                        console.log(err);
+                    }
             },
         },
          
