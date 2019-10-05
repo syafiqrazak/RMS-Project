@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import leave from "@/pages/js/leave.js"; //directory to leave.js
+import user from "@/pages/js/leave.js"; //directory to leave.js
 
 export default {
-  name: "notify-leave",
+  name: "notify-purchaseOrder",
   props: {
     tableHeaderColor: {
       type: String,
@@ -26,7 +26,7 @@ export default {
   },
   async created() {
         try {
-            const data = await leave.show_all_leave();
+            const data = await user.show_all_leave();
             this.leaves = data.map(leave => ({
                 ...leave
             })) 

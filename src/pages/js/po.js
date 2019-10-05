@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const url = "http://192.168.193.236:3000/po"; //for production use localhost:3000
+const url = "http://192.168.193.236:3000/po/"; //for production use localhost:3000
 
-class po {
+class purchaseorder {
     static show_po_all() { //only for dev purposes
         return new Promise(async (resolve, reject) => {
             try {
@@ -59,11 +59,11 @@ class po {
         });
     }
 
-    static po_add(po_no, date, po_ref, due, ship, psr, cca, pay, address, desc) {
+    static po_add_po(po_no, date, po_ref, due, ship, psr, cca, pay, address, desc) {
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await axios.post(`${url}add_po`, {
-                    //po_no,
+                    po_no,
                     date,
                     po_ref,
                     due,
@@ -153,4 +153,4 @@ class po {
 }
 
 
-export default po;
+export default purchaseorder;

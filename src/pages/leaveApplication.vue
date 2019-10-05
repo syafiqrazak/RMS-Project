@@ -63,9 +63,9 @@ export default {
                           this.$router.push({path:'/leaveSubmitSuccess'});//add redirect to other page here
 
             try {
-                const leave = await leave.add_leave(this.leave.startDate, this.leave.endDate, this.leave.reason);
+                const leave = await user.add_leave(this.leave.startDate, this.leave.endDate, this.leave.reason);
                 console.log(leave); //can be ignored
-                this.$router.push({path:'/leaveSubmitSuccess'});//add redirect to other page here
+                this.$router.push({path:'/leaveSubmitSuccess/id'});//add redirect to other page here
             } catch (err) {
                 this.error = err.message;
             }

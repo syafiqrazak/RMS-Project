@@ -4,19 +4,19 @@
 
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
-       <sidebar-link to="/leaveApplication">
+      <sidebar-link :to="{ name: 'Leave Application', params: { id: this.id } }">
         <md-icon>thumb_up</md-icon>
         <p>Leave Application</p>
       </sidebar-link>
-      <sidebar-link to="/purchaseOrder">
+        <sidebar-link :to="{ name: 'Purchase Order', params: { id: this.id } }">
         <md-icon>dashboard</md-icon>
         <p>Purchase Order</p>
       </sidebar-link>
-      <sidebar-link to="/PSR">
+        <sidebar-link :to="{ name: 'PSR', params: { id: this.id } }">
         <md-icon>thumb_up</md-icon>
         <p>PSR</p>
       </sidebar-link>
-      <sidebar-link to="/notification">
+        <sidebar-link :to="{ name: 'Notification', params: { id: this.id } }">
         <md-icon>thumb_up</md-icon>
         <p>Notifications</p>
       </sidebar-link>
@@ -28,7 +28,7 @@
         <md-icon>dashboard</md-icon>
         <p>Dynamic Form</p>
       </sidebar-link> -->
-      <sidebar-link to="/dashboard">
+        <sidebar-link :to="{ name: 'Dashboard', params: { id: this.id } }">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
@@ -44,7 +44,7 @@
         <md-icon>library_books</md-icon>
         <p>Typography</p>
       </sidebar-link>
-      <sidebar-link to="/icons">
+        <sidebar-link :to="{ name: 'Icons', params: { id: this.id } }">
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
       </sidebar-link>
@@ -79,6 +79,14 @@ import DashboardContent from "./Content.vue";
 import MobileMenu from "@/pages/Layout/MobileMenu.vue";
 
 export default {
+  data(){
+        return{
+            id : this.$route.params.id
+        };
+    },
+    // created() {
+    //         this.id = this.$route.params.id;
+    //     },
   components: {
     TopNavbar,
     DashboardContent,

@@ -21,23 +21,25 @@ import leaveSubmitSuccess from "@/pages/leaveSubmitSuccess.vue";
 import POSubmitSuccess from "@/pages/POSubmitSuccess.vue";
 
 
-
-
-
 const routes = [
   {
-        path: "/login",
+        path: "/",
         name: "Login Page",
         component: login,
-        // redirect: "/login"
-      },
+        redirect: "/login"
+  },
   {
-    path: "/dashboard",
+    path: "/login",
+    name: "Login Page",
+    component: login,
+  },
+  {
+    path: "/dashboard/:id",
     component: DashboardLayout,
     // redirect: "/dashboard",
     children: [
       {
-        path: "/editPO/:PO_num:/:id",
+        path: "/editPO/:id",
         name: "Edit PO",
         component: editPO
       },
@@ -47,17 +49,17 @@ const routes = [
         component: leaveSubmitSuccess
       },
        {
-        path: "/POSubmitSuccess",
+        path: "/POSubmitSuccess/:id",
         name: "Purchase Order Application Successful",
         component: POSubmitSuccess
       },
       {
-        path: "/notification",
+        path: "/notification/:id",
         name: "Notification",
         component: notifications
       },
       {
-        path: "/PSR",
+        path: "/PSR/:id",
         name: "PSR",
         component: PSR
       },
@@ -67,47 +69,47 @@ const routes = [
         component: leaveApplication
       },
       {
-        path: "/purchaseOrder",
+        path: "/purchaseOrder/:id",
         name: "Purchase Order",
         component: purchaseOrder
       },
       {
-        path: "/dynamicForm",
+        path: "/dynamicForm/:id",
         name: "Dynamic Form",
         component: dynamicForm
       },
       {
-        path: "/stepForm",
+        path: "/stepForm/:id",
         name: "2 Step Form",
         component: stepForm
       },
       {
-        path: "/dashboard",
+        path: "/dashboard/:id",
         name: "Dashboard",
         component: Dashboard
       },
       {
-        path: "/user",
+        path: "/user/:id",
         name: "User Profile",
         component: UserProfile
       },
       {
-        path: "/table",
+        path: "/table/:id",
         name: "Table List",
         component: TableList
       },
       {
-        path: "/typography",
+        path: "/typography/:id",
         name: "Typography",
         component: Typography
       },
       {
-        path: "/icons",
+        path: "/icons/:id",
         name: "Icons",
         component: Icons
       },
       {
-        path: "/maps",
+        path: "/maps/:id",
         name: "Maps",
         meta: {
           hideFooter: true
@@ -115,12 +117,12 @@ const routes = [
         component: Maps
       },
       {
-        path: "/notifications",
+        path: "/notifications/:id",
         name: "Notifications",
         component: Notifications
       },
       {
-        path: "upgrade",
+        path: "upgrade/:id",
         name: "Upgrade to PRO",
         component: UpgradeToPRO
       }

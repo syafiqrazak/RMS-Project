@@ -154,9 +154,9 @@
 
               <md-button
                 class="md-raised md-success"
-                @click.prevent="po_add()"
+                @click.prevent="po_addpo()"
                 style="float:right"
-              >Save</md-button>
+              >Submit</md-button>
               <md-button
                 class="md-raised md-success"
                 @click.prevent="prev()"
@@ -164,6 +164,7 @@
               >Previous</md-button>
               <!-- <input type="submit" value="Save"> -->
               {{item}}
+              {{error}}
             </div>
           </md-card-content>
         </md-card>
@@ -173,10 +174,11 @@
 </template>
 
 <script>
-import user from "@/pages/js/po.js"; //directory to po.js
+import purchaseorder from "@/pages/js/po.js"; //directory to po.js
 export default {
   data() {
     return {
+      error: '',
       step: 1,
       index: 2,
       details: {
@@ -202,18 +204,19 @@ export default {
       ]
     };
   },
-  async created() {
 
-    },
     methods: {
-        async po_add() {
+        async po_addpo() {
             try {
-                const po = await po.po_add(this.details.po_no, this.date, this.details.reference, this.details.dueDate, this.details.modeOfShipment, 
-                          this.details.PSRNo, this.details.CCANo, this.details.paymentMode, this.details.address, this.details.quotation, this.item);
+                const po = await purchaseorder.po_add_po(this.details.po_no, this.details.date, this.details.reference, this.details.dueDate, this.details.modeOfShipment, 
+                          this.details.PSRNo, this.details.CCANo, this.details.paymentMode, this.details.address, this.item);
+                // const po = await purchaseorder.po_add_po(123, 'nuasdll', 'asd', 'asd', 'asd', '1234', 'asd', 'asd', 'asd', {});
                 console.log(po); //can be ignored
-                //add redirect to other page here
+                alert("Success");
             } catch (err) {
+                alert("Fail");
                 this.error = err.message;
+                console.log(this.error);
             }
         },
     prev() {
