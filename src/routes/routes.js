@@ -37,12 +37,12 @@ const routes = [
     // redirect: "/dashboard",
     children: [
       {
-        path: "/editPO/:PO_num",
+        path: "/editPO/:PO_num:/:id",
         name: "Edit PO",
         component: editPO
       },
       {
-        path: "/leaveSubmitSuccess",
+        path: "/leaveSubmitSuccess/:id",
         name: "Leave Application Successful",
         component: leaveSubmitSuccess
       },
@@ -62,7 +62,7 @@ const routes = [
         component: PSR
       },
       {
-        path: "/leaveApplication/:nama",
+        path: "/leaveApplication/:id",
         name: "Leave Application",
         component: leaveApplication
       },

@@ -1,55 +1,64 @@
 <template>
   <!-- Material form login -->
   <div class="background">
-    <!-- <div class="container"> -->
     <md-card>
     <form>
         <b-field label="Username:">
             <md-field>
-              <md-input v-model="nama"  ></md-input>
+              <md-input v-model="name"  ></md-input>
             </md-field>
         </b-field>
         <b-field label="Password:">
             <md-field>
-              <md-input v-model="data.password" type="password" ></md-input>
+              <md-input v-model="password" type="password" ></md-input>
             </md-field>
         </b-field>
         <br>
-        <md-button class="md-raised md-success"  @click="navigate()" style="float:right" >Submit</md-button>
+        <md-button class="md-raised md-success"  @click="login()" style="float:right" >Submit</md-button>
         
-        {{data}}
-        {{nama}}
+        {{password}}
+        {{name}}
+        {{error}}
     </form>
     </md-card>
-    <!-- <h1>Testign</h1> -->
 
     </div>
-  <!-- </div> -->
-
-  <!-- Material form login -->
 </template>
 
 <script>
 
 // import router from "@/routes/routes.js"
+import user from "@/pages/js/user.js"; //directory to user.js
+
 export default {
     data(){
         return{
-            nama: null,
-            data: 
-                {
-                name: null,
-                password: null,
-                },
+            // nama: null,
+            name: null,
+            password: null,
+            error: '',
         };
     },
+    async created() {
+
+    },
     methods: {
-            navigate() {
-                console.log(this.data.name);
-                // this.$router.router.push({ path: `/leaveApplication/${this.nama}` });
-                this.$router.push({path: `/leaveApplication/${this.nama}`});
-            }
+            // navigate() {
+            //     console.log(this.data.name);
+            //     // this.$router.router.push({ path: `/leaveApplication/${this.nama}` });
+            //     this.$router.push({path: `/leaveApplication/${this.nama}`});
+            // }
+                async login() {
+                try {
+                    const login = await user.login(this.name, this.password);
+                    console.log(login); //can be ignored
+                    this.$router.push({path: `/leaveApplication/${login.id}`});
+                } catch (err) {
+                    this.error = err.message;
+                }
+            },
         },
+         
     
 }
 </script>
