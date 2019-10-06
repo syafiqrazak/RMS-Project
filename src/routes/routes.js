@@ -19,25 +19,30 @@ import notifications from "@/pages/notification.vue";
 import editPO from "@/pages/editPO.vue";
 import leaveSubmitSuccess from "@/pages/leaveSubmitSuccess.vue";
 import POSubmitSuccess from "@/pages/POSubmitSuccess.vue";
-
+import displayPO from "@/pages/displayPO.vue";
 
 const routes = [
   {
-        path: "/",
-        name: "Login Page",
-        component: login,
-        redirect: "/login"
+    path: "/",
+    name: "Login Page",
+    component: login,
+    redirect: "/login"
   },
   {
     path: "/login",
     name: "Login Page",
-    component: login,
+    component: login
   },
   {
     path: "/dashboard/:id",
     component: DashboardLayout,
     // redirect: "/dashboard",
     children: [
+      {
+        path: "/displayPO",
+        name: "Display Purchase Order",
+        component: displayPO
+      },
       {
         path: "/editPO/:id",
         name: "Edit PO",
@@ -48,7 +53,7 @@ const routes = [
         name: "Leave Application Successful",
         component: leaveSubmitSuccess
       },
-       {
+      {
         path: "/POSubmitSuccess/:id",
         name: "Purchase Order Application Successful",
         component: POSubmitSuccess
@@ -127,7 +132,7 @@ const routes = [
         component: UpgradeToPRO
       }
     ]
-  },
+  }
   // {
   //   path:"/",
   //   component: loginLayout,

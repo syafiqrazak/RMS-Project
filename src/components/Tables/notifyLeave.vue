@@ -27,10 +27,11 @@ export default {
   async created() {
         try {
             const data = await leave.show_all_leave();
+            console.log(data);
             this.leaves = data.map(leave => ({
                 ...leave
             })) 
-        } catch (err) {
+        } catch (err) { 
             this.error = err.message;
         }
     },

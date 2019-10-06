@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import user from "@/pages/js/leave.js"; //directory to leave.js
+import leave from "@/pages/js/leave.js"; //directory to leave.js
 export default {
   name: "edit-profile-form",
   data() {
@@ -63,8 +63,8 @@ export default {
                           this.$router.push({path:'/leaveSubmitSuccess'});//add redirect to other page here
 
             try {
-                const leave = await user.add_leave(this.leave.startDate, this.leave.endDate, this.leave.reason);
-                console.log(leave); //can be ignored
+                const leave_data = await leave.add_leave(this.leave.startDate, this.leave.endDate, this.leave.reason);
+                console.log(leave_data); //can be ignored
                 this.$router.push({path:'/leaveSubmitSuccess/id'});//add redirect to other page here
             } catch (err) {
                 this.error = err.message;

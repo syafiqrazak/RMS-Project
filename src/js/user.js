@@ -6,10 +6,14 @@ class user {
   static login(username, password) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}login`, {
-          username,
-          password
-        });
+        const res = await axios.post(
+          `${url}login`,
+          {
+            username,
+            password
+          },
+          { withCredentials: true }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -20,7 +24,7 @@ class user {
   static logout() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}logout`);
+        const res = await axios.post(`${url}logout`, { withCredentials: true });
         resolve(res.data);
       } catch (err) {
         reject(err);

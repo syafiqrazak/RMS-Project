@@ -8,7 +8,7 @@
 <script>
     export default {
         async created() {
-            setTimeout( () => this.$router.push({path: `/leaveApplication/${'123'}`}), 3000);
+            // setTimeout( () => this.$router.push({path: `/leaveApplication/${'123'}`}), 3000);
         },
     }
 </script>

@@ -24,18 +24,23 @@ export default {
       default: ""
     }
   },
+ 
   async created() {
-        try {
-            const data = await user.show_all_leave();
-            this.leaves = data.map(leave => ({
-                ...leave
+            try {
+                const data = await po.report(this.page);
+                this.pos = data.map(pos => ({
+                    ...pos,
+                    createdAt: new Date(pos.createdAt)
             })) 
-        } catch (err) {
-            this.error = err.message;
-        }
+            } catch (err) {
+                this.error = err.message;
+            }
     },
   data() {
     return {
+        pos:[],  //for po in pos {{po.[var name]}}
+        page:1,
+        error: '',
         leaves: [], //do for leave in leaves
         error: '',
       selected: [],

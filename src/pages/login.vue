@@ -1,25 +1,31 @@
 <template>
   <!-- Material form login -->
+  
   <div class="background">
+      
     <md-card>
-    <form>
-        <b-field label="Username:">
-            <md-field>
-              <md-input v-model="name"  ></md-input>
-            </md-field>
-        </b-field>
-        <b-field label="Password:">
-            <md-field>
-              <md-input v-model="password" type="password" ></md-input>
-            </md-field>
-        </b-field>
-        <br>
-        <md-button class="md-raised md-success"  @click="login()" style="float:right" >Submit</md-button>
-        
-        {{password}}
-        {{name}}
-        {{error}}
-    </form>
+        <div v-show="isShow" class="alert alert-danger" style="display:inline-block; margin-left: 15%; margin-top: 5%;  width: 70%">
+            <span><b>Warning: </b>{{error}}</span>
+        </div>
+        <form>
+            <b-field label="Username:">
+                <md-field>
+                <md-input v-model="name"  ></md-input>
+                </md-field>
+            </b-field>
+            <b-field label="Password:">
+                <md-field>
+                <md-input v-model="password" type="password" ></md-input>
+                </md-field>
+            </b-field>
+            <br>
+            <md-button class="md-raised md-success"  @click="login()" style="float:right" >Submit</md-button>
+            
+            {{password}}
+            {{name}}
+            {{error}}
+            {{isShow}}
+        </form>
     </md-card>
 
     </div>
@@ -34,6 +40,7 @@ export default {
     data(){
         return{
             // nama: null,
+            isShow: false,
             name: null,
             password: null,
             error: '',
@@ -62,6 +69,11 @@ export default {
                         }
                         console.log(login); //can be ignored
                     } catch (err) {
+                        // document.getElementsByClassName("alert alert-danger").style.display = 'block'; 
+                        // var x = document.getElementsByClassName("alert alert-danger");
+                        // x[0].style.visibility = 'visible';
+                        aler("Enter error");
+                        this.isShow = true;
                         console.log(err);
                     }
             },
