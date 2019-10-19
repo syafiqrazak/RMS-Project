@@ -1,22 +1,14 @@
 import axios from "axios";
 
-const url = "http://192.168.193.236:3000/leave/"; //for production use localhost:3000
-
-let axiosConfig = {
-  cors: "same-origin",
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://192.168.193.236:3000/',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-  }
-}
+// const url = "http://localhost:3000/leave/"; //for production use localhost:3000
+// const url = "http://192.168.193.236/leave/";
+const url = "http://192.168.193.236:3000/leave/";
 
 class leave {
   static show_all_leave() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}all`, axiosConfig);
+        const res = await axios.get(`${url}all`, { withCredentials: true });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -27,7 +19,7 @@ class leave {
   static show_own_leave() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}`);
+        const res = await axios.get(`${url}`, { withCredentials: true });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -38,9 +30,13 @@ class leave {
   static report(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}`, {
-          id
-        });
+        const res = await axios.get(
+          `${url}`,
+          {
+            id
+          },
+          { withCredentials: true }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -51,11 +47,15 @@ class leave {
   static add_leave(date_from, date_to, reason) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}add_leave`, {
-          date_from,
-          date_to,
-          reason
-        });
+        const res = await axios.post(
+          `${url}add_leave`,
+          {
+            date_from,
+            date_to,
+            reason
+          },
+          { withCredentials: true }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -66,11 +66,15 @@ class leave {
   static upd_leave(leave_id, date_to, date_from, reason) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${leave_id}/upd_leave`, {
-          date_from,
-          date_to,
-          reason
-        });
+        const res = await axios.post(
+          `${url}${leave_id}/upd_leave`,
+          {
+            date_from,
+            date_to,
+            reason
+          },
+          { withCredentials: true }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -81,7 +85,9 @@ class leave {
   static del_leave(leave_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.delete(`${url}${leave_id}/del_leave`);
+        const res = await axios.delete(`${url}${leave_id}/del_leave`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -92,7 +98,9 @@ class leave {
   static approve_leave(leave_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${leave_id}/upd`);
+        const res = await axios.post(`${url}${leave_id}/upd`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
