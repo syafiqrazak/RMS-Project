@@ -1,18 +1,6 @@
 <template>
   <div>
-    <!-- <router-link :to="{ name: 'PSR', params: { id: this.id } }">PSR</router-link> -->
-    <!-- <md-table v-model="leaves" :table-header-color="tableHeaderColor">
-      <md-table-row slot="md-table-row" slot-scope="{ item }" v-on:click="routerLinkToDetails(item)" >
-        <md-table-cell md-label="Employee ID" click="routerLinkToDetails">{{ item.id }}</md-table-cell>
-        <md-table-cell md-label="Date Start">{{ item.date_from }}</md-table-cell>
-        <md-table-cell md-label="Date End">{{ item.date_to }}</md-table-cell>
-        <md-table-cell md-label="Reason">{{ item.reason }}</md-table-cell>
-        <md-table-cell md-label="Status">{{ item.status }}</md-table-cell>
-      </md-table-row>
-    </md-table> -->
-
-    <!-- <b-table :data="leaves" :columns="columns" :hoverable="true" :striped="true" selectable @select="routerLinkToDetails"></b-table> -->
-
+    {{pos}}
    <b-table :data="isEmpty ? [] : leaves" :striped="true" :hoverable="true"> 
      <template slot-scope="props">
        <b-table-column field="id" label="ID" width="300" >
@@ -40,110 +28,61 @@
 </template>
 
 <script>
-import leave from "@/js/leave.js"; //directory to leave.js
+import leave from "@/js/po.js"; //directory to leave.js
 export default {
-  name: "notify-po",
-  props: {
-    tableHeaderColor: {
-      type: String,
-      default: ""
-    }
-  },
-  methods:  {
-    routerLinkToDetails(row){
-      alert("Enter Method");
-      this.$router.push({ path: `/leaveApplication/123` });
-    }
-  },
-  async created() {
+    data(){
+        return{
+            pos:[],  //for po in pos {{po.[var name]}}
+            page:1,
+            error: ''
+        };
+    },
+    async created() {
         try {
-            const data = await leave.show_all_leave();
-            console.log(data);
-            this.leaves = data.map(leave => ({
-                ...leave
+            const data = await po.report(this.po_id);
+            this.pos = data.map(pos => ({
+                ...pos,
+                createdAt: new Date(pos.createdAt)
             })) 
-        } catch (err) { 
+        } catch(err) {
             this.error = err.message;
         }
     },
-  data() {
-    const data = this.leaves
-    return {
-       headers: [
-        {
-          text: 'Employee ID',
-          align: 'left',
-          sortable: false,
-          value: 'id',
+    methods: {
+        async get_pending() {
+            try {
+                const data = await po.report(this.page);
+                this.pos = data.map(pos => ({
+                    ...pos,
+                    createdAt: new Date(pos.createdAt)
+            })) 
+            } catch (err) {
+                this.error = err.message;
+            }
         },
-        { text: 'Start', value: 'date_from' },
-        { text: 'End', value: 'date_to' },
-        { text: 'Reason', value: 'reason' },
-        { text: 'Status', value: 'status' },
-      ],
-        leaves: [], //do for leave in leaves
-        error: '',
-      selected: [],
-      users: [
-         {
-          id: 1,
-          name: "Dakota Rice",
-          salary: "$36,738",
-          country: "Niger",
-          city: "Oud-Turnhout"
+        async get_submits() {
+            try {
+                const data = await po.report(this.page);
+                this.pos = data.map(pos => ({
+                    ...pos,
+                    createdAt: new Date(pos.createdAt)
+            })) 
+            } catch (err) {
+                this.error = err.message;
+            }
         },
-        {
-          id: 2,
-          name: "Minerva Hooper",
-          salary: "$23,738",
-          country: "Curaçao",
-          city: "Sinaai-Waas"
-        },
-        {
-          id: 3,
-          name: "Sage Rodriguez",
-          salary: "$56,142",
-          country: "Netherlands",
-          city: "Overland Park"
-        },
-        {
-          id: 4,
-          name: "Philip Chaney",
-          salary: "$38,735",
-          country: "Korea, South",
-          city: "Gloucester"
+        async find() {
+            try {
+                const data = await po.report(this.po_id);
+                this.pos = data.map(pos => ({
+                    ...pos,
+                    createdAt: new Date(pos.createdAt)
+            })) 
+            } catch (err) {
+                this.error = err.message;
+            }
         }
-      ],
-      columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '300',
-                        centered: true
-                        // numeric: true
-                    },
-                    {
-                        field: 'date_from',
-                        label: 'Start Date',
-                        centered: true
-                    },
-                    {
-                        field: 'date_to',
-                        label: 'End Date',
-                        centered: true
-                    },
-                    {
-                        field: 'reason',
-                        label: 'Reasons',
-                        centered: true
-                    },
-                    {
-                        field: 'status',
-                        label: 'Status',
-                        centered: true
-                    }
-                ]
-    };
-  }
-};
+    }
+    
+}
 </script>
