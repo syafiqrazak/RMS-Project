@@ -1,41 +1,36 @@
 <template>
   <div class="content">
-    <div class="md-layout">
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100" >
-        <md-card>
-          <md-card-header data-background-color="green">
-            <h4 class="title">Purchase Order to Approve</h4>
-            <!-- <p class="category">Here is a subtitle for this table</p> -->
-          </md-card-header>
-          <md-card-content>
-            <simple-table table-header-color="green"></simple-table>
-          </md-card-content>
-        </md-card>
-      </div>
 
-      <div  class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100" >
-        <md-card class="md-card-plain">
-          <md-card-header data-background-color="blue">
-            <h4 class="title">Table on Plain Background</h4>
-            <p class="category">Here is a subtitle for this table</p>
-          </md-card-header>
-          <md-card-content>
-            <notify-leave></notify-leave>
-          </md-card-content>
-        </md-card>
-      </div>
-    </div>
+             <b-tabs type="is-toggle" size="is-medium" expanded>
+              <b-tab-item label="Leave Application">
+                <md-card-content>
+                  <notify-leave></notify-leave>
+                </md-card-content>
+              </b-tab-item>
+
+              <b-tab-item :visible="true" label="PO">
+                <md-card-content>
+                  <notify-po></notify-po>
+                </md-card-content>
+              </b-tab-item>
+
+              <b-tab-item :visible="true" label="PSR">
+                <md-card-content>
+                  <notify-leave></notify-leave>
+                </md-card-content>
+              </b-tab-item>
+        </b-tabs>
   </div>
 </template>
 
 <script>
-import { SimpleTable, OrderedTable, notifyLeave } from "@/components";
+import { SimpleTable, notifyLeave, notifyPO } from "@/components";
 
 export default {
   components: {
-    OrderedTable,
     SimpleTable,
-    notifyLeave
+    notifyLeave,
+    notifyPO,
   }
 };
 </script>

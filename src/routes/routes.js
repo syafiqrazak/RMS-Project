@@ -1,5 +1,4 @@
 import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
-import loginLayout from "@/pages/Layout/loginLayout.vue";
 
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";

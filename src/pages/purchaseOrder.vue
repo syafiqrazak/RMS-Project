@@ -25,7 +25,9 @@
                   <td class="desc">Date:</td>
                   <td>
                     <md-field>
-                      <md-input type="date" v-model="details.dates">Date</md-input>
+                      <md-input type="date" v-model="details.dates"
+                        >Date</md-input
+                      >
                     </md-field>
                   </td>
                 </tr>
@@ -49,7 +51,10 @@
                   <td class="desc">Delivery Due Date:</td>
                   <td>
                     <md-field>
-                      <md-input type="date" v-model="details.dueDate"></md-input>
+                      <md-input
+                        type="date"
+                        v-model="details.dueDate"
+                      ></md-input>
                     </md-field>
                   </td>
                 </tr>
@@ -97,20 +102,27 @@
                   </td>
                 </tr>
               </table>
+
               <div class="md-layout"></div>
               <md-button
                 class="md-raised md-success"
                 @click.prevent="next()"
                 style="float:right"
-              >Next</md-button>
-              {{details}}
+                >Next</md-button
+              >
+              {{ details }}
               <!-- </div> -->
             </div>
 
             <div v-show="step === 2">
               <md-card-content>
-                <md-button class="md-raised md-success" @click="clone()" style="float:left">Add</md-button>
-                <br /><br><br>
+                <md-button
+                  class="md-raised md-success"
+                  @click="clone()"
+                  style="float:left"
+                  >Add</md-button
+                >
+                <br /><br /><br />
               </md-card-content>
               <!-- <h1>Step Two</h1> -->
               <md-card-content>
@@ -123,7 +135,7 @@
                     <th>Total</th>
                   </tr>
                   <tr v-for="items in item" :key="items.desccription">
-                    <td>{{items.index}}</td>
+                    <td>{{ items.index }}</td>
                     <td>
                       <md-field>
                         <!-- <label>Company (disabled)</label> -->
@@ -142,7 +154,7 @@
                         <md-input v-model="items.quantity"></md-input>
                       </md-field>
                     </td>
-                    <td>{{items.unitPrice*items.quantity}}</td>
+                    <td>{{ items.unitPrice * items.quantity }}</td>
                     <td>
                       <div @click="remove()">
                         <md-icon>cancel</md-icon>
@@ -156,15 +168,17 @@
                 class="md-raised md-success"
                 @click.prevent="po_addpo()"
                 style="float:right"
-              >Submit</md-button>
+                >Submit</md-button
+              >
               <md-button
                 class="md-raised md-success"
                 @click.prevent="prev()"
                 style="float:right"
-              >Previous</md-button>
+                >Previous</md-button
+              >
               <!-- <input type="submit" value="Save"> -->
-              {{item}}
-              {{error}}
+              {{ item }}
+              {{ error }}
             </div>
           </md-card-content>
         </md-card>
@@ -174,24 +188,24 @@
 </template>
 
 <script>
-import purchaseorder from "@/pages/js/po.js"; //directory to po.js
+import purchaseorder from "@/js/po.js"; //directory to po.js
 export default {
   data() {
     return {
-      error: '',
+      error: "",
       step: 1,
       index: 2,
       details: {
-          date:new Date(),
-          reference: null,
-          quotation: null,
-          dueDate: null,
-          modeOfShipment: null,
-          PSRNo: null,
-          paymentMode: null,
-          CCANo: null,
-          po_no: null,
-          address: null,
+        date: new Date(),
+        reference: null,
+        quotation: null,
+        dueDate: null,
+        modeOfShipment: null,
+        PSRNo: null,
+        paymentMode: null,
+        CCANo: null,
+        po_no: null,
+        address: null
       },
       item: [
         {
@@ -205,20 +219,30 @@ export default {
     };
   },
 
-    methods: {
-        async po_addpo() {
-            try {
-                const po = await purchaseorder.po_add_po(this.details.po_no, this.details.date, this.details.reference, this.details.dueDate, this.details.modeOfShipment, 
-                          this.details.PSRNo, this.details.CCANo, this.details.paymentMode, this.details.address, this.item);
-                // const po = await purchaseorder.po_add_po(123, 'nuasdll', 'asd', 'asd', 'asd', '1234', 'asd', 'asd', 'asd', {});
-                console.log(po); //can be ignored
-                alert("Success");
-            } catch (err) {
-                alert("Fail");
-                this.error = err.message;
-                console.log(this.error);
-            }
-        },
+  methods: {
+    async po_addpo() {
+      try {
+        const po = await purchaseorder.po_add_po(
+          this.details.po_no,
+          this.details.date,
+          this.details.reference,
+          this.details.dueDate,
+          this.details.modeOfShipment,
+          this.details.PSRNo,
+          this.details.CCANo,
+          this.details.paymentMode,
+          this.details.address,
+          this.item
+        );
+        // const po = await purchaseorder.po_add_po(123, 'nuasdll', 'asd', 'asd', 'asd', '1234', 'asd', 'asd', 'asd', {});
+        console.log(po); //can be ignored
+        alert("Success");
+      } catch (err) {
+        alert("Fail");
+        this.error = err.message;
+        console.log(this.error);
+      }
+    },
     prev() {
       this.step--;
     },

@@ -73,7 +73,6 @@
           </div>
         </div>
       </md-card-content>
-      
     </md-card>
   </form>
 </template>

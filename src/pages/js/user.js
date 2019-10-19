@@ -10,10 +10,9 @@ class user {
           username,
           password
         });
-        if(res.data.hasOwnProperty('error')) {
+        if (res.data.hasOwnProperty("error")) {
           reject(res.data);
-        } else
-          resolve(res.data);
+        } else resolve(res.data);
       } catch (err) {
         reject(err);
       }

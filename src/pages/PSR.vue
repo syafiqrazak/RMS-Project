@@ -80,7 +80,9 @@
                   <td class="desc">Date Required:</td>
                   <td>
                     <md-field>
-                      <md-input type="date" v-model="details.dateRequired">Date</md-input>
+                      <md-input type="date" v-model="details.dateRequired"
+                        >Date</md-input
+                      >
                     </md-field>
                   </td>
                 </tr>
@@ -104,25 +106,34 @@
                   <td class="desc">Vessel Code:</td>
                   <td>
                     <md-field>
-                      <md-input type="date" v-model="details.vesselCode">Date</md-input>
+                      <md-input type="date" v-model="details.vesselCode"
+                        >Date</md-input
+                      >
                     </md-field>
                   </td>
                 </tr>
               </table>
+
               <div class="md-layout"></div>
               <md-button
                 class="md-raised md-success"
                 @click.prevent="next()"
                 style="float:right"
-              >Next</md-button>
-              {{details}}
+                >Next</md-button
+              >
+              {{ details }}
               <!-- </div> -->
             </div>
 
             <div v-show="step === 2">
               <md-card-content>
-                <md-button class="md-raised md-success" @click="clone()" style="float:left">Add</md-button>
-                <br /><br><br>
+                <md-button
+                  class="md-raised md-success"
+                  @click="clone()"
+                  style="float:left"
+                  >Add</md-button
+                >
+                <br /><br /><br />
               </md-card-content>
               <!-- <h1>Step Two</h1> -->
               <md-card-content>
@@ -135,7 +146,7 @@
                     <th>Total</th>
                   </tr>
                   <tr v-for="items in item" :key="items.desccription">
-                    <td>{{items.index}}</td>
+                    <td>{{ items.index }}</td>
                     <td>
                       <md-field>
                         <!-- <label>Company (disabled)</label> -->
@@ -154,7 +165,7 @@
                         <md-input v-model="items.quantity"></md-input>
                       </md-field>
                     </td>
-                    <td>{{items.unitPrice*items.quantity}}</td>
+                    <td>{{ items.unitPrice * items.quantity }}</td>
                     <td>
                       <div @click="remove()">
                         <md-icon>cancel</md-icon>
@@ -163,17 +174,19 @@
                   </tr>
                 </table>
               </md-card-content>
-
+              {{ item }}
               <md-button
                 class="md-raised md-success"
                 @click.prevent="psr_add()"
                 style="float:right"
-              >Save</md-button>
+                >Save</md-button
+              >
               <md-button
                 class="md-raised md-success"
                 @click.prevent="prev()"
                 style="float:right"
-              >Previous</md-button>
+                >Previous</md-button
+              >
               <!-- <input type="submit" value="Save"> -->
             </div>
           </md-card-content>
@@ -184,25 +197,25 @@
 </template>
 
 <script>
-import user from "@/pages/js/psr.js"; //directory to psr.js
+import user from "@/js/psr.js"; //directory to psr.js
 export default {
   data() {
     return {
-      error: '',
+      error: "",
       step: 1,
       index: 2,
       details: {
-          psr_no:null,
-          services: null,
-          purchaseClassification: null,
-          purchaseType: null,
-          purchaseJustification: null,
-          dateRequired: null,
-          delivery: null,
-          projectTitle: null,
-          vesselCode: null,
-          date: new Date(),
-          psr_data: null
+        psr_no: null,
+        services: null,
+        purchaseClassification: null,
+        purchaseType: null,
+        purchaseJustification: null,
+        dateRequired: null,
+        delivery: null,
+        projectTitle: null,
+        vesselCode: null,
+        date: new Date(),
+        psr_data: null
       },
       item: [
         {
@@ -215,59 +228,66 @@ export default {
       ]
     };
   },
-    async created() {
-
-    },
+  async created() {},
   methods: {
-       async psr_add() {
-            try {
-                const psr = await psr.psr_add(this.details.psr_no, this.details.date, this.details.psr_data, 
-                    this.details.purchaseClassification, this.details.purchaseType, this.details.purchaseJustification, 
-                    this.details.dateRequired, this.details.projectTitle, this.details.vesselCode, this.details.delivery, 
-                    this.item);
-                console.log(psr); //can be ignored
-                //add redirect to other page here
-            } catch (err) {
-                this.error = err.message;
-            }
-        },
-        prev() {
-        this.step--;
-        },
-        next() {
-        this.step++;
-        },
-        submit() {
-        alert("Submit to blah and show blah and etc.");
-        },
-        addRow() {
-        this.inputs.push({
-            one: "",
-            two: ""
-        });
-        },
-        deleteRow(index) {
-        this.inputs.splice(index, 1);
-        },
-        clone() {
-        this.item.push({
-            index: this.index,
-            description: null,
-            quantity: 0,
-            unitPrice: 0
-        });
-        this.index++;
-        },
-        remove() {
-        this.item.pop({
-            description: this.index,
-            quantity: 0,
-            unitPrice: 0
-        });
-        this.index--;
-        }
+    async psr_add() {
+      try {
+        const psr = await psr.psr_add(
+          this.details.psr_no,
+          this.details.date,
+          this.details.psr_data,
+          this.details.purchaseClassification,
+          this.details.purchaseType,
+          this.details.purchaseJustification,
+          this.details.dateRequired,
+          this.details.projectTitle,
+          this.details.vesselCode,
+          this.details.delivery,
+          this.item
+        );
+        console.log(psr); //can be ignored
+        //add redirect to other page here
+      } catch (err) {
+        this.error = err.message;
+      }
+    },
+    prev() {
+      this.step--;
+    },
+    next() {
+      this.step++;
+    },
+    submit() {
+      alert("Submit to blah and show blah and etc.");
+    },
+    addRow() {
+      this.inputs.push({
+        one: "",
+        two: ""
+      });
+    },
+    deleteRow(index) {
+      this.inputs.splice(index, 1);
+    },
+    clone() {
+      this.item.push({
+        index: this.index,
+        description: null,
+        quantity: 0,
+        unitPrice: 0
+      });
+      this.index++;
+    },
+    remove() {
+      this.item.pop({
+        description: this.index,
+        quantity: 0,
+        unitPrice: 0
+      });
+      this.index--;
     }
-    };
+  }
+};
 </script>
 
 <style scoped>

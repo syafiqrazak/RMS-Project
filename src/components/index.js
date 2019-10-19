@@ -8,7 +8,7 @@ import NavTabsTable from "./Tables/NavTabsTable.vue";
 import OrderedTable from "./Tables/OrderedTable.vue";
 import SimpleTable from "./Tables/SimpleTable.vue";
 import notifyLeave from "./Tables/notifyLeave.vue";
-
+import notifyPO from "./Tables/notifyPO.vue";
 
 export {
   ChartCard,
@@ -17,5 +17,6 @@ export {
   NavTabsTable,
   OrderedTable,
   SimpleTable,
-  notifyLeave
+  notifyLeave,
+  notifyPO
 };

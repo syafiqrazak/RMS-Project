@@ -1,12 +1,8 @@
 <template>
-  <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
-    
-  </div>
+  <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }"></div>
 </template>
 
-
 <style lang="scss"></style>
-
 
 <script>
 import TopNavbar from "./TopNavbar.vue";

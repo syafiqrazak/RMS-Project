@@ -28,6 +28,8 @@ import Notifications from "./components/NotificationPlugin";
 
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
+import VueFilterDateFormat from "vue-filter-date-format";
+ 
 
 // MaterialDashboard plugin
 import MaterialDashboard from "./material-dashboard";
@@ -47,6 +49,7 @@ Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
+Vue.use(VueFilterDateFormat);
 
 /* eslint-disable no-new */
 new Vue({
