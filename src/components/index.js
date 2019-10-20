@@ -9,6 +9,7 @@ import OrderedTable from "./Tables/OrderedTable.vue";
 import SimpleTable from "./Tables/SimpleTable.vue";
 import notifyLeave from "./Tables/notifyLeave.vue";
 import notifyPO from "./Tables/notifyPO.vue";
+import notifyPSR from "./Tables/notifyPSR.vue";
 
 export {
   ChartCard,
@@ -18,5 +19,6 @@ export {
   OrderedTable,
   SimpleTable,
   notifyLeave,
-  notifyPO
+  notifyPO,
+  notifyPSR
 };

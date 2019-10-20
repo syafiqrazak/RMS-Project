@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="leaves == []">
     <!-- <router-link :to="{ name: 'PSR', params: { id: this.id } }">PSR</router-link> -->
     <!-- <md-table v-model="leaves" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }" v-on:click="routerLinkToDetails(item)" >
@@ -38,116 +38,39 @@
         </b-table-column>
      </template>
    </b-table>
-       <!-- {{leaves}} -->
+       {{leaves}}
 
+  </div>
+  <div v-else>
+      <b-message title="No Data" type="is-danger" has-icon aria-close-label="Close message">
+          {{leaves}}
+        </b-message>
   </div>
 </template>
 
 <script>
 import leave from "@/js/leave.js"; //directory to leave.js
 export default {
-  name: "notify-leave",
-  props: {
-    tableHeaderColor: {
-      type: String,
-      default: ""
-    }
-  },
-  methods:  {
-    routerLinkToDetails(row){
-      alert("Enter Method");
-      this.$router.push({ path: `/leaveApplication/123` });
-    }
-  },
-  async created() {
+    name: "notify-leave",
+    data(){
+        return{
+            leaves: [], //do for leave in leaves
+            error: ''
+        };
+    },
+    async created() {
         try {
             const data = await leave.show_all_leave();
-            console.log(data);
             this.leaves = data.map(leave => ({
                 ...leave
             })) 
-        } catch (err) { 
+        } catch (err) {
             this.error = err.message;
         }
     },
-  data() {
-    const data = this.leaves
-    return {
-       headers: [
-        {
-          text: 'Employee ID',
-          align: 'left',
-          sortable: false,
-          value: 'id',
-        },
-        { text: 'Start', value: 'date_from' },
-        { text: 'End', value: 'date_to' },
-        { text: 'Reason', value: 'reason' },
-        { text: 'Status', value: 'status' },
-      ],
-        leaves: [], //do for leave in leaves
-        error: '',
-      selected: [],
-      users: [
-         {
-          id: 1,
-          name: "Dakota Rice",
-          salary: "$36,738",
-          country: "Niger",
-          city: "Oud-Turnhout"
-        },
-        {
-          id: 2,
-          name: "Minerva Hooper",
-          salary: "$23,738",
-          country: "Curaçao",
-          city: "Sinaai-Waas"
-        },
-        {
-          id: 3,
-          name: "Sage Rodriguez",
-          salary: "$56,142",
-          country: "Netherlands",
-          city: "Overland Park"
-        },
-        {
-          id: 4,
-          name: "Philip Chaney",
-          salary: "$38,735",
-          country: "Korea, South",
-          city: "Gloucester"
-        }
-      ],
-      columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '300',
-                        centered: true
-                        // numeric: true
-                    },
-                    {
-                        field: 'date_from',
-                        label: 'Start Date',
-                        centered: true
-                    },
-                    {
-                        field: 'date_to',
-                        label: 'End Date',
-                        centered: true
-                    },
-                    {
-                        field: 'reason',
-                        label: 'Reasons',
-                        centered: true
-                    },
-                    {
-                        field: 'status',
-                        label: 'Status',
-                        centered: true
-                    }
-                ]
-    };
-  }
-};
+    methods: {
+        
+    }
+    
+}
 </script>

@@ -10,13 +10,13 @@
 
               <b-tab-item :visible="true" label="PO">
                 <md-card-content>
-                  <notify-po></notify-po>
+                  <notify-PO></notify-PO>
                 </md-card-content>
               </b-tab-item>
 
               <b-tab-item :visible="true" label="PSR">
                 <md-card-content>
-                  <notify-leave></notify-leave>
+                  <notify-PSR></notify-PSR>
                 </md-card-content>
               </b-tab-item>
         </b-tabs>
@@ -24,13 +24,14 @@
 </template>
 
 <script>
-import { SimpleTable, notifyLeave, notifyPO } from "@/components";
+import { SimpleTable, notifyLeave, notifyPO, notifyPSR } from "@/components";
 
 export default {
   components: {
     SimpleTable,
     notifyLeave,
     notifyPO,
+    notifyPSR,
   }
 };
 </script>
