@@ -1,5 +1,5 @@
 <template>
-  <div v-if="leaves == []">
+  <div >
     <!-- <router-link :to="{ name: 'PSR', params: { id: this.id } }">PSR</router-link> -->
     <!-- <md-table v-model="leaves" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }" v-on:click="routerLinkToDetails(item)" >
@@ -38,14 +38,14 @@
         </b-table-column>
      </template>
    </b-table>
-       {{leaves}}
+       <!-- {{leaves}} -->
 
   </div>
-  <div v-else>
+  <!-- <div v-else>
       <b-message title="No Data" type="is-danger" has-icon aria-close-label="Close message">
           {{leaves}}
         </b-message>
-  </div>
+  </div> -->
 </template>
 
 <script>

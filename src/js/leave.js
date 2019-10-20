@@ -1,14 +1,15 @@
 import axios from "axios";
 
 // const url = "http://localhost:3000/leave/"; //for production use localhost:3000
-// const url = "http://192.168.193.236/leave/";
 const url = "http://192.168.193.236:3000/leave/";
 
 class leave {
   static show_all_leave() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}all`, { withCredentials: true });
+        const res = await axios.get(`${url}all_leave`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -16,10 +17,25 @@ class leave {
     });
   }
 
-  static show_own_leave() {
+  static show_leave_page(page) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}`, { withCredentials: true });
+        const res = await axios.get(`${url}all/${page}`, {
+          withCredentials: true
+        });
+        resolve(res.data);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  static show_own_leave(page) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await axios.get(`${url}own/${page}`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -31,11 +47,9 @@ class leave {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(
-          `${url}`,
-          {
-            id
-          },
-          { withCredentials: true }
+          `${url}${id}`, {
+            withCredentials: true
+          }
         );
         resolve(res.data);
       } catch (err) {
@@ -48,13 +62,13 @@ class leave {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_leave`,
-          {
+          `${url}add_leave`, {
             date_from,
             date_to,
             reason
-          },
-          { withCredentials: true }
+          }, {
+            withCredentials: true
+          }
         );
         resolve(res.data);
       } catch (err) {
@@ -67,13 +81,13 @@ class leave {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${leave_id}/upd_leave`,
-          {
+          `${url}${leave_id}/upd_leave`, {
             date_from,
             date_to,
             reason
-          },
-          { withCredentials: true }
+          }, {
+            withCredentials: true
+          }
         );
         resolve(res.data);
       } catch (err) {

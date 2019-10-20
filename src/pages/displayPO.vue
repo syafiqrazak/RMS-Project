@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import user from "@/pages/js/leave.js"; //directory to leave.js
+import user from "@/js/leave.js"; //directory to leave.js
 export default {
   name: "edit-profile-form",
   data() {

@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h5>testing</h5>
-        {{pos}}
+        <h5>testing123</h5>
+        {{psrs}}
     </div>
 </template>
 
 <script>
-import leave from "@/js/psr.js"; //directory to psr.js
+import psr from "@/js/psr.js"; //directory to psr.js
 
 
 export default {
@@ -18,14 +18,13 @@ export default {
             error: ''
         };
     },
-    async created() {
+     async created() {
         try {
-            const data = await psr.report(this.psr_id);
-            this.psrs = data.map(psrs => ({
-                ...psrs,
-                createdAt: new Date(psrs.createdAt)
-            })) 
-        } catch(err) {
+            const data = await psr.show_all_psr();
+                this.psrs = data.map(psrs => ({
+                ...psrs
+                }))
+        } catch (err) {
             this.error = err.message;
         }
     },

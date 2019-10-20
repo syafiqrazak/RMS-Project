@@ -75,7 +75,7 @@ export default {
         // document.getElementsByClassName("alert alert-danger").style.display = 'block';
         // var x = document.getElementsByClassName("alert alert-danger");
         // x[0].style.visibility = 'visible';
-        alert("Enter error");
+        alert("Enter error" + err);
         this.isShow = true;
         console.log(err);
       }

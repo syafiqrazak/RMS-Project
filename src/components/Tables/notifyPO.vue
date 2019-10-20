@@ -2,7 +2,8 @@
     <div>
         <h5>testing</h5>
         {{pos}}
-        <!-- <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" :paginated="true" :per-page="5" aria-next-label="Next page"
+        {{page}}
+        <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" :paginated="true" :per-page="5" aria-next-label="Next page"
                     aria-previous-label="Previous page"
                     aria-page-label="Page"
                     aria-current-label="Current page"
@@ -13,20 +14,13 @@
                     {{ props.row.id }}
                 </a>
                 </b-table-column>
-                <b-table-column field="date_from" label="Start">
-                    {{ props.row.date_from }}
+                <b-table-column field="po_date" label="Date Created">
+                    {{ props.row.po_date }}
                 </b-table-column>
-                <b-table-column field="date_to" label="End">
-                    {{ props.row.date_to }}
-                </b-table-column>
-                <b-table-column field="reason" label="Reason">
-                    {{ props.row.reason }}
-                </b-table-column>
-                <b-table-column field="status" label="Status">
                     {{ props.row.status }}
                 </b-table-column>
             </template>
-        </b-table> -->
+        </b-table>
     </div>
 </template>
 
@@ -34,7 +28,7 @@
 
 
 <script>
-import leave from "@/js/po.js"; //directory to po.js
+import po from "@/js/po.js"; //directory to po.js
 
 export default {
     name: "notify-PO",
@@ -47,15 +41,11 @@ export default {
     },
     async created() {
         try {
-        const data = await po.show_po_page(this.page);
-        
-        const pos1 = data.result[0]
-            this.total_page = data.result[1]
-            this.pos = pos1.map(pos => ({
+            const data = await po.show_all_po();
+                this.pos = data.map(pos => ({
                 ...pos
-            }))
-
-        } catch(err) {
+                }))
+        } catch (err) {
             this.error = err.message;
         }
     },
@@ -69,10 +59,13 @@ export default {
                 this.pos = pos1.map(pos => ({
                     ...pos
                 }))
+                return this.pos
 
             } catch(err) {
                 this.error = err.message;
+                return this.error
             }
+            
         },
         async get_submits() {
             try {
