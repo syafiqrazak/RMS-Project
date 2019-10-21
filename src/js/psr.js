@@ -99,7 +99,8 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_po`, {
+          `${url}add_po`,
+          {
             psr_no,
             date,
             psr_data,
@@ -111,7 +112,8 @@ class psr {
             vessel_cd,
             delv,
             desc
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -165,7 +167,8 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${psr_id}/upd_psr`, {
+          `${url}${psr_id}/upd_psr`,
+          {
             psr_no,
             date,
             psr_data,
@@ -177,7 +180,8 @@ class psr {
             vessel_cd,
             delv,
             desc
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -192,9 +196,11 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${psr_id}/pending`, {
+          `${url}${psr_id}/pending`,
+          {
             date_pending: Date.now()
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -209,9 +215,11 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${psr_id}/approve`, {
+          `${url}${psr_id}/approve`,
+          {
             date_approve: Date.now()
-          }, {
+          },
+          {
             withCredentials: true
           }
         );

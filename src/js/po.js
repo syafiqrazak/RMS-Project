@@ -87,7 +87,8 @@ class po {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_po`, {
+          `${url}add_po`,
+          {
             po_no,
             date,
             po_ref,
@@ -98,7 +99,8 @@ class po {
             pay,
             address,
             desc
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -151,7 +153,8 @@ class po {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${po_id}/upd_po`, {
+          `${url}${po_id}/upd_po`,
+          {
             po_no,
             date,
             po_ref,
@@ -162,7 +165,8 @@ class po {
             pay,
             address,
             desc
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -177,9 +181,11 @@ class po {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${po_id}/pending`, {
+          `${url}${po_id}/pending`,
+          {
             date_pending: Date.now()
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -194,9 +200,11 @@ class po {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${po_id}/approve`, {
+          `${url}${po_id}/approve`,
+          {
             date_approve: Date.now()
-          }, {
+          },
+          {
             withCredentials: true
           }
         );

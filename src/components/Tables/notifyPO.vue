@@ -1,10 +1,6 @@
 <template>
     <div>
-        <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
-                    aria-previous-label="Previous page"
-                    aria-page-label="Page"
-                    aria-current-label="Current page"
-                    :pagination-simple="true"> 
+        <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
             <b-table-column field="id" label="ID" width="300" >
                 <a @click="routerLinkToDetails(props.row)">
@@ -19,7 +15,35 @@
                 </b-table-column>
             </template>
         </b-table>
-        Error: {{error}}
+        <br><br>
+         <div style=" width:15%; float:right; ">
+             <form v-on:submit="pagination" >
+                <md-input style="width:30px; float: left; height:28px;" type="number"  v-model="page" :disabled="false" />
+            </form>
+              &nbsp;&nbsp;
+             <b-tooltip label="Previous" type="is-light" position="is-bottom">
+                    <b-button @click="previousPage"
+                        :disabled="isPrevious"
+                        size="is-small"
+                        float="right"
+                        type="is-light">
+                        <md-icon>navigate_before</md-icon>
+                    </b-button>
+            </b-tooltip>
+            <!-- &nbsp; -->
+            <b-tooltip label="Next" type="is-light" position="is-bottom">
+                    <b-button @click="nextPage"
+                        :disabled="isNext"
+                        size="is-small"
+                        float="right"
+                        type="is-light">
+                        <md-icon>navigate_next</md-icon>
+                    </b-button>
+                    &nbsp;&nbsp;
+            </b-tooltip>
+                
+            </div>
+        <!-- Error: {{error}} -->
     </div>
 </template>
 
@@ -36,7 +60,9 @@ export default {
             pos:[],  //for po in pos {{po.[var name]}}
             page:1,
             error: '',
-            total_page:''
+            total_page:'',
+            isNext:false,
+            isPrevious:true
         };
     },
     async created() {
@@ -99,17 +125,76 @@ export default {
         //create in vue:
         // if page == 1, hide previous button, show next button
         // if page == total_page, show previous button, show next button
-        nextPage() {
-            page += 1;
-            if(page > total_page) {
-                page = total_page;
+        async nextPage() {
+           this.isPrevious = false;
+            if(this.page >= this.total_page-1) {
+                this.page = this.total_page;
             }
+            else
+                this.page += 1;
+            if(this.page==this.total_page)
+                this.isNext = true
+            try {
+                const data = await po.show_po_page(this.page);
+                
+                const pos1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.pos = pos1.map(pos => ({
+                        ...pos
+                    }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
         },
-        previousPage() {
-            page -+ 1;
-            if(page <= 0) {
-                page = 1;
+        async previousPage() {
+            this.isNext = false;
+            if(this.page <= 1) {
+                this.page = 1;
+                this.isPrevious = true
             }
+            else
+                this.page -= 1;
+            if(this.page==1)
+                this.isPrevious = true
+            try {
+                const data = await po.show_po_page(this.page);
+                
+                const pos1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.pos = pos1.map(pos => ({
+                        ...pos
+                    }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
+        },
+        async pagination() {
+            if(this.page>=this.total_page){
+                this.page = this.total_page;
+                this.isNext =false;
+            }
+                
+            else if(this.page<1){
+                this.page = 1;
+                this.isPrevious =false;
+            }
+                
+            else    
+                this.page=this.page;
+            try {
+                const data = await po.show_po_page(this.page);
+                
+                const pos1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.pos = pos1.map(pos => ({
+                        ...pos
+                    }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
         }
     }
     
