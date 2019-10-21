@@ -1,9 +1,6 @@
 <template>
     <div>
-        <h5>testing</h5>
-        {{pos}}
-        {{page}}
-        <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" :paginated="true" :per-page="5" aria-next-label="Next page"
+        <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
                     aria-previous-label="Previous page"
                     aria-page-label="Page"
                     aria-current-label="Current page"
@@ -15,12 +12,14 @@
                 </a>
                 </b-table-column>
                 <b-table-column field="po_date" label="Date Created">
-                    {{ props.row.po_date }}
+                    {{ props.row.po_date  | moment("dddd, MMMM Do YYYY")}}
                 </b-table-column>
+                <b-table-column>
                     {{ props.row.status }}
                 </b-table-column>
             </template>
         </b-table>
+        Error: {{error}}
     </div>
 </template>
 
@@ -36,16 +35,21 @@ export default {
         return{
             pos:[],  //for po in pos {{po.[var name]}}
             page:1,
-            error: ''
+            error: '',
+            total_page:''
         };
     },
     async created() {
         try {
-            const data = await po.show_all_po();
-                this.pos = data.map(pos => ({
+        const data = await po.show_po_page(this.page);
+        
+        const pos1 = data.result[0]
+            this.total_page = data.result[1]
+            this.pos = pos1.map(pos => ({
                 ...pos
-                }))
-        } catch (err) {
+            }))
+
+        } catch(err) {
             this.error = err.message;
         }
     },

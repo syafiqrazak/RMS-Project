@@ -1,7 +1,28 @@
 <template>
     <div>
-        <h5>testing123</h5>
-        {{psrs}}
+        <!-- <div>{{ new Date() | dateFormat('YYYY.MM.DD') }}</div> -->
+        <!-- <div>Date: {{psrs.psr_date[0]}}</div> -->
+        {{psrs.psr_date}}
+        <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
+                    aria-previous-label="Previous page"
+                    aria-page-label="Page"
+                    aria-current-label="Current page"
+                    :pagination-simple="true"> 
+            <template slot-scope="props">
+            <b-table-column field="id" label="ID" width="300" >
+                <a @click="routerLinkToDetails(props.row)">
+                    {{ props.row.id }}
+                </a>
+                </b-table-column>
+                <b-table-column field="po_date" label="Date Created">
+                    {{ props.row.psr_date | moment("dddd, MMMM Do YYYY") }}
+                </b-table-column>
+                <b-table-column>
+                    {{ props.row.status }}
+                </b-table-column>
+            </template>
+        </b-table>
+        <!-- {{psrs}} -->
     </div>
 </template>
 

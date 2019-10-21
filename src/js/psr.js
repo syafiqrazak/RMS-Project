@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const url = "http://localhost:3000/psr/"; //for production use localhost:3000
-const url = "http://192.168.193.236/psr/";
+const url = "http://192.168.193.236:3000/psr/";
 
 class psr {
   static show_psr_all() {

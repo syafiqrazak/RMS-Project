@@ -13,7 +13,7 @@
 
     <!-- <b-table :data="leaves" :columns="columns" :hoverable="true" :striped="true" selectable @select="routerLinkToDetails"></b-table> -->
 
-   <b-table :data="isEmpty ? [] : leaves" :striped="true" :hoverable="true" :paginated="true" :per-page="5" aria-next-label="Next page"
+   <b-table :data="isEmpty ? [] : leaves" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
             aria-previous-label="Previous page"
             aria-page-label="Page"
             aria-current-label="Current page"
@@ -38,7 +38,7 @@
         </b-table-column>
      </template>
    </b-table>
-       <!-- {{leaves}} -->
+       {{leaves}}
 
   </div>
   <!-- <div v-else>
