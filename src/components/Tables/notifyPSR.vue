@@ -19,10 +19,10 @@
             </template>
         </b-table>
         <br><br>
-         <div style=" width:15%; float:right; ">
+         <div style=" width:15%; float:right; display:block-inline; ">
              <form v-on:submit="pagination" >
-                <md-input style="width:30px; float: left; height:28px;" type="number"  v-model="page" :disabled="false" />
-            </form>
+                <md-input style="width:30px; float: left; height:28px; text-align: right; " type="number"  v-model="page" :disabled="false" />
+            </form>&nbsp; <b>/{{total_page}}</b>
               &nbsp;&nbsp;
              <b-tooltip label="Previous" type="is-light" position="is-bottom">
                     <b-button @click="previousPage"
