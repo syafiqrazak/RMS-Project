@@ -35,17 +35,22 @@ export default {
     data(){
         return{
             psrs:[],  //for psr in psrs {{psr.[var name]}}
-            page: 1,
-            error: ''
+            page: 2,
+            error: '',
+            total_page:''
         };
     },
      async created() {
         try {
-            const data = await psr.show_all_psr();
-                this.psrs = data.map(psrs => ({
+        const data = await psr.show_psr_page(this.page);
+        
+        const psrs1 = data.result[0]
+            this.total_page = data.result[1]
+            this.psrs = psrs1.map(psrs => ({
                 ...psrs
-                }))
-        } catch (err) {
+            }))
+
+        } catch(err) {
             this.error = err.message;
         }
     },
