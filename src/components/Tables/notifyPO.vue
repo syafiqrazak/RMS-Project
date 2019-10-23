@@ -3,15 +3,15 @@
         <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
                 <b-table-column field="po_no" label="PO Number">
+                    <a @click="detail(props.row)">
                         PO/TRD-{{ props.row.po_no |numeral('0000') }}
+                    </a>
                 </b-table-column>
                 <b-table-column field="po_date" label="Date Created">
                         {{ props.row.po_date  | moment("dddd, MMMM Do YYYY")}}
                 </b-table-column>
                 <b-table-column field="id" label="ID" width="300" >
-                    <a @click="detail(props.row)">
                         {{ props.row.id }}
-                    </a>
                 </b-table-column>
             </template>
         </b-table>
@@ -81,7 +81,7 @@ export default {
             this.error = err.message;
         }
     },
-    
+
     methods: {
         detail(value){
             console.log(value.po_no);

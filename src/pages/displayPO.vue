@@ -7,7 +7,7 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
-          {{pos}}
+          <!-- {{pos}} -->
           <br><br><br>
     
           <table style="width:100%">
