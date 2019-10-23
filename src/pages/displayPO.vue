@@ -1,5 +1,5 @@
 <template>
-  <div class="container" border="3px">
+  <div class="container" border="3px">  
     <form>
       <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
@@ -7,6 +7,9 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
+          {{pos}}
+          <br><br><br>
+    
           <table style="width:100%">
             <tr>
               <th></th>
@@ -21,23 +24,23 @@
               <th></th>
             </tr>
             <tr>
-              <td>
+              <td style="width:50%">
                 <b>{{ company }}</b>
               </td>
               <td>
                 <p><b>Purchase Order Number:</b></p>
               </td>
               <td>
-                <p>{{ PO_no }}</p>
+                <p>{{ pos.po_no }}</p>
               </td>
             </tr>
-            <td rowspan="9"><b>Address:</b> {{ address }}</td>
+            <td rowspan="9"><b>Address:</b> {{ pos.address }}</td>
             <tr>
               <td>
                 <p><b>Date</b></p>
               </td>
               <td>
-                <p>{{ Dates }}</p>
+                <p>{{ pos.createdAt | moment("Do MMMM YYYY") }}</p>
               </td>
             </tr>
             <tr>
@@ -53,7 +56,7 @@
                 <p><b>Our Ref:</b></p>
               </td>
               <td>
-                <p>{{ ref }}</p>
+                <p>{{ pos_ref }}</p>
               </td>
             </tr>
             <tr>
@@ -69,7 +72,7 @@
                 <p><b>Delivery Due Date:</b></p>
               </td>
               <td>
-                <p>{{ dueDate }}</p>
+                <p>{{ pos.delv_due | moment("Do MMMM YYYY") }}</p>
               </td>
             </tr>
             <tr>
@@ -77,7 +80,7 @@
                 <p><b>Mode of Shipment:</b></p>
               </td>
               <td>
-                <p>{{ shipment }}</p>
+                <p>{{ pos.ship_mode }}</p>
               </td>
             </tr>
             <tr>
@@ -85,7 +88,7 @@
                 <p><b>PSR No.:</b></p>
               </td>
               <td>
-                <p>{{ PSR }}</p>
+                <p>{{ pos.psr_no }}</p>
               </td>
             </tr>
             <tr>
@@ -93,7 +96,7 @@
                 <p><b>CCA No.:</b></p>
               </td>
               <td>
-                <p>{{ CCA }}</p>
+                <p>{{ pos.cca_no }}</p>
               </td>
             </tr>
             <tr>
@@ -104,15 +107,15 @@
                 <p><b>Mode of Shipment:</b></p>
               </td>
               <td>
-                <p>{{ shipment }}</p>
+                <p>{{ pos.ship_mode }}</p>
               </td>
             </tr>
           </table>
 
-          <div>
+          <!-- <div>
             <md-table
               style="width:100%"
-              v-model="item"
+              v-model="pos.po_desc"
               :md-sort.sync="currentSort"
               :md-sort-order.sync="currentSortOrder"
               :md-sort-fn="customSort"
@@ -120,17 +123,38 @@
             >
               <md-table-row slot="md-table-row" slot-scope="{ item }">
                 <md-table-cell md-label="Description">{{
-                  item.desc
+                  item.description
                 }}</md-table-cell>
                 <md-table-cell md-label="Quantity">{{
                   item.quantity
                 }}</md-table-cell>
-                <md-table-cell md-label="Price">{{ item.price }}</md-table-cell>
+                <md-table-cell md-label="Price">{{ item.unitPrice }}</md-table-cell>
                 <md-table-cell md-label="Total Price"
-                  ><b>RM {{ item.quantity * item.price }}</b></md-table-cell
+                  ><b>RM {{ item.quantity * item.unitPrice }}</b></md-table-cell
                 >
               </md-table-row>
             </md-table>
+          </div> -->
+          <div>
+            <b-table :data="isEmpty ? [] : pos.po_desc" :striped="true" :hoverable="true" > 
+            <template slot-scope="props">
+              <b-table-column field="index" label="No">
+                        {{ props.row.index}}
+                </b-table-column>
+                <b-table-column field="description" label="Description">
+                        {{ props.row.description }}
+                </b-table-column>
+                <b-table-column field="unitPrice" label="Price">
+                        {{ props.row.unitPrice  | moment("dddd, MMMM Do YYYY")}}
+                </b-table-column>
+                <b-table-column field="quantity" label="Quantity" width="300" >
+                        {{ props.row.quantity }}
+                </b-table-column>
+                <b-table-column field="total" label="Total Price" width="300" >
+                       RM {{ props.row.quantity *  props.row.unitPrice |numeral('0.00')}}
+                </b-table-column>
+            </template>
+        </b-table>
           </div>
 
           {{ total }}
@@ -141,70 +165,154 @@
 </template>
 
 <script>
-import user from "@/js/leave.js"; //directory to leave.js
-export default {
-  name: "edit-profile-form",
-  data() {
-    return {
-      error: "",
-      company: "Dinastia Jati SDN BHD",
-      PO_no: "PO-1234",
-      Dates: "12-12-2019",
-      Page_no: "1",
-      ref: "Ref",
-      quot: "Quotation",
-      dueDate: "15-12-2019",
-      shipment: "Ship",
-      PSR: "PSR-9808",
-      CCA: "CCA-5678",
-      payment: "As per invoice",
-      address:
-        "A1-L2-2 Pantai Hillpark Phase 1, Pantai Hillpark, 59200 Kuala Lumpur",
-      to: "Mr Adnan Azhar",
-      total: 0,
-      item: [
-        {
-          desc: "Racket",
-          quantity: "2",
-          price: "20"
-        },
-        {
-          desc: "Sugar",
-          quantity: "100",
-          price: "4"
-        },
-        {
-          desc: "Cake",
-          quantity: "2",
-          price: "55"
-        }
-      ]
-    };
-  },
-  created: function() {
-    // `this` points to the vm instance
-    for (i = 0; i < this.item.length; i++) {
-      this.total += this.item.quantity[i] * this.item.price[i];
-    }
-  },
-  methods: {
-    async add_leave() {
-      this.$router.push({ path: "/leaveSubmitSuccess" }); //add redirect to other page here
+import po from "@/js/po.js"; //directory to po.js
 
-      try {
-        const leave = await user.add_leave(
-          this.leave.startDate,
-          this.leave.endDate,
-          this.leave.reason
-        );
-        console.log(leave); //can be ignored
-        this.$router.push({ path: "/leaveSubmitSuccess/id" }); //add redirect to other page here
-      } catch (err) {
-        this.error = err.message;
-      }
+export default {
+    name: "display-PO",
+    data(){
+        return{
+            pos:[],  //for po in pos {{po.[var name]}}
+            page:1,
+            error: '',
+            total_page:'',
+            isNext:false,
+            isPrevious:true,
+            id: this.$route.params.id,
+            po_no: this.$route.params.po_no
+        };
+    },
+    async created() {
+        try {
+                const data = await po.find(this.po_no); 
+                this.pos = data;
+            } catch (err) {
+                this.error = err.message;
+            }
+    },
+    methods: {
+        detail(value){
+            console.log(value.po_no);
+            this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
+        },
+        async get_pending() {
+            try {
+            const data = await po.get_submits(this.page);
+            
+            const pos1 = data.result[0]
+                this.total_page = data.result[1]
+                this.pos = pos1.map(pos => ({
+                    ...pos
+                }))
+                return this.pos
+
+            } catch(err) {
+                this.error = err.message;
+                return this.error
+            }
+            
+        },
+        async get_submits() {
+            try {
+            const data = await po.get_pending(this.page);
+            
+            const pos1 = data.result[0]
+                this.total_page = data.result[1]
+                this.pos = pos1.map(pos => ({
+                    ...pos
+                }))
+
+            } catch(err) {
+                this.error = err.message;
+            }
+        },
+        async find() {
+            try {
+                const data = await po.find(this.po_no);
+                this.pos = data.map(pos => ({
+                    ...pos,
+                    createdAt: new Date(pos.createdAt)
+            })) 
+            } catch (err) {
+                this.error = err.message;
+            }
+        },
+        //create in vue:
+        // if page == 1, hide previous button, show next button
+        // if page == total_page, show previous button, show next button
+        async nextPage() {
+           this.isPrevious = false;
+            if(this.page >= this.total_page-1) {
+                this.page = this.total_page;
+            }
+            else
+                this.page += 1;
+            if(this.page==this.total_page)
+                this.isNext = true
+            try {
+                const data = await po.show_po_page(this.page);
+                
+                const pos1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.pos = pos1.map(pos => ({
+                        ...pos
+                    }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
+        },
+        async previousPage() {
+            this.isNext = false;
+            if(this.page <= 1) {
+                this.page = 1;
+                this.isPrevious = true
+            }
+            else
+                this.page -= 1;
+            if(this.page==1)
+                this.isPrevious = true
+            try {
+                const data = await po.show_po_page(this.page);
+                
+                const pos1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.pos = pos1.map(pos => ({
+                        ...pos
+                    }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
+        },
+        async pagination() {
+            if(this.page>=this.total_page){
+                this.page = this.total_page;
+                this.isNext =false;
+            }
+                
+            else if(this.page<1){
+                this.page = 1;
+                this.isPrevious =false;
+            }
+                
+            else    
+                this.page=this.page;
+            try {
+                const data = await po.show_po_page(this.page);
+                
+                const pos1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.pos = pos1.map(pos => ({
+                        ...pos
+                    }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
+        }
     }
-  }
-};
+    
+}
 </script>
 
 <style scoped>

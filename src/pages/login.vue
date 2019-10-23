@@ -69,6 +69,7 @@ export default {
           this.error = "Work";
           console.log("Work");
           this.$router.push({ path: `/leaveApplication/${login.id}` });
+          
         }
         console.log(login); //can be ignored
       } catch (err) {

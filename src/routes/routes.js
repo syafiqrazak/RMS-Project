@@ -38,7 +38,7 @@ const routes = [
     // redirect: "/dashboard",
     children: [
       {
-        path: "/displayPO",
+        path: "/displayPO/:id/:po_no",
         name: "Display Purchase Order",
         component: displayPO
       },
@@ -60,7 +60,7 @@ const routes = [
       {
         path: "/notification/:id",
         name: "Notification",
-        component: notifications
+        component: notifications,
       },
       {
         path: "/PSR/:id",

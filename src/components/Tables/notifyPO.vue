@@ -2,16 +2,16 @@
     <div>
         <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
-            <b-table-column field="id" label="ID" width="300" >
-                <a @click="routerLinkToDetails(props.row)">
-                    {{ props.row.id }}
-                </a>
+                <b-table-column field="po_no" label="PO Number">
+                        PO/TRD-{{ props.row.po_no |numeral('0000') }}
                 </b-table-column>
                 <b-table-column field="po_date" label="Date Created">
-                    {{ props.row.po_date  | moment("dddd, MMMM Do YYYY")}}
+                        {{ props.row.po_date  | moment("dddd, MMMM Do YYYY")}}
                 </b-table-column>
-                <b-table-column>
-                    {{ props.row.status }}
+                <b-table-column field="id" label="ID" width="300" >
+                    <a @click="detail(props.row)">
+                        {{ props.row.id }}
+                    </a>
                 </b-table-column>
             </template>
         </b-table>
@@ -44,6 +44,7 @@
                 
             </div>
         <!-- Error: {{error}} -->
+        {{pos}}
     </div>
 </template>
 
@@ -62,7 +63,8 @@ export default {
             error: '',
             total_page:'',
             isNext:false,
-            isPrevious:true
+            isPrevious:true,
+            id: this.$route.params.id
         };
     },
     async created() {
@@ -79,7 +81,12 @@ export default {
             this.error = err.message;
         }
     },
+    
     methods: {
+        detail(value){
+            console.log(value.po_no);
+            this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
+        },
         async get_pending() {
             try {
             const data = await po.get_submits(this.page);

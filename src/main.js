@@ -27,6 +27,7 @@ import GlobalDirectives from "./globalDirectives";
 import Notifications from "./components/NotificationPlugin";
 
 import Buefy from "buefy";
+import vueNumeralFilterInstaller from "vue-numeral-filter";
 import "buefy/dist/buefy.css";
 
 // MaterialDashboard plugin
@@ -48,6 +49,7 @@ Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 Vue.use(require("vue-moment"));
+Vue.use(vueNumeralFilterInstaller);
 
 /* eslint-disable no-new */
 new Vue({
