@@ -38,7 +38,7 @@
         </b-table-column>
      </template>
    </b-table>
-       <!-- {{leaves}} -->
+       {{leaves}}
 
   </div>
   <!-- <div v-else>

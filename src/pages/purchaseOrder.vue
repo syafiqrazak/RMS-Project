@@ -139,7 +139,7 @@
                     <td>
                       <md-field>
                         <!-- <label>Company (disabled)</label> -->
-                        <md-input v-model="items.description"></md-input>
+                        <md-input v-model="items.description" ></md-input>
                       </md-field>
                     </td>
                     <td>
@@ -154,7 +154,7 @@
                         <md-input v-model="items.quantity"></md-input>
                       </md-field>
                     </td>
-                    <td>{{ items.unitPrice * items.quantity }}</td>
+                    <td>RM {{ items.unitPrice * items.quantity |numeral('0.00') }}</td>
                     <td>
                       <div @click="remove()">
                         <md-icon>cancel</md-icon>
@@ -188,7 +188,7 @@
 </template>
 
 <script>
-import purchaseorder from "@/js/po.js"; //directory to po.js
+import purchaseOrder from "@/js/po.js"; //directory to po.js
 export default {
   data() {
     return {
@@ -218,11 +218,11 @@ export default {
       ]
     };
   },
-
+  // async created() {},
   methods: {
     async po_addpo() {
       try {
-        const po = await purchaseorder.po_add_po(
+        const po = await purchaseOrder.po_add(
           this.details.po_no,
           this.details.date,
           this.details.reference,
@@ -234,7 +234,7 @@ export default {
           this.details.address,
           this.item
         );
-        // const po = await purchaseorder.po_add_po(123, 'nuasdll', 'asd', 'asd', 'asd', '1234', 'asd', 'asd', 'asd', {});
+        // const po = await po.po_add("123", "date", "po_ref", "due", "ship", "psr", "cca", "pay", "address", {});
         console.log(po); //can be ignored
         alert("Success");
       } catch (err) {

@@ -1,13 +1,13 @@
 <template>
     <div>
-        <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" > 
+        <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" :default-sort-direction="asc"> 
             <template slot-scope="props">
-                <b-table-column field="po_no" label="PO Number">
+                <b-table-column field="po_no" label="PO Number" sortable>
                     <a @click="detail(props.row)">
-                        PO/TRD-{{ props.row.po_no |numeral('0000') }}
+                        PO/TRD-{{ props.row.po_no |numeral('000000') }}
                     </a>
                 </b-table-column>
-                <b-table-column field="po_date" label="Date Created">
+                <b-table-column field="po_date" label="Date Created" >
                         {{ props.row.po_date  | moment("dddd, MMMM Do YYYY")}}
                 </b-table-column>
                 <b-table-column field="id" label="ID" width="300" >

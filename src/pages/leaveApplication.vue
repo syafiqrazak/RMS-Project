@@ -70,8 +70,6 @@ export default {
           this.leave.startDate,
           this.leave.endDate,
           this.leave.reason,
-          this.$router.push({ path: "/leaveSubmitSuccess" }) //add redirect to other page here
-
         );
         alert(leave_data); //can be ignored
         this.$router.push({ path: "/leaveSubmitSuccess/id" }); //add redirect to other page here

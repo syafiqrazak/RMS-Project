@@ -110,7 +110,6 @@ class po {
       }
     });
   }
-
   static po_del(po_id) {
     return new Promise(async (resolve, reject) => {
       try {

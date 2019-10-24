@@ -1,5 +1,5 @@
 <template>
-  <div class="container" border="3px">  
+  <div class="container" border="3px" height="5000px">  
     <form>
       <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
@@ -31,7 +31,7 @@
                 <p><b>Purchase Order Number:</b></p>
               </td>
               <td>
-                <p>{{ pos.po_no }}</p>
+                <p>PO/TRD-{{ pos.po_no |numeral('0000') }}</p>
               </td>
             </tr>
             <td rowspan="9"><b>Address:</b> {{ pos.address }}</td>
@@ -138,26 +138,28 @@
           <div>
             <b-table :data="isEmpty ? [] : pos.po_desc" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
-              <b-table-column field="index" label="No">
+              <b-table-column field="index" label="No" width="5%" centered>
                         {{ props.row.index}}
                 </b-table-column>
-                <b-table-column field="description" label="Description">
+                <b-table-column field="description" label="Description" width="25%" centered>
                         {{ props.row.description }}
                 </b-table-column>
-                <b-table-column field="unitPrice" label="Price">
-                        {{ props.row.unitPrice  | moment("dddd, MMMM Do YYYY")}}
+                <b-table-column field="unitPrice" label="Price" centered>
+                      RM  {{ props.row.unitPrice  |numeral('0.00') }}
                 </b-table-column>
-                <b-table-column field="quantity" label="Quantity" width="300" >
+                <b-table-column field="quantity" label="Quantity"  centered >
                         {{ props.row.quantity }}
                 </b-table-column>
-                <b-table-column field="total" label="Total Price" width="300" >
+                <b-table-column field="total" label="Total Price"  align="right" centered >
                        RM {{ props.row.quantity *  props.row.unitPrice |numeral('0.00')}}
                 </b-table-column>
             </template>
         </b-table>
+          </div><br><br>
+         <div  style=" margin-left: 40%; margin-right: 40%;">
+            <b-button type="is-success" >Approve</b-button> &nbsp
+            <b-button type="is-danger">Decline</b-button>
           </div>
-
-          {{ total }}
         </md-card-content>
       </md-card>
     </form>
