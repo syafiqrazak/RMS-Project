@@ -5,16 +5,19 @@
         {{psrs.psr_date}}
         <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
-            <b-table-column field="id" label="ID" width="300" >
-                <a @click="routerLinkToDetails(props.row)">
-                    {{ props.row.id }}
-                </a>
+                <b-table-column field="po_no" label="PO Number" sortable>
+                    <a @click="detail(props.row)">
+                        PO/TRD-{{ props.row.psr_no |numeral('000000') }}
+                    </a>
                 </b-table-column>
                 <b-table-column field="po_date" label="Date Created">
                     {{ props.row.psr_date | moment("dddd, MMMM Do YYYY") }}
                 </b-table-column>
                 <b-table-column>
                     {{ props.row.status }}
+                </b-table-column>
+                 <b-table-column field="id" label="ID" width="300" >
+                    {{ props.row.id }}
                 </b-table-column>
             </template>
         </b-table>
@@ -64,7 +67,9 @@ export default {
             error: '',
             total_page:'',
             isNext:false,
-            isPrevious:true
+            isPrevious:true,
+            id: this.$route.params.id,
+
         };
     },
      async created() {
@@ -82,6 +87,10 @@ export default {
         }
     },
     methods: {
+        detail(value){
+            console.log(value.po_no);
+            this.$router.push({ path: `/displayPSR/${this.id}/${value.psr_no}` });
+        },
         async get_pending() {
             try {
                 const data = await psr.report(this.page);

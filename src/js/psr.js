@@ -45,6 +45,7 @@ class psr {
   }
 
   static find(psr_no) {
+    console.log("Enter PSR find");
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(`${url}search/${psr_no}`, {

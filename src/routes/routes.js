@@ -19,6 +19,7 @@ import editPO from "@/pages/editPO.vue";
 import leaveSubmitSuccess from "@/pages/leaveSubmitSuccess.vue";
 import POSubmitSuccess from "@/pages/POSubmitSuccess.vue";
 import displayPO from "@/pages/displayPO.vue";
+import displayPSR from "@/pages/displayPSR.vue";
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
         path: "/displayPO/:id/:po_no",
         name: "Display Purchase Order",
         component: displayPO
+      },
+      {
+        path: "/displayPSR/:id/:psr_no",
+        name: "Display PSR",
+        component: displayPSR
       },
       {
         path: "/editPO/:id",
