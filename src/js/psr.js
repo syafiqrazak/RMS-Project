@@ -84,7 +84,7 @@ class psr {
     });
   }
 
-  static po_add(
+  static psr_add(
     psr_no,
     date,
     psr_data,
@@ -100,7 +100,7 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_po`,
+          `${url}add_psr`,
           {
             psr_no,
             date,

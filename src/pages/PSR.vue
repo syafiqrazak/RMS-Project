@@ -14,143 +14,74 @@
               <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
                 <section>
                       <p><strong>Purchase Classifiaction: </strong></p>
-                      <b-radio v-model="pur_class"
-                          name="name"
-                          native-value="OPEX">
-                          OPEX
-                      </b-radio>
-                      <b-radio v-model="pur_class"
-                          name="name"
-                          native-value="CAPEX">
-                          CAPEX
-                      </b-radio>
+                      <md-radio v-model="pur_class" value="OPEX" class="md-primary">OPEX</md-radio>
+                      <md-radio v-model="pur_class" value="CAPEX" class="md-primary">CAPEX</md-radio>
+
                 </section>
               </div>
               <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
                 <section>
                   <div class="inline" style="border:1px">
                       <p><strong>Purchase Type: </strong></p>
-                      <b-radio v-model="pur_typ"
-                          name="name"
-                          native-value="PROJECT VALUE">
-                          PROJECT VALUE
-                      </b-radio>
-                      <b-radio v-model="pur_typ"
-                          name="name"
-                          native-value="PROJECT CONSUMABLES">
-                          PROJECT CONSUMABLES
-                      </b-radio>
-                      <b-radio v-model="pur_typ"
-                          name="name"
-                          native-value="TOOLS AND EQUIPMENT">
-                          TOOLS AND EQUIPMENT
-                      </b-radio>
-                      <b-radio v-model="pur_typ"
-                          name="name"
-                          native-value="C">
-                          TOOLS AND EQUIPMENT
-                      </b-radio>
-                      <b-radio v-model="pur_typ"
-                          name="name"
-                          native-value="SERVICES">
-                          SERVICES
-                      </b-radio>
+                      <md-radio v-model="pur_typ" value="PROJECT MATERIALS" class="md-primary">PROJECT MATERIALS</md-radio>
+                      <md-radio v-model="pur_typ" value="PROJECT CONSUMABLES" class="md-primary">PROJECT CONSUMABLES</md-radio>
+                      <md-radio v-model="pur_typ" value="TOOLS AND EQUIPMENT" class="md-primary">TOOLS AND EQUIPMENT</md-radio>
+                      <md-radio v-model="pur_typ" value="TOOLS(CONSUMERABLES)" class="md-primary">TOOLS(CONSUMERABLES)</md-radio>
+                      <md-radio v-model="pur_typ" value="SERVICES" class="md-primary">SERVICES</md-radio>
+
                   </div>
                 </section>
               </div>
               <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
                 <section>
                       <p><strong>Justification of Purchase: </strong></p>
-                      <b-radio v-model="pur_just"
-                          name="name"
-                          native-value="PROJECT USE(CONSUMABLES)">
-                          PROJECT USE(CONSUMABLES)
-                      </b-radio>
-                      <b-radio v-model="pur_just"
-                          name="name"
-                          native-value="OPERTATIONS">
-                          OPERTATIONS
-                      </b-radio>
-                      <b-radio v-model="pur_just"
-                          name="name"
-                          native-value="CONTINUE RENTALS">
-                          CONTINUE RENTALS
-                      </b-radio>
-                      <b-radio v-model="pur_just"
-                          name="name"
-                          native-value="CLIENT MATERIALS">
-                          CLIENT MATERIALS
-                      </b-radio>
-                      <b-radio v-model="pur_just"
-                          name="name"
-                          native-value="SINGLE SOURCE">
-                          SINGLE SOURCE
-                      </b-radio>
-                      <b-radio v-model="pur_just"
-                          name="name"
-                          native-value="OTHERS">
-                          OTHERS
-                      </b-radio>
+                      <md-radio v-model="pur_just" value="PROJECT USE(CONSUMERABLES)" class="md-primary">PROJECT USE(CONSUMERABLES)</md-radio>
+                      <md-radio v-model="pur_just" value="OPERTATIONS" class="md-primary">OPERTATIONS</md-radio>
+                      <md-radio v-model="pur_just" value="CONTINUE RENTALS" class="md-primary">CONTINUE RENTALS</md-radio>
+                      <md-radio v-model="pur_just" value="CLIENT MATERIALS" class="md-primary">CLIENT MATERIALS</md-radio>
+                      <md-radio v-model="pur_just" value="SINGLE SOURCE" class="md-primary">SINGLE SOURCE</md-radio>
+                      <md-radio v-model="pur_just" value="OTHERS" class="md-primary">OTHERS</md-radio>
                   
                 </section>
               </div>
-              <div class="alert alert-info" style="background-color:white;">
+              <div style="width:100%;">
+                <div class="alert alert-info" style="background-color:white;width:49%; display: inline-block;">
                   <section>
                     <md-datepicker v-model="date_req">
-                      <label>Select date</label>
+                      <label>Date Required</label>
                     </md-datepicker>
                   </section>
-              </div>
-              </md-card-content>
-            <!-- </div> -->
-            <div class="alert alert-info" style="background-color:white;">
-              <section>
-                <md-field>
-      <label>Initial Value</label>
-      <md-input v-model="initial"></md-input>
-    </md-field>
+                </div>
+                 <div class="alert alert-info" style="background-color:white;width:49%; display: inline-block; float:right">
+                   <section>
+                    <md-field>
+                      <label>Delivery</label>
+                      <md-input v-model="delv"></md-input>
+                    </md-field>
               </section>
-            </div>
-            <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
-                <section>
-                      <p><strong>Cost Type; </strong></p>
-                      <b-radio v-model="costType"
-                          name="name"
-                          native-value="COST PLUS">
-                          COST PLUS
-                      </b-radio>
-                      <b-radio v-model="costType"
-                          name="name"
-                          native-value="AT COST">
-                          AT COST		
-                      </b-radio>
-                      <b-radio v-model="costType"
-                          name="name"
-                          native-value="OVERHEAD">
-                         OVERHEAD		
-                      </b-radio>
-                      <b-radio v-model="costType"
-                          name="name"
-                          native-value="UNIT RATE">
-                          UNIT RATE		
-                      </b-radio>
-                </section>
+                  </div>
               </div>
-            <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
-                <section>
+            <!-- </div> -->
+            <div style="width:100%; display:block-inline">
+                <div class="alert alert-info" style="color: black; background-color:white;width:49%; display: inline-block;">
+                  <section>
+                        <p><strong>Cost Type: </strong></p>
+                        <md-radio v-model="pur_just" value="COST PLUS" class="md-primary">COST PLUS</md-radio>
+                        <md-radio v-model="pur_just" value="AT COST" class="md-primary">AT COST</md-radio>
+                        <md-radio v-model="pur_just" value="OVERHEAD" class="md-primary">OVERHEAD</md-radio>
+                        <md-radio v-model="ty" value="UNIT RATE" class="md-primary">UNIT RATE</md-radio>
+                  </section>
+                </div>
+                 <div class="alert alert-info" style="color: black; background-color:white;width:49%; display: inline-block; float:right">
+                   <section>
                       <p><strong>IS APPLICABLE:</strong></p>
-                      <b-radio v-model="isApplicable"
-                          name="name"
-                          native-value="1">
-                          APPLICABLE
-                      </b-radio>
-                      <b-radio v-model="isApplicable"
-                          name="name"
-                          native-value="2">
-                          NOT APPLICABLE
-                      </b-radio>
-                </section>
+                      <md-radio v-model="isApplicable" value="1" class="md-primary">APPLICABLE</md-radio>
+                      <md-radio v-model="isApplicable" value="2" class="md-primary">NOT APPLICABLE</md-radio>
+                      
+                    </section>
+                  </div>
               </div>
+           
               <div class="md-layout" v-show="isApplicable === '1'" style="float:right;">
                   <md-button
                     class="md-raised md-success"
@@ -161,10 +92,11 @@
               <div class="md-layout" v-show="isApplicable === '2'" style="float:right;">
                   <md-button
                     class="md-raised md-success"
-                    @click.prevent="psr_add()"
+                    @click.prevent="psr_adds()"
                     style="float:right"
                     >Submit</md-button>
               </div>
+              </md-card-content>
                 </div>
             <div v-show="step === 2">
               
@@ -239,7 +171,7 @@
               {{ item }}
               <md-button
                 class="md-raised md-success"
-                @click.prevent="psr_add()"
+                @click.prevent="psr_adds()"
                 style="float:right"
                 >Submit</md-button
               >
@@ -265,6 +197,9 @@ import psrs from "@/js/psr.js"; //directory to psr.js
 export default {
   data() {
     return {
+      costType:'',
+      radio:'',
+      radio2:'',
       error: "",
       step: 1,
       index: 2,
@@ -292,7 +227,7 @@ export default {
   },
   async created() {},
   methods: {
-    async psr_add() {
+    async psr_adds() {
             try {
                 const psr = await psrs.psr_add(this.psr_no,
                                               this.date,
@@ -305,6 +240,7 @@ export default {
                                               this.vessel_cd, 
                                               this.delv, 
                                               this.desc);
+                console.log("PSR");
                 console.log(psr); //can be ignored
                 //add redirect to other page here
                 alert("Success");
