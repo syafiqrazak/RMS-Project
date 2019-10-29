@@ -48,16 +48,15 @@
                 <div class="alert alert-info" style="background-color:white;width:49%; display: inline-block;">
                   <section>
                     <md-datepicker v-model="date_req">
-                      <label>Date Required</label>
+                      <label>Required Date</label>
                     </md-datepicker>
                   </section>
                 </div>
-                 <div class="alert alert-info" style="background-color:white;width:49%; display: inline-block; float:right">
+                 <div class="alert alert-info" style="background-color:white;width:49%; height:120px; display: inline-block; float:right">
                    <section>
-                    <md-field>
-                      <label>Delivery</label>
-                      <md-input v-model="delv"></md-input>
-                    </md-field>
+                    <b-field label="Delivery">
+                      <b-input v-model="delv"></b-input>
+                  </b-field>
               </section>
                   </div>
               </div>
@@ -97,6 +96,8 @@
                     >Submit</md-button>
               </div>
               </md-card-content>
+                                {{delv}}
+
                 </div>
             <div v-show="step === 2">
               
@@ -104,35 +105,39 @@
               <md-card-content>
                 <div class="alert alert-info" style="background-color:white;">
                   <section>
-                    <b-field horizontal v-model="p_title" label="Project Title" type="is-danger" style="align:left; ">
-                        <b-input name="subject" ></b-input>
-                    </b-field>
+                    <b-field label="Project Title:">
+                      <b-input v-model="p_title"></b-input>
+                  </b-field>
                   </section>
                 </div>
                 <div class="alert alert-info" style="background-color:white;">
                   <section>
-                    <b-field horizontal v-model="vessel_cd" label="Vessel Code" type="is-danger" style="align:left; ">
-                        <b-input name="subject" ></b-input>
-                    </b-field>
+                    <b-field label="Vessel Code">
+                      <b-input v-model="vessel_cd"></b-input>
+                  </b-field>
                   </section>
                 </div>
                 
-                <div class="alert alert-info" style="background-color:white; color: black;">
+                <div class="alert alert-info" style="background-color:#bdfffc; color: black;">
                   <md-card-content>
-                <md-button
-                  class="md-raised md-success"
-                  @click="clone()"
-                  style="float:left"
-                  >Add</md-button
-                >
+                    <md-button
+                      class="md-raised md-success"
+                      @click="remove()"
+                      style="float:right"
+                      >Remove</md-button>
+                    <md-button
+                      class="md-raised md-success"
+                      @click="clone()"
+                      style="float:right"
+                      >Add</md-button>
                 <br /><br /><br />
               </md-card-content>
                   <table>
                     <tr>
                       <th>No.</th>
                       <th style="width:50%">Item Description</th>
-                      <th>Unit Price</th>
-                      <th>Quantity</th>
+                      <th style="width:150px">Unit Price</th>
+                      <th style="width:150px">Quantity</th>
                       <th>Total</th>
                     </tr>
                     <tr v-for="items in desc" :key="items">
@@ -158,12 +163,12 @@
                       <td><b-field>
                             <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
                             </b-input> -->
-                        </b-field>{{ items.unitPrice * items.quantity }}</td>
-                      <td>
+                        </b-field>RM {{ items.unitPrice * items.quantity |numeral('0.00')}}</td>
+                      <!-- <td>
                         <div @click="remove()">
                           <md-icon>cancel</md-icon>
                         </div>
-                      </td>
+                      </td> -->
                     </tr>
                   </table>
                 </div>
