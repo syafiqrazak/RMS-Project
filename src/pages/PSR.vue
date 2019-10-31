@@ -13,7 +13,7 @@
               <md-card-content>
               <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
                 <section>
-                      <p><strong>Purchase Classifiaction: </strong></p>
+                      <p><strong>Purchase Classifiaction: </strong></p>{{date_req}}
                       <md-radio v-model="pur_class" value="OPEX" class="md-primary">OPEX</md-radio>
                       <md-radio v-model="pur_class" value="CAPEX" class="md-primary">CAPEX</md-radio>
 
@@ -210,7 +210,7 @@ export default {
       index: 2,
       isApplicable: '0',
       psr_no : '',
-      date : '',
+      date :new Date().toJSON().slice(0,10),
       psr_data : '',
       pur_class : '',
       pur_typ : '',
@@ -234,13 +234,13 @@ export default {
   methods: {
     async psr_adds() {
             try {
-                const psr = await psrs.psr_add(this.psr_no,
+                 const psr = await psrs.psr_add('',
                                               this.date,
                                               this.psr_data,
                                               this.pur_class, 
                                               this.pur_typ, 
                                               this.pur_just, 
-                                              this.date_req, 
+                                              this.date_req,
                                               this.p_title, 
                                               this.vessel_cd, 
                                               this.delv, 

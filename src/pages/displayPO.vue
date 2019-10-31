@@ -157,7 +157,7 @@
         </b-table>
           </div><br><br>
          <div  style=" margin-left: 40%; margin-right: 40%;">
-            <b-button type="is-success" >Approve</b-button> &nbsp
+            <b-button type="is-success" >Approve</b-button>
             <b-button type="is-danger">Decline</b-button>
           </div>
         </md-card-content>
