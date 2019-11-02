@@ -40,6 +40,7 @@
             style="float:right"
             >Apply</md-button
           >
+          {{is_admin}}
         </md-card-content>
       </md-card>
     </form>
@@ -53,15 +54,20 @@ export default {
   data() {
     return {
       error: "",
+      is_admin:null,
       name: "null",
       leave: {
         startDate: null,
         endDate: null,
-        reason: null
+        reason: null,
       }
     };
   },
-  async created() {},
+  mounted() {
+    if (localStorage.is_admin) {
+      this.is_admin = localStorage.is_admin;
+    }
+  },
   methods: {
     async add_leave() {
 
@@ -72,6 +78,7 @@ export default {
           this.leave.reason,
         );
         alert(leave_data); //can be ignored
+        console.log(this.admin);
         this.$router.push({ path: "/leaveSubmitSuccess/id" }); //add redirect to other page here
       } catch (err) {
         this.error = err.message;

@@ -44,7 +44,7 @@
                 
             </div>
         <!-- Error: {{error}} -->
-        {{pos}}
+        {{pos}}{{error}}
     </div>
 </template>
 
@@ -53,6 +53,7 @@
 
 <script>
 import po from "@/js/po.js"; //directory to po.js
+import user from "@/js/user.js"; //directory to user.js
 
 export default {
     name: "notify-PO",
@@ -64,19 +65,65 @@ export default {
             total_page:'',
             isNext:false,
             isPrevious:true,
-            id: this.$route.params.id
+            id: this.$route.params.id,
+            t1: null,
+            t2: null,
+            t3: null,
+            is_admin: null,
         };
     },
     async created() {
+        if (localStorage.t1) 
+            this.t1 = localStorage.t1;
+        if (localStorage.t2)
+            this.t2 = localStorage.t2;
+        if (localStorage.t3)
+            this.t3 = localStorage.t3;
+        if (localStorage.is_admin)
+            this.is_admin = localStorage.is_admin;
         try {
-        const data = await po.show_po_page(this.page);
-        
-        const pos1 = data.result[0]
-            this.total_page = data.result[1]
-            this.pos = pos1.map(pos => ({
-                ...pos
-            }))
+            if(this.is_admin == "true"){
+                const data = await po.show_po_page(this.page);
+            
+            const pos1 = data.result[0]
+                this.total_page = data.result[1]
+                this.pos = pos1.map(pos => ({
+                    ...pos
+                }))
 
+            }
+            else if(this.t2 == "true"){
+                try {
+                    const data = await po.get_pending(this.page);
+                    
+                    const pos1 = data.result[0]
+                        this.total_page = data.result[1]
+                        this.pos = pos1.map(pos => ({
+                            ...pos
+                        }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
+            }
+            else if(this.t3== "true"){
+                try {
+                    const data = await po.get_submits(this.page);
+                    
+                    const pos1 = data.result[0]
+                        this.total_page = data.result[1]
+                        this.pos = pos1.map(pos => ({
+                            ...pos
+                        }))
+
+                } catch(err) {
+                    this.error = err.message;
+                }
+            }
+            else{
+                alert("Invalid user! Please contact your system admin.")
+            }
+            
         } catch(err) {
             this.error = err.message;
         }

@@ -48,7 +48,12 @@ export default {
       isShow: false,
       name: null,
       password: null,
-      error: ""
+      error: "",
+      id: "",
+      t1: "",
+      t2: "",
+      t3: "",
+      is_admin: "",
     };
   },
   async created() {},
@@ -67,7 +72,12 @@ export default {
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
           this.error = "Work";
-          console.log("Work");
+          console.log(login);
+          localStorage.id = login.id;
+          localStorage.t1 = login.t1;
+          localStorage.t2 = login.t2;
+          localStorage.t3 = login.t3;
+          localStorage.is_admin = login.is_admin;
           this.$router.push({ path: `/leaveApplication/${login.id}` });
           
         }

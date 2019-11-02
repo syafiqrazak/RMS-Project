@@ -73,15 +73,60 @@ export default {
         };
     },
      async created() {
-        try {
-        const data = await psr.show_psr_page(this.page);
+        if (localStorage.t1) 
+            this.t1 = localStorage.t1;
+        if (localStorage.t2)
+            this.t2 = localStorage.t2;
+        if (localStorage.t3)
+            this.t3 = localStorage.t3;
+        if (localStorage.is_admin)
+            this.is_admin = localStorage.is_admin;
         
-        const psrs1 = data.result[0]
-            this.total_page = data.result[1]
-            this.psrs = psrs1.map(psrs => ({
-                ...psrs
-            }))
 
+        try {
+            if(this.is_admin == "true"){
+                const data = await psr.show_psr_page(this.page);
+        
+                const psrs1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.psrs = psrs1.map(psrs => ({
+                        ...psrs
+                    }))
+
+            }
+            else if(this.t2 == "true"){
+                try {
+                    const data = await psr.get_submits(this.page);
+                    const limit = 8;
+                    
+                    const psrs1 = data.result[0]
+                    this.total_page = data.result[1]
+                    this.psrs = psrs1.map(psrs => ({
+                        ...psrs
+                    }))
+                } catch(err) {
+                    this.error = err.message;
+                }
+            }
+            else if(this.t3 == "true"){
+                try {
+                const data = await psr.get_pending(this.page);
+                const limit = 8;
+                
+                const psrs1 = data.result[0]
+                this.total_page = data.result[1]
+                this.psrs = psrs1.map(psrs => ({
+                    ...psrs
+                }))
+                
+                } catch(err) {
+                    this.error = err.message;
+                }
+            }
+            else{
+                alert("Invalid user! Please contact your system admin.")
+            }
+            
         } catch(err) {
             this.error = err.message;
         }
