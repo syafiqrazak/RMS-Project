@@ -180,13 +180,15 @@ export default {
             isNext:false,
             isPrevious:true,
             id: this.$route.params.id,
-            po_no: this.$route.params.po_no
+            po_no: this.$route.params.po_no,
+            po_id:'',
         };
     },
     async created() {
         try {
                 const data = await po.find(this.po_no); 
                 this.pos = data;
+                this.po_id = pos.id;
             } catch (err) {
                 this.error = err.message;
             }
@@ -195,6 +197,26 @@ export default {
         detail(value){
             console.log(value.po_no);
             this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
+        },
+        async approve(){
+          if(localStorage.t2 == "true"){
+            try {
+                const po = await po.po_stat_1(this.po_id);
+                this.status_t1 = po.status_t1;
+                console.log(po); //can be ignored
+            } catch (err) {
+                this.error = err.message;
+            }
+          }
+          else{
+            try {
+                const po = await po.po_stat_2(this.po_id);
+                this.status_t2 = po.status_t1;
+                console.log(po); //can be ignored
+            } catch (err) {
+                this.error = err.message;
+            }
+          }
         },
         async get_pending() {
             try {
