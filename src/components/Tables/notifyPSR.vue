@@ -49,8 +49,8 @@
             </b-tooltip>
                 
             </div>
-        {{psrs}}
-        {{page}}
+        <!-- {{psrs}}
+        {{page}} -->
     </div>
 </template>
 

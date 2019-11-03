@@ -55,7 +55,7 @@
                  <div class="alert alert-info" style="background-color:white;width:49%; height:120px; display: inline-block; float:right">
                    <section>
                     <b-field label="Delivery">
-                      <b-input v-model="delv"></b-input>
+                      <b-input v-model="delv" ></b-input>
                   </b-field>
               </section>
                   </div>
@@ -65,10 +65,10 @@
                 <div class="alert alert-info" style="color: black; background-color:white;width:49%; display: inline-block;">
                   <section>
                         <p><strong>Cost Type: </strong></p>
-                        <md-radio v-model="pur_just" value="COST PLUS" class="md-primary">COST PLUS</md-radio>
+                        <md-radio v-model="ty" value="UNIT RATE" class="md-primary">UNIT RATE</md-radio>
                         <md-radio v-model="pur_just" value="AT COST" class="md-primary">AT COST</md-radio>
                         <md-radio v-model="pur_just" value="OVERHEAD" class="md-primary">OVERHEAD</md-radio>
-                        <md-radio v-model="ty" value="UNIT RATE" class="md-primary">UNIT RATE</md-radio>
+                        <md-radio v-model="pur_just" value="COST PLUS" class="md-primary">COST PLUS</md-radio>
                   </section>
                 </div>
                  <div class="alert alert-info" style="color: black; background-color:white;width:49%; display: inline-block; float:right">

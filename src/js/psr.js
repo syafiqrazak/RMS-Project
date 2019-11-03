@@ -193,7 +193,7 @@ class psr {
     });
   }
 
-  static po_stat_1(psr_id) {
+  static psr_stat_1(psr_id) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
@@ -212,7 +212,7 @@ class psr {
     });
   }
 
-  static po_stat_2(psr_id) {
+  static psr_stat_2(psr_id) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(

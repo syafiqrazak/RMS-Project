@@ -44,7 +44,7 @@
                 
             </div>
         <!-- Error: {{error}} -->
-        {{pos}}{{error}}
+        <!-- {{pos}}{{error}} -->
     </div>
 </template>
 

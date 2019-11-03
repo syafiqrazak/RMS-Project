@@ -139,24 +139,24 @@
             <div class="alert alert-info" style="background-color:white;">
 
             <b-table :data="isEmpty ? [] : pos.po_desc" :striped="true" :hoverable="true" > 
-            <template slot-scope="props">
-              <b-table-column field="index" label="No" width="5%" centered>
-                        {{ props.row.index}}
-                </b-table-column>
-                <b-table-column field="description" label="Description" width="25%" centered>
-                        {{ props.row.description }}
-                </b-table-column>
-                <b-table-column field="unitPrice" label="Price" centered>
-                      RM   {{ props.row.unitPrice  |numeral('0.00') }}
-                </b-table-column>
-                <b-table-column field="quantity" label="Quantity"  centered >
-                        {{ props.row.quantity }}
-                </b-table-column>
-                <b-table-column field="total" label="Total Price"  align="right" width="10px" margin-left="0px">
-                       <div style="float:left;">RM</div><div style="float=right;"> {{ props.row.quantity *  props.row.unitPrice |numeral('0.00')}}</div>
-                </b-table-column>
-            </template>
-        </b-table>
+                <template slot-scope="props">
+                  <b-table-column field="index" label="No" width="5%" centered>
+                            {{ props.row.index}}
+                    </b-table-column>
+                    <b-table-column field="description" label="Description" width="25%" centered>
+                            {{ props.row.description }}
+                    </b-table-column>
+                    <b-table-column field="unitPrice" label="Price" centered>
+                          RM   {{ props.row.unitPrice  |numeral('0.00') }}
+                    </b-table-column>
+                    <b-table-column field="quantity" label="Quantity"  centered >
+                            {{ props.row.quantity }}
+                    </b-table-column>
+                    <b-table-column field="total" label="Total Price"  align="right" width="10px" margin-left="0px">
+                          <div style="float:left;">RM</div><div style="float=right;"> {{ props.row.quantity *  props.row.unitPrice |numeral('0.00')}}</div>
+                    </b-table-column>
+                </template>
+            </b-table>
           </div><br><br>
          <div  style=" margin-left: 40%; margin-right: 40%;">
             <b-button type="is-success" @click.prevent="approve()">Approve</b-button>
