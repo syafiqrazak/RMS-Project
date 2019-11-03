@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
-    <notifications></notifications>
+    <!-- <notifications></notifications> -->
 
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
@@ -18,9 +18,9 @@
         <md-icon>thumb_up</md-icon>
         <p>PSR</p>
       </sidebar-link>
-      <sidebar-link :to="{ name: 'Notification', params: { id: this.id } }">
+      <sidebar-link v-if="t2 == 'true' || t3 == 'true' || is_admin == 'true'" :to="{ name: 'Notification', params: { id: this.id } }">
         <md-icon>thumb_up</md-icon>
-        <p>Notifications</p>
+        <p>Approval</p>
       </sidebar-link>
       <!-- <sidebar-link to="/stepForm">
         <md-icon>dashboard</md-icon>
@@ -30,34 +30,34 @@
         <md-icon>dashboard</md-icon>
         <p>Dynamic Form</p>
       </sidebar-link> -->
-      <sidebar-link :to="{ name: 'Dashboard', params: { id: this.id } }">
+      <!-- <sidebar-link :to="{ name: 'Dashboard', params: { id: this.id } }">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
-      </sidebar-link>
-      <sidebar-link to="/user">
+      </sidebar-link> -->
+      <!-- <sidebar-link to="/user">
         <md-icon>person</md-icon>
         <p>User Profile</p>
-      </sidebar-link>
-      <sidebar-link to="/table">
+      </sidebar-link> -->
+      <!-- <sidebar-link to="/table">
         <md-icon>content_paste</md-icon>
         <p>Table list</p>
-      </sidebar-link>
-      <sidebar-link to="/typography">
+      </sidebar-link> -->
+      <!-- <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
         <p>Typography</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <sidebar-link :to="{ name: 'Icons', params: { id: this.id } }">
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
       </sidebar-link>
-      <sidebar-link to="/maps">
+      <!-- <sidebar-link to="/maps">
         <md-icon>location_on</md-icon>
         <p>Maps</p>
-      </sidebar-link>
-      <sidebar-link to="/notifications">
+      </sidebar-link> -->
+      <!-- <sidebar-link to="/notifications">
         <md-icon>notifications</md-icon>
         <p>Notifications</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <!-- <sidebar-link to="/upgrade" class="active-pro">
         <md-icon>unarchive</md-icon>
         <p>Upgrade to PRO</p>
@@ -75,7 +75,7 @@
 </template>
 <style lang="scss"></style>
 <script>
-import TopNavbar from "./TopNavbar.vue";
+// import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import MobileMenu from "@/pages/Layout/MobileMenu.vue";
@@ -83,14 +83,17 @@ import MobileMenu from "@/pages/Layout/MobileMenu.vue";
 export default {
   data() {
     return {
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      t2: localStorage.t2,
+      t3: localStorage.t3,
+      is_admin: localStorage.is_admin,
     };
   },
   // created() {
   //         this.id = this.$route.params.id;
   //     },
   components: {
-    TopNavbar,
+    // TopNavbar,
     DashboardContent,
     ContentFooter,
     MobileMenu

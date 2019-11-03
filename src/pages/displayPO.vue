@@ -8,8 +8,9 @@
         </md-card-header>
         <md-card-content>
           <!-- {{pos}} -->
-          <br><br><br>
-    
+          <!-- <br><br><br> -->
+          <div class="alert alert-info" style="background-color:white; color:black;">
+
           <table style="width:100%">
             <tr>
               <th></th>
@@ -104,14 +105,14 @@
                 <p><b>To: </b> {{ to }}</p>
               </td>
               <td>
-                <p><b>Mode of Shipment:</b></p>
+                <p><b>Mode of Payment:</b></p>
               </td>
               <td>
-                <p>{{ pos.ship_mode }}</p>
+                <p>{{ pos.pay_mode }}</p>
               </td>
             </tr>
           </table>
-
+        </div>
           <!-- <div>
             <md-table
               style="width:100%"
@@ -135,7 +136,8 @@
               </md-table-row>
             </md-table>
           </div> -->
-          <div>
+            <div class="alert alert-info" style="background-color:white;">
+
             <b-table :data="isEmpty ? [] : pos.po_desc" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
               <b-table-column field="index" label="No" width="5%" centered>
@@ -145,21 +147,23 @@
                         {{ props.row.description }}
                 </b-table-column>
                 <b-table-column field="unitPrice" label="Price" centered>
-                      RM  {{ props.row.unitPrice  |numeral('0.00') }}
+                      RM   {{ props.row.unitPrice  |numeral('0.00') }}
                 </b-table-column>
                 <b-table-column field="quantity" label="Quantity"  centered >
                         {{ props.row.quantity }}
                 </b-table-column>
-                <b-table-column field="total" label="Total Price"  align="right" centered >
-                       RM {{ props.row.quantity *  props.row.unitPrice |numeral('0.00')}}
+                <b-table-column field="total" label="Total Price"  align="right" width="10px" margin-left="0px">
+                       <div style="float:left;">RM</div><div style="float=right;"> {{ props.row.quantity *  props.row.unitPrice |numeral('0.00')}}</div>
                 </b-table-column>
             </template>
         </b-table>
           </div><br><br>
          <div  style=" margin-left: 40%; margin-right: 40%;">
-            <b-button type="is-success" >Approve</b-button>
+            <b-button type="is-success" @click.prevent="approve()">Approve</b-button>
             <b-button type="is-danger">Decline</b-button>
+            {{error}}
           </div>
+          {{pos}}
         </md-card-content>
       </md-card>
     </form>
@@ -182,13 +186,15 @@ export default {
             id: this.$route.params.id,
             po_no: this.$route.params.po_no,
             po_id:'',
+            status_t1:'',
+            status_t1: '',
         };
     },
     async created() {
         try {
                 const data = await po.find(this.po_no); 
                 this.pos = data;
-                this.po_id = pos.id;
+                this.po_id = this.pos.id;
             } catch (err) {
                 this.error = err.message;
             }
@@ -201,21 +207,26 @@ export default {
         async approve(){
           if(localStorage.t2 == "true"){
             try {
-                const po = await po.po_stat_1(this.po_id);
-                this.status_t1 = po.status_t1;
+                const pos = await po.po_stat_1(this.po_id);
+                this.status_t1 = pos.status_t1;
                 console.log(po); //can be ignored
+                alert("Tier 2 manager");
+            } catch (err) {
+                this.error = err.message;
+            }
+          }
+          else if(localStorage.t3 == "true"){
+            try {
+                const pos = await po.po_stat_2(this.po_id);
+                this.status_t2 = pos.status_t1;
+                console.log(pos); //can be ignored
+                alert("Tier 3 manager");
             } catch (err) {
                 this.error = err.message;
             }
           }
           else{
-            try {
-                const po = await po.po_stat_2(this.po_id);
-                this.status_t2 = po.status_t1;
-                console.log(po); //can be ignored
-            } catch (err) {
-                this.error = err.message;
-            }
+            alert("Invalid user! Only manager tier 1 & 2 can approve record. Please contact system admin for assistance.")
           }
         },
         async get_pending() {

@@ -20,6 +20,7 @@ import leaveSubmitSuccess from "@/pages/leaveSubmitSuccess.vue";
 import POSubmitSuccess from "@/pages/POSubmitSuccess.vue";
 import displayPO from "@/pages/displayPO.vue";
 import displayPSR from "@/pages/displayPSR.vue";
+import displayLeave from "@/pages/displayLeave.vue";
 
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
         path: "/displayPSR/:id/:psr_no",
         name: "Display PSR",
         component: displayPSR
+      },
+      {
+        path: "/displayLeave/",
+        name: "Display Leave",
+        component: displayLeave
       },
       {
         path: "/editPO/:id",

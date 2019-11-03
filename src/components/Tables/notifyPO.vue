@@ -92,7 +92,7 @@ export default {
                 }))
 
             }
-            else if(this.t2 == "true"){
+            else if(this.t3 == "true"){
                 try {
                     const data = await po.get_pending(this.page);
                     
@@ -106,7 +106,7 @@ export default {
                     this.error = err.message;
                 }
             }
-            else if(this.t3== "true"){
+            else if(this.t2== "true"){
                 try {
                     const data = await po.get_submits(this.page);
                     

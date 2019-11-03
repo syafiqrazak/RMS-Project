@@ -59,10 +59,10 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="desc">Mode of Payment:</td>
+                  <td class="desc">Mode of Shipment:</td>
                   <td>
                     <md-field>
-                      <select v-model="details.paymentMode">
+                      <select v-model="details.modeOfShipment">
                         <option disabled value>Please select one</option>
                         <option>Land</option>
                         <option>Ship</option>
@@ -92,7 +92,7 @@
                   <td>
                     <md-field>
                       <!-- <label>Company (disabled)</label> -->
-                      <select>
+                      <select v-model="details.paymentMode">
                         <option disabled value>Please select one</option>
                         <option>Debit</option>
                         <option>Credit</option>
