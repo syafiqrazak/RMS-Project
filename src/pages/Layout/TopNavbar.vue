@@ -5,7 +5,7 @@
         <!-- <h3 class="md-title">{{ $route.name }}</h3> -->
       </div>
       <div class="md-toolbar-section-end">
-        <md-button
+        <!-- <md-button
           class="md-just-icon md-simple md-toolbar-toggle"
           :class="{ toggled: $sidebar.showSidebar }"
           @click="toggleSidebar"
@@ -13,7 +13,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-        </md-button>
+        </md-button> -->
 
         <div class="md-collapse">
           <div class="md-autocomplete">

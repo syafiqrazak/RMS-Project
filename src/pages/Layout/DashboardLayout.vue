@@ -75,7 +75,7 @@
 </template>
 <style lang="scss"></style>
 <script>
-// import TopNavbar from "./TopNavbar.vue";
+import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import MobileMenu from "@/pages/Layout/MobileMenu.vue";
@@ -93,7 +93,7 @@ export default {
   //         this.id = this.$route.params.id;
   //     },
   components: {
-    // TopNavbar,
+    TopNavbar,
     DashboardContent,
     ContentFooter,
     MobileMenu

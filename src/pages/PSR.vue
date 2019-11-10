@@ -91,7 +91,7 @@
               <div class="md-layout" v-show="isApplicable === '2'" style="float:right;">
                   <md-button
                     class="md-raised md-success"
-                    @click.prevent="psr_adds()"
+                    @click.once="psr_adds()"
                     style="float:right"
                     >Submit</md-button>
               </div>

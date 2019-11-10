@@ -1,7 +1,6 @@
 import axios from "axios";
-
-// const url = "http://localhost:3000/"; //for production use localhost:3000
-const url = "http://192.168.193.236:3000/";
+import { CONST } from "./const";
+const url = CONST.CONST_URL;
 
 class user {
   static login(username, password) {

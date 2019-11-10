@@ -36,7 +36,7 @@
           {{ user }}
           <md-button
             class="md-raised md-success"
-            @click.prevent="add_leave()"
+            @click.once="add_leave()"
             style="float:right"
             >Apply</md-button
           >
@@ -81,10 +81,10 @@ export default {
         alert(leave_data); //can be ignored
         console.log(this.admin);
         this.$router.push({ path: "/leaveSubmitSuccess/id" }); //add redirect to other page here
-        alert("Success");
+        // alert("Success");
       } catch (err) {
         this.error = err.message;
-        alert("Fail");
+        // alert("Fail");
       }
     }
   }

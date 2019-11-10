@@ -69,11 +69,11 @@ export default {
         const login = await user.login(this.name, this.password);
 
         if (await login.hasOwnProperty("err")) {
-          console.log("wrong");
+          alert("wrong");
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
           this.error = "Work";
-          console.log(login);
+          alert(login);
           localStorage.id = login.id;
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
