@@ -1,12 +1,12 @@
 <template>
   <!-- Material form login -->
 
-  <div class="background">
+  <div class="background" :style="sidebarStyle">
     <md-card>
       <div
         v-show="isShow"
         class="alert alert-danger"
-        style="display:inline-block; margin-left: 15%; margin-top: 5%;  width: 70%"
+        style="display:inline-block; margin-left: 15%; top: 50px;  width: 70%; opacity: 30%;"
       >
         <span><b>Warning: </b>{{ error }}</span>
       </div>
@@ -43,6 +43,7 @@ import user from "@/js/user.js"; //directory to user.js
 
 export default {
   data() {
+    imageURL: '@/assets/img/sidebar-2.jpg' 
     return {
       // nama: null,
       isShow: false,
@@ -55,7 +56,23 @@ export default {
       t3: "",
       t22: "",
       is_admin: "",
+      staffName: '',
     };
+  },
+  props: {
+    backgroundImage: {
+      type: String,
+      default: require("@/assets/img/jetty.jpg")
+    },
+  },
+  computed: {
+    sidebarStyle() {
+      return {
+        backgroundImage: `url(${this.backgroundImage}) `,
+        backgroundRepeat: `no-repeat`,
+        backgroundSize: `cover`,
+      };
+    }
   },
   async created() {},
   methods: {
@@ -73,13 +90,14 @@ export default {
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
           this.error = "Work";
-          alert(login);
           localStorage.id = login.id;
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
           localStorage.t22 = login.t22;
           localStorage.t3 = login.t3;
           localStorage.is_admin = login.is_admin;
+          localStorage.staffName = login.firstname + " "+  login.lastname;
+          alert(localStorage.staffName);
           this.$router.push({ path: `/leaveApplication/${login.id}` });
           
         }
@@ -116,8 +134,11 @@ form {
   border-radius: 16px;
 }
 .background {
-  width: 200vh;
-  height: 100vh;
-  background-color: #1dd1ad;
+  width: 100%;
+  height: 100;
+  background-color: #add8d0;
+  background-image: url(/src/asset/img/new_logo.png);
+  padding-top: 5%;
+  padding-left: 16%;
 }
 </style>
