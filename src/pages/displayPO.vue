@@ -44,14 +44,14 @@
                 <p>{{ pos.createdAt | moment("Do MMMM YYYY") }}</p>
               </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>
                 <p><b>Page:</b></p>
               </td>
               <td>
                 <p>{{ Page_no }}</p>
               </td>
-            </tr>
+            </tr> -->
             <tr>
               <td>
                 <p><b>Our Ref:</b></p>

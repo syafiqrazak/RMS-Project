@@ -51,6 +51,7 @@
             </div>
         <!-- {{psrs}}
         {{page}} -->
+        {{error}}
     </div>
 </template>
 
@@ -69,6 +70,11 @@ export default {
             isNext:false,
             isPrevious:true,
             id: this.$route.params.id,
+            t1: null,
+            t2: null,
+            t22: null,
+            t3: null,
+            is_admin: null,
 
         };
     },
@@ -77,6 +83,8 @@ export default {
             this.t1 = localStorage.t1;
         if (localStorage.t2)
             this.t2 = localStorage.t2;
+        if (localStorage.t22)
+            this.t22 = localStorage.t22;
         if (localStorage.t3)
             this.t3 = localStorage.t3;
         if (localStorage.is_admin)
@@ -94,7 +102,7 @@ export default {
                     }))
 
             }
-            else if(this.t2 == "true"){
+            else if(this.t2 == "true" || this.t22== "true"){
                 try {
                     const data = await psr.get_submits(this.page);
                     const limit = 8;

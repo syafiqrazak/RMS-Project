@@ -44,7 +44,7 @@
                 
             </div>
         <!-- Error: {{error}} -->
-        <!-- {{pos}}{{error}} -->
+        {{error}}
     </div>
 </template>
 
@@ -62,12 +62,13 @@ export default {
             pos:[],  //for po in pos {{po.[var name]}}
             page:1,
             error: '',
-            total_page:'',
+            total_page:1,
             isNext:false,
             isPrevious:true,
             id: this.$route.params.id,
             t1: null,
             t2: null,
+            t22: null,
             t3: null,
             is_admin: null,
         };
@@ -77,6 +78,8 @@ export default {
             this.t1 = localStorage.t1;
         if (localStorage.t2)
             this.t2 = localStorage.t2;
+            if (localStorage.t22)
+        this.t22 = localStorage.t22;
         if (localStorage.t3)
             this.t3 = localStorage.t3;
         if (localStorage.is_admin)
@@ -106,10 +109,9 @@ export default {
                     this.error = err.message;
                 }
             }
-            else if(this.t2== "true"){
+            else if(this.t2== "true" || this.t22== "true"){
                 try {
                     const data = await po.get_submits(this.page);
-                    
                     const pos1 = data.result[0]
                         this.total_page = data.result[1]
                         this.pos = pos1.map(pos => ({

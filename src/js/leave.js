@@ -46,11 +46,9 @@ class leave {
   static report(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(
-          `${url}${id}`, {
-            withCredentials: true
-          }
-        );
+        const res = await axios.get(`${url}${id}`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -62,11 +60,13 @@ class leave {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_leave`, {
+          `${url}add_leave`,
+          {
             date_from,
             date_to,
             reason
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -81,11 +81,13 @@ class leave {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${leave_id}/upd_leave`, {
+          `${url}${leave_id}/upd_leave`,
+          {
             date_from,
             date_to,
             reason
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -112,7 +114,7 @@ class leave {
   static approve_leave(leave_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${leave_id}/upd`, {
+        const res = await axios.post(`${url}${leave_id}/approve`, {
           withCredentials: true
         });
         resolve(res.data);

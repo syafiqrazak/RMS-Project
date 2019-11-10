@@ -53,6 +53,7 @@ export default {
       t1: "",
       t2: "",
       t3: "",
+      t22: "",
       is_admin: "",
     };
   },
@@ -76,6 +77,7 @@ export default {
           localStorage.id = login.id;
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
+          localStorage.t22 = login.t22;
           localStorage.t3 = login.t3;
           localStorage.is_admin = login.is_admin;
           this.$router.push({ path: `/leaveApplication/${login.id}` });

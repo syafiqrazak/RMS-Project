@@ -74,7 +74,7 @@
                     <h5> {{psrs.vessel_code}}</h5>
                 </div>
             </div>
-            <div v-show="psrs.psr_desc.description != null" class="alert alert-info" style="background-color:#bdfffc;width:100%; display: inline-block;">
+            <div  class="alert alert-info" style="background-color:#bdfffc;width:100%; display: inline-block;">
                 <b-table :data="isEmpty ? [] : psrs.psr_desc" :striped="true" :hoverable="true" > 
                     <template slot-scope="props">
                     <b-table-column field="index" label="No" width="5%" centered>
@@ -94,15 +94,18 @@
                         </b-table-column>
                     </template>
                 </b-table>
+                <div style="float:right;">
+                    <p>-------------------------</p>
+                </div>
             </div>
             <div  style=" margin-left: 40%; margin-right: 40%;">
                 <b-button style="float:left;" type="is-success" @click.prevent="approve()">Approve</b-button>
                 <b-button style="float:right;" type="is-danger">Decline</b-button>
-                {{error}}
             </div>
             <br><br><br>
         </md-card-content>
         </md-card>
+                {{error}}
         <!-- <div>{{psrs}}</div> -->
     </div>
     
@@ -121,6 +124,8 @@ export default {
             error: '',
             status_t1:'',
             status_t1: '',
+            totalPrice:0,
+            i: 0,
 
         };
     },
@@ -128,6 +133,12 @@ export default {
             try {
                 const data = await psr.find(this.psr_no);
                 this.psrs = data;
+                // alert(data.psr_desc[0].quantity);
+                for(this.i=0; this.i<data.psr_desc.length; this.i++){
+                    this.totalPrice = this.totalPrice + (data.psr_desc[this.i].quantity * data.psr_desc[this.i].unitPrice)
+                }
+                // alert("Total Price: "+this.totalPrice);
+                console.log(this.totalPrice);
             } catch (err) {
                 this.error = err.message;
             }
@@ -138,7 +149,7 @@ export default {
             this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
         },
         async approve(){
-          if(localStorage.t2 == "true"){
+          if(localStorage.t2 == "true" || this.t22== "true"){
             try {
                 const psra = await psr.psr_stat_1(this.psrs.id);
                 this.status_t1 = psra.status_t1;

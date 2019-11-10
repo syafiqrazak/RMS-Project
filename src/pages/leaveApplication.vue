@@ -41,6 +41,7 @@
             >Apply</md-button
           >
           {{is_admin}}
+          {{error}}
         </md-card-content>
       </md-card>
     </form>
@@ -80,8 +81,10 @@ export default {
         alert(leave_data); //can be ignored
         console.log(this.admin);
         this.$router.push({ path: "/leaveSubmitSuccess/id" }); //add redirect to other page here
+        alert("Success");
       } catch (err) {
         this.error = err.message;
+        alert("Fail");
       }
     }
   }

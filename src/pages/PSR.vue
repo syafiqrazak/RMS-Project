@@ -174,14 +174,13 @@
                 </div>
               </md-card-content>
               {{ item }}
-              <md-button
-                class="md-raised md-success"
+              <md-button class="md-raised"
                 @click.prevent="psr_adds()"
                 style="float:right"
                 >Submit</md-button
               >
               <md-button
-                class="md-raised md-success"
+                class="md-raised"
                 @click.prevent="prev()"
                 style="float:right"
                 >Previous</md-button
@@ -234,8 +233,7 @@ export default {
   methods: {
     async psr_adds() {
             try {
-                 const psr = await psrs.psr_add('',
-                                              this.date,
+                 const psr = await psrs.psr_add(
                                               this.psr_data,
                                               this.pur_class, 
                                               this.pur_typ, 

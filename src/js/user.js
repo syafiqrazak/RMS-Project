@@ -4,15 +4,16 @@ import axios from "axios";
 const url = "http://192.168.193.236:3000/";
 
 class user {
-
   static login(username, password) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}login`, {
+          `${url}login`,
+          {
             username,
             password
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -49,6 +50,5 @@ class user {
     });
   }
 }
-
 
 export default user;

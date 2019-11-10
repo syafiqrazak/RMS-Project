@@ -18,7 +18,7 @@
         <md-icon>thumb_up</md-icon>
         <p>PSR</p>
       </sidebar-link>
-      <sidebar-link v-if="t2 == 'true' || t3 == 'true' || is_admin == 'true'" :to="{ name: 'Notification', params: { id: this.id } }">
+      <sidebar-link v-if="t2 == 'true' || t22 == 'true' || t3 == 'true' || is_admin == 'true'" :to="{ name: 'Notification', params: { id: this.id } }">
         <md-icon>thumb_up</md-icon>
         <p>Approval</p>
       </sidebar-link>
