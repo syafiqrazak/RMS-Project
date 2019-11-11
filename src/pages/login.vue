@@ -11,12 +11,17 @@
         <span><b>Warning: </b>{{ error }}</span>
       </div>
       <form>
-        <b-field label="Username:">
+        <!-- <b-modal :active.sync="isImageModalActive">
+            <p class="image is-4by3"> -->
+                <img class="logo" src="@/assets/img/dinastiaLogo.png" >
+            <!-- </p>
+        </b-modal> -->
+        <b-field label="Username:" style="color:#FAFAFA;" center>
           <md-field>
             <md-input v-model="name"></md-input>
           </md-field>
         </b-field>
-        <b-field label="Password:">
+        <b-field label="Password:" style="color:#FAFAFA;">
           <md-field>
             <md-input v-model="password" type="password"></md-input>
           </md-field>
@@ -24,8 +29,7 @@
         <br />
         <md-button
           class="md-raised md-success"
-          @click="login()"
-          style="float:right"
+          @click="login()" style=" margin:auto; display:block;"
           >Submit</md-button
         >
 
@@ -141,4 +145,21 @@ form {
   padding-top: 5%;
   padding-left: 16%;
 }
+.md-card.md-theme-default {
+  /* padding-top: 10%; */
+  padding-left: 7px;
+  opacity: 0.9;
+  margin-left: 20%;
+  /* background-color: #363537; */
+  /* color: #FAFAFA; */
+  /* margin-right: 30%; */
+}
+.md-card img {
+    width: 350px;
+    height: 20%;
+    padding-left: 35%;
+}
+/* .label{
+  color: #FAFAFA !important;
+} */
 </style>

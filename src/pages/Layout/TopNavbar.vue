@@ -24,8 +24,8 @@
             >
               <label>Search...</label>
             </md-autocomplete>
-          </div>
-          <md-list> -->
+          </div> -->
+          <md-list>
             <!-- <md-list-item href="#/">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
@@ -88,7 +88,6 @@
           </md-list>
         </div>
       </div>
-    </div>
   </md-toolbar>
 </template>
 
