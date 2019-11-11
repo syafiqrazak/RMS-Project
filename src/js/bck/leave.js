@@ -1,6 +1,6 @@
 import axios from "axios";
-import { CONST } from './const';
-const url = CONST.CONST_URL.concat('leave/');
+import { CONST } from "./const";
+const url = CONST.CONST_URL.concat("leave/");
 
 class leave {
   static show_all_leave() {
@@ -58,11 +58,9 @@ class leave {
   static report(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(
-          `${url}${id}`, {
-            withCredentials: true
-          }
-        );
+        const res = await axios.get(`${url}${id}`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -74,11 +72,13 @@ class leave {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_leave`, {
+          `${url}add_leave`,
+          {
             date_from,
             date_to,
             reason
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -93,11 +93,13 @@ class leave {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${leave_id}/upd_leave`, {
+          `${url}${leave_id}/upd_leave`,
+          {
             date_from,
             date_to,
             reason
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -111,11 +113,15 @@ class leave {
   static del_req_leave(leave_id, del_reason) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${leave_id}/delreq_leave`,{
-          del_reason
-        }, {
-          withCredentials: true
-        });
+        const res = await axios.post(
+          `${url}${leave_id}/delreq_leave`,
+          {
+            del_reason
+          },
+          {
+            withCredentials: true
+          }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);

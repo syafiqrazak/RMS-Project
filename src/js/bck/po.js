@@ -1,6 +1,6 @@
 import axios from "axios";
-import { CONST } from './const';
-const url = CONST.CONST_URL.concat('po/');
+import { CONST } from "./const";
+const url = CONST.CONST_URL.concat("po/");
 
 class po {
   static show_po_all() {
@@ -95,20 +95,12 @@ class po {
     });
   }
 
-  static po_add(
-    po_ref,
-    due,
-    ship,
-    psr,
-    cca,
-    pay,
-    address,
-    desc
-  ) {
+  static po_add(po_ref, due, ship, psr, cca, pay, address, desc) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_po`, {
+          `${url}add_po`,
+          {
             po_ref,
             due,
             ship,
@@ -117,7 +109,8 @@ class po {
             pay,
             address,
             desc
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -180,21 +173,12 @@ class po {
     });
   }
 
-  static po_upd(
-    po_id,
-    po_ref,
-    due,
-    ship,
-    psr,
-    cca,
-    pay,
-    address,
-    desc
-  ) {
+  static po_upd(po_id, po_ref, due, ship, psr, cca, pay, address, desc) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${po_id}/upd_po`, {
+          `${url}${po_id}/upd_po`,
+          {
             po_ref,
             due,
             ship,
@@ -203,7 +187,8 @@ class po {
             pay,
             address,
             desc
-          }, {
+          },
+          {
             withCredentials: true
           }
         );
@@ -217,11 +202,9 @@ class po {
   static po_stat_1(po_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(
-          `${url}${po_id}/pending`, {
-            withCredentials: true
-          }
-        );
+        const res = await axios.post(`${url}${po_id}/pending`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -232,11 +215,9 @@ class po {
   static po_stat_2(po_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(
-          `${url}${po_id}/approve`, {
-            withCredentials: true
-          }
-        );
+        const res = await axios.post(`${url}${po_id}/approve`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -247,11 +228,9 @@ class po {
   static po_decline(po_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(
-          `${url}${po_id}/decline`, {
-            withCredentials: true
-          }
-        );
+        const res = await axios.post(`${url}${po_id}/decline`, {
+          withCredentials: true
+        });
         resolve(res.data);
       } catch (err) {
         reject(err);

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { CONST } from "./const";
-const url = CONST.CONST_URL.concat("psr/");
+import { CONST } from './const';
+const url = CONST.CONST_URL.concat('psr/');
 
 class psr {
   static show_psr_all() {
@@ -87,8 +87,8 @@ class psr {
       try {
         const res = await axios.get(`${url}req_del_psr/${psr_id}`, {
           withCredentials: true
-        });
-        resolve(res.data);
+                  });
+                          resolve(res.data);
       } catch (err) {
         reject(err);
       }
@@ -109,8 +109,7 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}add_psr`,
-          {
+          `${url}add_psr`, {
             psr_data,
             pur_class,
             pur_typ,
@@ -120,8 +119,7 @@ class psr {
             vessel_cd,
             delv,
             desc
-          },
-          {
+          }, {
             withCredentials: true
           }
         );
@@ -199,8 +197,7 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${psr_id}/upd_psr`,
-          {
+          `${url}${psr_id}/upd_psr`, {
             psr_data,
             pur_class,
             pur_typ,
@@ -210,8 +207,7 @@ class psr {
             vessel_cd,
             delv,
             desc
-          },
-          {
+          }, {
             withCredentials: true
           }
         );
@@ -225,9 +221,11 @@ class psr {
   static psr_stat_1(psr_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${psr_id}/pending`, {
-          withCredentials: true
-        });
+        const res = await axios.post(
+          `${url}${psr_id}/pending`, {
+            withCredentials: true
+          }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -238,9 +236,11 @@ class psr {
   static psr_stat_2(psr_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${psr_id}/approve`, {
-          withCredentials: true
-        });
+        const res = await axios.post(
+          `${url}${psr_id}/approve`, {
+            withCredentials: true
+          }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);
@@ -251,9 +251,11 @@ class psr {
   static psr_decline(psr_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${psr_id}/decline`, {
-          withCredentials: true
-        });
+        const res = await axios.post(
+          `${url}${psr_id}/decline`, {
+            withCredentials: true
+          }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);

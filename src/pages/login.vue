@@ -3,13 +3,9 @@
 
   <div class="background" :style="sidebarStyle">
     <md-card>
-      <div
-        v-show="isShow"
-        class="alert alert-danger"
-        style="display:inline-block; margin-left: 15%; top: 50px;  width: 70%; opacity: 30%;"
-      >
+      <!-- <div  v-show="isShow" class="alert alert-danger"  style="display:inline-block; margin-left: 15%; top: 50px;  width: 70%; opacity: 30%;">
         <span><b>Warning: </b>{{ error }}</span>
-      </div>
+      </div> -->
       <form>
         <!-- <b-modal :active.sync="isImageModalActive">
             <p class="image is-4by3"> -->

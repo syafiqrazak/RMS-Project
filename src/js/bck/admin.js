@@ -1,6 +1,7 @@
 import axios from "axios";
-import { CONST } from './const';
-const url = CONST.CONST_URL.concat('admin/');
+import { CONST } from "./const";
+// const url = CONST.CONST_URL;
+const url = CONST.CONST_URL.concat("admin/");
 
 class admin {
   static get_all_user() {
