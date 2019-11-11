@@ -143,17 +143,18 @@ form {
 }
 .md-card.md-theme-default {
   /* padding-top: 10%; */
-  padding-left: 7px;
+  padding-left: 1em;
   opacity: 0.9;
   margin-left: 20%;
+  padding-right: 1em;
   /* background-color: #363537; */
   /* color: #FAFAFA; */
   /* margin-right: 30%; */
 }
 .md-card img {
-    width: 350px;
-    height: 20%;
-    padding-left: 35%;
+    width: 345px;
+    /* height: 20%; */
+    padding-left: 33%;
 }
 /* .label{
   color: #FAFAFA !important;
