@@ -9,7 +9,7 @@
       <form>
         <!-- <b-modal :active.sync="isImageModalActive">
             <p class="image is-4by3"> -->
-                <img class="logo" src="@/assets/img/dinastiaLogo.png" >
+                <div id="clsImage"><img class="logo" src="@/assets/img/dinastiaLogo.png" ></div>
             <!-- </p>
         </b-modal> -->
         <b-field label="Username:" style="color:#FAFAFA;" center>
@@ -74,7 +74,16 @@ export default {
       };
     }
   },
-  async created() {},
+  async created() {
+    try {
+      const clog = await user.check_logged();
+      if(!clog.err) {
+        this.$router.push({ path: `/leaveApplication/${clog.id}` });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
   methods: {
     // navigate() {
     //     console.log(this.data.name);
@@ -97,7 +106,7 @@ export default {
           localStorage.t3 = login.t3;
           localStorage.is_admin = login.is_admin;
           localStorage.staffName = login.firstname + " "+  login.lastname;
-          alert(localStorage.staffName);
+          // alert(localStorage.staffName);
           this.$router.push({ path: `/leaveApplication/${login.id}` });
           
         }
@@ -152,9 +161,15 @@ form {
   /* margin-right: 30%; */
 }
 .md-card img {
-    width: 345px;
+    width: 100%;
     /* height: 20%; */
-    padding-left: 33%;
+    /* padding-left: 33%; */
+}
+#clsImage{
+  width: 30%;
+  margin-left: 35%;
+  margin-right: 35%;
+
 }
 /* .label{
   color: #FAFAFA !important;

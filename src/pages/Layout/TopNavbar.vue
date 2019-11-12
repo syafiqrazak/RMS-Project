@@ -119,7 +119,7 @@ export default {
     },
     async logout() {
             try {
-                // const logout = await user.logout();
+                const logout = await user.logout();
                 // console.log(logout); //can be ignored
                 this.$router.push({ path: '/login' })    //add redirect to other page here
                 // alert("Logout");

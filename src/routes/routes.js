@@ -21,6 +21,8 @@ import POSubmitSuccess from "@/pages/POSubmitSuccess.vue";
 import displayPO from "@/pages/displayPO.vue";
 import displayPSR from "@/pages/displayPSR.vue";
 import displayLeave from "@/pages/displayLeave.vue";
+import register from "@/pages/Register.vue";
+
 
 const routes = [
   {
@@ -39,6 +41,11 @@ const routes = [
     component: DashboardLayout,
     // redirect: "/dashboard",
     children: [
+      {
+        path: "/register/:id",
+        name: "Staff Registration",
+        component: register
+      },
       {
         path: "/displayPO/:id/:po_no",
         name: "Display Purchase Order",

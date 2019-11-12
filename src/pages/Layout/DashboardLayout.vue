@@ -4,9 +4,11 @@
 
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
-      <sidebar-link
-        :to="{ name: 'Leave Application', params: { id: this.id } }"
-      >
+      <sidebar-link v-if="is_admin == 'true'" :to="{ name: 'Staff Registration', params: { id: this.id } }">
+        <md-icon>dashboard</md-icon>
+        <p>Register</p>
+      </sidebar-link>
+      <sidebar-link :to="{ name: 'Leave Application', params: { id: this.id } }" >
         <md-icon>thumb_up</md-icon>
         <p>Leave Application</p>
       </sidebar-link>
