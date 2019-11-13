@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import user from "@/js/user.js"; //directory to user.js
+import admin from "@/js/admin.js"; //directory to admin.js
 export default {
     name: "edit-profile-form",
   data() {
@@ -101,9 +101,12 @@ export default {
             this.usert3 = true;
         else
             this.is_admin = true;
+
+        console.log(this.email);
+        console.log(this.usert2);
         try {
-            const user = await admin.new_user(this.userName, this.password, this.firstName, this.lastName);
-            console.log(user); //can be ignored
+            const users = await admin.new_user(this.userName, this.password, this.firstName, this.lastName, this.email, this.is_admin, this.usert1, this.usert2, this.usert3);
+            console.log(users); //can be ignored
             alert("Success");
             //add redirect to other page here
         } catch (err) {

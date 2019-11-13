@@ -22,6 +22,7 @@ import displayPO from "@/pages/displayPO.vue";
 import displayPSR from "@/pages/displayPSR.vue";
 import displayLeave from "@/pages/displayLeave.vue";
 import register from "@/pages/Register.vue";
+import template from "@/pages/TableTemplate.vue";
 
 
 const routes = [
@@ -41,6 +42,11 @@ const routes = [
     component: DashboardLayout,
     // redirect: "/dashboard",
     children: [
+      {
+        path: "/table/",
+        name: "Table Template",
+        component: template
+      },
       {
         path: "/register/:id",
         name: "Staff Registration",
