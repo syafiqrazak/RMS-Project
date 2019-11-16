@@ -61,8 +61,10 @@ class admin {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(`${url}${id}`, { withCredentials: true });
+        alert("Enter he");
         resolve(res.data);
       } catch (err) {
+        alert(err);
         reject(err);
       }
     });

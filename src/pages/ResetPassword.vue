@@ -63,22 +63,22 @@ export default {
             alert("Test");
             if(this.password == this.confirmPassword){
                 alert("test qq");
-                try {
-                    alert("1232");
-                    const data = await admin.get_user(localStorage.id);
-                    alert("Test 1");
-                    console.log(data);
-                    // const user = data.result[0]
-                    //     this.total_page = data.result[1]
-                    //     this.pos = pos1.map(pos => ({
-                    //         ...pos
-                    //     }))
+                // try {
+                //     alert("1232");
+                //     const data = await admin.get_user(localStorage.id);
+                //     alert("Test 1");
+                //     console.log(data);
+                //     // const user = data.result[0]
+                //     //     this.total_page = data.result[1]
+                //     //     this.pos = pos1.map(pos => ({
+                //     //         ...pos
+                //     //     }))
                     
-                }
-                    catch{
-                        alert(err);
-                        this.error = err.message;
-                    }
+                // }
+                //     catch{
+                //         alert(err);
+                //         this.error = err.message;
+                //     }
 
                 try {
                     const users = await admin.reset_password(localStorage.id, this.password);
