@@ -1,71 +1,101 @@
 <template>
-    <div id="app">
-        <div class="container">
-            <form action="https://postman-echo.com/post" method="post">
-            <md-card style="width:150%;">
-                <md-card-header :data-background-color="dataBackgroundColor">
-                    <h4 class="title">Register</h4>
-                    <!-- <p class="category">Complete your profile</p> -->
-                </md-card-header>
-                <md-card-content style="width:95%;">
-                    <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
-                    <!-- <div class="alert alert-info" style="border:1px; background-color:white; color:black;"> -->
-                        <md-field style="display:inline-block; float:left; width:47%">
-                            <label>First Name</label>
-                            <md-input v-model="firstName" md-counter="30"></md-input>
-                        </md-field>
-
-                         <md-field style="display:inline-block; float:right; width:47%">
-                            <label>Last Name</label>
-                            <md-input v-model="regular" ></md-input>
-                        </md-field>
-
-                        <md-field style="display:inline-block; float:left; width:70%;">
-                            <label>Email Address</label>
-                            <md-input v-model="email" ></md-input>
-                        </md-field>
-                        <md-field style="display:inline-block; float:left; width:70%;">
-                            <label>Username</label>
-                            <md-input v-model="userName" ></md-input>
-                        </md-field><br>
-                        <!-- <div class="alert alert-info" style="border:1px; background-color:white; color:black; width:30%;"> -->
-                        <!-- <md-field> -->
-                            
-                        
-                        <!-- </md-field> -->
-                        <md-field  style="display:inline-block;  width:70%;">
-                            <label>Password</label>
-                            <md-input v-model="password" type="password"></md-input>
-                        </md-field>
-                        <md-field  style="display:inline-block;  width:70%;">
-                            <label>Confirm Password</label>
-                            <md-input v-model="confirmPassword" type="password"></md-input>
-                        </md-field>
-                        <div class="alert alert-info" style="border:1px; background-color:white; color:black; width:90%;">
-                        <b-field id="roleLabel" horizontal label="Role" type="is-danger"  style="width:100%;padding-left:0; padding-top:0%;align:left;">
+    <div v-if="!posted"  id="container">
+        <md-card style="padding-left:10px">
+            <md-card-header :data-background-color="dataBackgroundColor">
+                <h4 class="title">Register</h4>
+                <!-- <p class="category">Complete your profile</p> -->
+            </md-card-header>
+            <md-card-content style="width:98%; padding-left:5%;">
+                <br><br>
+                <table cls="clsForm" width="80%:">
+                    <col width="25%">
+                    <col width="70%">
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>First Name:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="firstName" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Last Name:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="lastName" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Email Address:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="email" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Username:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="userName" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Password:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-field>
+                                <b-input type="password" v-model="password" style="width:98%"  password-reveal></b-input>
+                            </b-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Confirm Password:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-field>
+                                <b-input type="password" v-model="confirmPassword" style="width:98%"  password-reveal></b-input>
+                            </b-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Role:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <!-- <b-field type="is-danger"> -->
+                            <div class="block" style="border: 1px solid #dbdbdb; border-radius:4px; padding-left:1em; height:3.5em; width:98%; verticle-align:middle;">
                                     <!-- <label>Role</label><p>&nbsp</p> -->
                                     <md-radio v-model="tier" value="usert1" class="md-primary">User Tier 1</md-radio>
                                     <md-radio v-model="tier" value="usert2" class="md-primary">User Tier 2</md-radio>
                                     <md-radio v-model="tier" value="usert2_2" class="md-primary">User Tier 2_2</md-radio>
                                     <md-radio v-model="tier" value="usert3" class="md-primary">User Tier 3</md-radio>
                                     <md-radio v-model="tier" value="is_admin" class="md-primary">Admin</md-radio>
-                            </b-field>
-                        </div>
-                        <md-button
-          class="md-raised md-success"
-          @click="new_user()" style=" margin:auto; display:block;"
-          >Submit</md-button
-        >
-              </div>
-              {{error}}
-              
-                    <!-- </div> -->
-                </md-card-content>
-            </md-card>
-            </form>
-        </div>
+                            </div>
+                            <!-- </b-field> -->
+                        </td>
+                    </tr>
+                </table>
+                {{password}}
+                <br><br>
+                <md-button
+                    class="md-raised md-success"
+                    @click="new_user()" style=" margin:auto; display:block;"
+                    >Submit</md-button  >
+            </md-card-content>
+        <br><br>
+        </md-card>
+    </div>
+    <div v-else>
+        <h5>Success</h5>
+        {{posted}}
     </div>
 </template>
+
 
 <script>
 import admin from "@/js/admin.js"; //directory to admin.js
@@ -86,7 +116,7 @@ export default {
       usert22: false,
       usert3: false,
       is_admin: false,
-      
+      posted: false,
     };
   },
   methods: {
@@ -107,6 +137,7 @@ export default {
         try {
             const users = await admin.new_user(this.userName, this.password, this.firstName, this.lastName, this.email, this.is_admin, this.usert1, this.usert2, this.usert3);
             console.log(users); //can be ignored
+            this.posted = true;
             alert("Success");
             //add redirect to other page here
         } catch (err) {
@@ -119,10 +150,8 @@ export default {
 }
 </script>
 
-<style scoped>
-#roleLabel{
-    padding-left:0px;
 
-}
+
+<style scoped src="@/assets/style/style.css">
 
 </style>

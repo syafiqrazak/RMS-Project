@@ -12,7 +12,7 @@
     </md-table> -->
 
     <!-- <b-table :data="leaves" :columns="columns" :hoverable="true" :striped="true" selectable @select="routerLinkToDetails"></b-table> -->
-
+    <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
    <b-table :data="isEmpty ? [] : leaves" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
             aria-previous-label="Previous page"
             aria-page-label="Page"
@@ -55,21 +55,31 @@ export default {
     data(){
         return{
             leaves: [], //do for leave in leaves
-            error: ''
+            error: '',
+            isLoading: false,
         };
     },
     async created() {
         try {
+            this.isLoading = true
             const data = await leave.show_all_leave();
             this.leaves = data.map(leave => ({
                 ...leave
             })) 
+            this.isLoading = false
         } catch (err) {
             this.error = err.message;
         }
     },
     methods: {
-        
+        methods: {
+            openLoading() {
+                this.isLoading = true
+                setTimeout(() => {
+                    this.isLoading = false
+                }, 10 * 1000)
+            }
+        }
     }
     
 }

@@ -23,7 +23,7 @@ import displayPSR from "@/pages/displayPSR.vue";
 import displayLeave from "@/pages/displayLeave.vue";
 import register from "@/pages/Register.vue";
 import template from "@/pages/TableTemplate.vue";
-
+import resetPassword from "@/pages/ResetPassword.vue";
 
 const routes = [
   {
@@ -42,6 +42,11 @@ const routes = [
     component: DashboardLayout,
     // redirect: "/dashboard",
     children: [
+      {
+        path: "/resetPassword/",
+        name: "Reset Password",
+        component: resetPassword
+      },
       {
         path: "/table/",
         name: "Table Template",
@@ -85,7 +90,7 @@ const routes = [
       {
         path: "/notification/:id",
         name: "Notification",
-        component: notifications,
+        component: notifications
       },
       {
         path: "/PSR/:id",
