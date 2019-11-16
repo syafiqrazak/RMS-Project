@@ -14,7 +14,7 @@ class admin {
     });
   }
 
-  static new_user(username, password, firstname, lastname) {
+  static new_user(username, password, firstname, lastname, email, is_admin, t1, t2, t3) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
@@ -23,7 +23,12 @@ class admin {
             username,
             password,
             firstname,
-            lastname
+            lastname,
+            email,
+            is_admin,
+            t1,
+            t2,
+            t3
           },
           { withCredentials: true }
         );
@@ -34,23 +39,23 @@ class admin {
     });
   }
 
-  static new_user(username, password, firstname, lastname) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await axios.post(
-          `${url}admin_add`,
-          {
-            username,
-            password
-          },
-          { withCredentials: true }
-        );
-        resolve(res.data);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
+  // static new_user(username, password, firstname, lastname) {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const res = await axios.post(
+  //         `${url}admin_add`,
+  //         {
+  //           username,
+  //           password
+  //         },
+  //         { withCredentials: true }
+  //       );
+  //       resolve(res.data);
+  //     } catch (err) {
+  //       reject(err);
+  //     }
+  //   });
+  // }
 
   static get_user(id) {
     return new Promise(async (resolve, reject) => {
