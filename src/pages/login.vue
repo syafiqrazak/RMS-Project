@@ -2,6 +2,7 @@
   <!-- Material form login -->
 
   <div class="background" :style="sidebarStyle">
+    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="true"></b-loading>
     <md-card>
       <!-- <div  v-show="isShow" class="alert alert-danger"  style="display:inline-block; margin-left: 15%; top: 50px;  width: 70%; opacity: 30%;">
         <span><b>Warning: </b>{{ error }}</span>
@@ -57,6 +58,7 @@ export default {
       t22: "",
       is_admin: "",
       staffName: '',
+      isLoading: false,
     };
   },
   props: {
@@ -92,6 +94,7 @@ export default {
     // }
     async login() {
       try {
+        this.isLoading = true;
         const login = await user.login(this.name, this.password);
 
         if (await login.hasOwnProperty("err")) {
@@ -107,6 +110,7 @@ export default {
           localStorage.is_admin = login.is_admin;
           localStorage.staffName = login.firstname + " "+  login.lastname;
           // alert(localStorage.staffName);
+          this.isLoading = false;
           this.$router.push({ path: `/leaveApplication/${login.id}` });
           
         }
@@ -119,7 +123,7 @@ export default {
         this.isShow = true;
         console.log(err);
       }
-    }
+    },
   }
 };
 </script>

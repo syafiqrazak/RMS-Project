@@ -28,6 +28,10 @@
         <md-icon>bubble_chart</md-icon>
         <p>Reset Password</p>
       </sidebar-link>
+      <sidebar-link :to="{ name: 'Enter PSR', params: { id: this.id } }">
+        <md-icon>bubble_chart</md-icon>
+        <p>Enter PSR</p>
+      </sidebar-link>
       <!-- <sidebar-link to="/stepForm">
         <md-icon>dashboard</md-icon>
         <p>2 Steps Form</p>

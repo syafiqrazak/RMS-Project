@@ -24,6 +24,7 @@ import displayLeave from "@/pages/displayLeave.vue";
 import register from "@/pages/Register.vue";
 import template from "@/pages/TableTemplate.vue";
 import resetPassword from "@/pages/ResetPassword.vue";
+import enterPSR from "@/pages/EnterPSR.vue";
 
 const routes = [
   {
@@ -43,7 +44,12 @@ const routes = [
     // redirect: "/dashboard",
     children: [
       {
-        path: "/resetPassword/",
+        path: "/enterPSR/:id",
+        name: "Enter PSR",
+        component: enterPSR
+      },
+      {
+        path: "/resetPassword/:id",
         name: "Reset Password",
         component: resetPassword
       },
@@ -103,7 +109,7 @@ const routes = [
         component: leaveApplication
       },
       {
-        path: "/purchaseOrder/:id",
+        path: "/purchaseOrder/:id/:psr_no",
         name: "Purchase Order",
         component: purchaseOrder
       },

@@ -10,6 +10,7 @@ import SimpleTable from "./Tables/SimpleTable.vue";
 import notifyLeave from "./Tables/notifyLeave.vue";
 import notifyPO from "./Tables/notifyPO.vue";
 import notifyPSR from "./Tables/notifyPSR.vue";
+import psrSearch from "./Tables/PSRSearch.vue";
 
 export {
   ChartCard,
@@ -20,5 +21,6 @@ export {
   SimpleTable,
   notifyLeave,
   notifyPO,
-  notifyPSR
+  notifyPSR,
+  psrSearch
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { CONST } from './const';
-const url = CONST.CONST_URL.concat('admin/');
+import { CONST } from "./const";
+const url = CONST.CONST_URL.concat("admin/");
 
 class admin {
   static get_all_user() {
@@ -14,7 +14,17 @@ class admin {
     });
   }
 
-  static new_user(username, password, firstname, lastname, email, is_admin, t1, t2, t3) {
+  static new_user(
+    username,
+    password,
+    firstname,
+    lastname,
+    email,
+    is_admin,
+    t1,
+    t2,
+    t3
+  ) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(

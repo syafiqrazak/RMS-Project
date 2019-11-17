@@ -1,56 +1,6 @@
 <template>
     <div>
-        <!-- <div>{{ new Date() | dateFormat('YYYY.MM.DD') }}</div> -->
-        <!-- <div>Date: {{psrs.psr_date[0]}}</div> -->
-        {{psrs.psr_date}}
-        <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
-            <template slot-scope="props">
-                <b-table-column field="po_no" label="PO Number" sortable>
-                    <a @click="detail(props.row)">
-                        PO/TRD-{{ props.row.psr_no |numeral('000000') }}
-                    </a>
-                </b-table-column>
-                <b-table-column field="po_date" label="Date Created">
-                    {{ props.row.psr_date | moment("dddd, MMMM Do YYYY") }}
-                </b-table-column>
-                <b-table-column>
-                    {{ props.row.status }}
-                </b-table-column>
-                 <b-table-column field="id" label="ID" width="300" >
-                    {{ props.row.id }}
-                </b-table-column>
-            </template>
-        </b-table>
-        <br><br>
-         <div style=" width:15%; float:right; display:block-inline; ">
-             <form v-on:submit="pagination" >
-                <md-input style="width:30px; float: left; height:28px; text-align: right; " type="number"  v-model="page" :disabled="false" />
-            </form>&nbsp; <b>/{{total_page}}</b>
-              &nbsp;&nbsp;
-             <b-tooltip label="Previous" type="is-light" position="is-bottom">
-                    <b-button @click="previousPage"
-                        :disabled="isPrevious"
-                        size="is-small"
-                        float="right"
-                        type="is-light">
-                        <md-icon>navigate_before</md-icon>
-                    </b-button>
-            </b-tooltip>
-            <!-- &nbsp; -->
-            <b-tooltip label="Next" type="is-light" position="is-bottom">
-                    <b-button @click="nextPage"
-                        :disabled="isNext"
-                        size="is-small"
-                        float="right"
-                        type="is-light">
-                        <md-icon>navigate_next</md-icon>
-                    </b-button>
-                    &nbsp;&nbsp;
-            </b-tooltip>
-        </div>
-        <!-- {{psrs}}
-        {{page}} -->
-        {{error}}
+        <h5>test</h5>
     </div>
 </template>
 
@@ -59,7 +9,7 @@ import psr from "@/js/psr.js"; //directory to psr.js
 
 
 export default {
-     name: "notify-PSR",
+     name: "PSR-Search",
     data(){
         return{
             psrs:[],  //for psr in psrs {{psr.[var name]}}
@@ -140,7 +90,7 @@ export default {
     },
     methods: {
         detail(value){
-            console.log(value.psr_no);
+            console.log(value.po_no);
             this.$router.push({ path: `/displayPSR/${this.id}/${value.psr_no}` });
         },
         async get_pending() {

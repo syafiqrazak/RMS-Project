@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
+
     <form>
       <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
@@ -54,6 +56,7 @@ export default {
   name: "edit-profile-form",
   data() {
     return {
+      isLoading: false,
       error: "",
       is_admin:null,
       name: "null",
@@ -70,9 +73,16 @@ export default {
     }
   },
   methods: {
+    openLoading() {
+      this.isLoading = true
+      setTimeout(() => {
+            this.isLoading = false
+        }, 10 * 1000)
+      },
+        
     async add_leave() {
-
       try {
+        this.isLoading = true;
         const leave_data = await leave.add_leave(
           this.leave.startDate,
           this.leave.endDate,
@@ -80,6 +90,7 @@ export default {
         );
         alert(leave_data); //can be ignored
         console.log(this.admin);
+        this.isLoading = false;
         this.$router.push({ path: "/leaveSubmitSuccess/id" }); //add redirect to other page here
         // alert("Success");
       } catch (err) {

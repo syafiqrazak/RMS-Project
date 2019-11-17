@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div v-if="PSRAvailable" id="app">
     <div class="container">
       <form action="https://postman-echo.com/post" method="post">
         <md-card>
@@ -10,97 +10,82 @@
 
           <md-card-content>
             <div v-show="step === 1">
-              <table style="width:100%">
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-                <tr>
-                  <td class="desc">Date:</td>
-                  <td>
-                    <md-field>
-                      <md-input type="date" v-model="details.dates"
-                        >Date</md-input
-                      >
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Our Reference:</td>
-                  <td>
-                    <md-field>
-                      <md-input v-model="details.reference"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Your Quotation:</td>
-                  <td>
-                    <md-field>
-                      <md-input v-model="details.quotation"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Delivery Due Date:</td>
-                  <td>
-                    <md-field>
-                      <md-input
-                        type="date"
-                        v-model="details.dueDate"
-                      ></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Mode of Shipment:</td>
-                  <td>
-                    <md-field>
-                      <select v-model="details.modeOfShipment">
-                        <option disabled value>Please select one</option>
-                        <option>Land</option>
-                        <option>Ship</option>
-                        <option>Air</option>
-                      </select>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">PSR No.:</td>
-                  <td>
-                    <md-field>
-                      <md-input v-model="details.PSRNo"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">CCA No.:</td>
-                  <td>
-                    <md-field>
-                      <md-input v-model="details.CCANo"></md-input>
-                    </md-field>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="desc">Mode of Payment:</td>
-                  <td>
-                    <md-field>
-                      <!-- <label>Company (disabled)</label> -->
-                      <select v-model="details.paymentMode">
-                        <option disabled value>Please select one</option>
-                        <option>Debit</option>
-                        <option>Credit</option>
-                        <option>As per invoice</option>
-                      </select>
-                    </md-field>
-                  </td>
-                </tr>
+              <table cls="clsForm" width="80%:">
+                    <col width="25%">
+                    <col width="70%">
+                <!-- <tr>
+                        <td class="clsLabel">
+                            <h4>Date:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.date" style="width:98%"></b-input>
+                        </td>
+                    </tr>-->
+                     <tr>
+                        <td class="clsLabel">
+                            <h4>Our Reference: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.reference" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Your Quotation:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.quotation" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="clsLabel">
+                            <h4>Delivery Due Date:</h4>
+                        </td>
+                        <td class="clsValue">
+                          <div class="block" style="border: 1px solid #dbdbdb; border-radius:4px; padding-left:1em; height:3.5em; width:98%; verticle-align:middle;">
+                            <!-- <b-field label="Select datetime"> -->
+                              <md-datepicker v-model="selectedDate" style="padding-top: 0px;" md-immediately />
+                          </div>
+                        </td>
+                    </tr>
+                  <tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Mode of Shipment</h4>
+                        </td>
+                        <td class="clsValue">
+                          <b-field>
+                            <b-select expanded style="width:98%;">
+                                <option value="flint">Land </option>
+                                <option value="silver">Ship</option>\
+                                <option value="silver">Air</option>
+                            </b-select>
+                        </b-field>
+                        </td>
+                    </tr>
+                  <tr>
+                        <td class="clsLabel">
+                            <h4>CCA No.:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.CCANo" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Mode of Payment:</h4>
+                        </td>
+                        <td class="clsValue">
+                          <b-field>
+                            <b-select expanded style="width:98%;">
+                                <option value="flint">Debit </option>
+                                <option value="silver">Credit</option>\
+                                <option value="silver">As per Invoice</option>
+                            </b-select>
+                        </b-field>  
+                        </td>
+                    </tr>
+                
               </table>
 
               <div class="md-layout"></div>
@@ -114,8 +99,8 @@
               <!-- </div> -->
             </div>
 
-            <div v-show="step === 2">
-              <md-card-content>
+            <div v-show="step === 2" style="width:100%;">
+              <md-card-content style="width:100%;">
                 <md-button
                   class="md-raised md-success"
                   @click="clone()"
@@ -123,10 +108,10 @@
                   >Add</md-button
                 >
                 <br /><br /><br />
-              </md-card-content>
+              </md-card-content >
               <!-- <h1>Step Two</h1> -->
-              <md-card-content>
-                <table>
+              <md-card-content style="width:100%;">
+                <table style="width:100%;">
                   <tr>
                     <th>No.</th>
                     <th>Item Description</th>
@@ -185,13 +170,21 @@
       </form>
     </div>
   </div>
+  <div v-else>
+    
+  </div>
 </template>
 
 <script>
 import purchaseOrder from "@/js/po.js"; //directory to po.js
+import { SimpleTable, notifyLeave, notifyPO, notifyPSR, psrSearch } from "@/components";
 export default {
   data() {
     return {
+      PSRAvailable: true,
+      inputMethod: '0',
+      isSearch: false,
+      isEnter: false,
       error: "",
       step: 1,
       index: 2,
@@ -282,7 +275,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped src="@/assets/style/style.css">
 .md-card {
   width: 1200px;
 }
