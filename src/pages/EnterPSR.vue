@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div v-if="match">
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
             <h4 class="title">Purchase Order Application</h4>
             <!-- <p class="category">Complete your profile</p> -->
           </md-card-header>
           <md-card-content>
-            <div >{{inputMethod}}
+            <div >
               <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
                 <section>
                     <div class="block" style="border:1px">
@@ -65,6 +65,9 @@
           </md-card-content>
         </md-card>
     </div>
+    <div v-else>
+        <h3>Not match</h3>
+    </div>
 </template>
 
 <script>
@@ -72,7 +75,7 @@ import psr from "@/js/psr.js"; //directory to psr.js
 export default {
     data(){
         return {
-            match: false,
+            match: true,
             inputMethod: '0',
             PSRNo: '',
             psrs: [],
@@ -98,16 +101,17 @@ export default {
             this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.psr_no}` });
         },
         matchPSR(){
-            
+            alert(this.psrs.length);
             for(var i=0; i<this.psrs.length; i++){
-                alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
+                // alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
                 if(this.psrs[i].psr_no == this.PSRNo){
-                    alert("Match");
+                    // alert("Match");
                     this.match = true;
-                    this.$router.push({ path: `/purchaseOrder/${localStorage.id}/this.PSRNo` });
+                    this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.PSRNo}` });
+                    break;
                 }
         }
-        alert("Not Found");
+        // alert("Not Found");
     }
 }
 }
