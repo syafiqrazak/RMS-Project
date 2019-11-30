@@ -7,7 +7,7 @@
             <template slot-scope="props">
                 <b-table-column field="po_no" label="PO Number" sortable>
                     <a @click="detail(props.row)">
-                        PO/TRD-{{ props.row.psr_no |numeral('000000') }}
+                        PSR/TRD-{{ props.row.psr_no |numeral('000000') }}
                     </a>
                 </b-table-column>
                 <b-table-column field="po_date" label="Date Created">

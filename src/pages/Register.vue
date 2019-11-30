@@ -72,8 +72,8 @@
                                     <!-- <label>Role</label><p>&nbsp</p> -->
                                     <md-radio v-model="tier" value="usert1" class="md-primary">User Tier 1</md-radio>
                                     <md-radio v-model="tier" value="usert2" class="md-primary">User Tier 2</md-radio>
-                                    <md-radio v-model="tier" value="usert2_2" class="md-primary">User Tier 2_2</md-radio>
                                     <md-radio v-model="tier" value="usert3" class="md-primary">User Tier 3</md-radio>
+                                    <md-radio v-model="tier" value="usert4" class="md-primary">User Tier 4</md-radio>
                                     <md-radio v-model="tier" value="is_admin" class="md-primary">Admin</md-radio>
                             </div>
                             <!-- </b-field> -->
@@ -113,7 +113,7 @@ export default {
       role:'',
       usert1: false,
       usert2: false,
-      usert22: false,
+      usert4: false,
       usert3: false,
       is_admin: false,
       posted: false,
@@ -125,8 +125,8 @@ export default {
             this.usert1 = true;
         else if(this.tier == "usert2")
             this.usert2 = true;
-        else if(this.tier == "usert22")
-            this.usert22 = true;
+        else if(this.tier == "usert4")
+            this.usert4 = true;
         else if(this.tier == "usert3")
             this.usert3 = true;
         else
@@ -135,7 +135,7 @@ export default {
         console.log(this.email);
         console.log(this.usert2);
         try {
-            const users = await admin.new_user(this.userName, this.password, this.firstName, this.lastName, this.email, this.is_admin, this.usert1, this.usert2, this.usert3);
+            const users = await admin.new_user(this.userName, this.password, this.firstName, this.lastName, this.email, this.is_admin, this.usert1, this.usert2, this.usert3, this.t4);
             console.log(users); //can be ignored
             this.posted = true;
             alert("Success");

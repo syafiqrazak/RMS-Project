@@ -19,9 +19,9 @@
             aria-current-label="Current page"
             :pagination-simple="true"> 
      <template slot-scope="props">
-       <b-table-column field="id" label="ID" width="300" >
-          <a @click="routerLinkToDetails(props.row)">
-              {{ props.row.id }}
+       <b-table-column field="id" label="Applicant" width="300" >
+          <a @click="detail(props.row)">
+              {{ props.row.user_leave.firstname }}
           </a>
         </b-table-column>
         <b-table-column field="date_from" label="Start">
@@ -38,7 +38,7 @@
         </b-table-column>
      </template>
    </b-table>
-       <!-- {{leaves}} -->
+       {{leaves}}
 
   </div>
   <!-- <div v-else>
@@ -57,6 +57,7 @@ export default {
             leaves: [], //do for leave in leaves
             error: '',
             isLoading: false,
+            id: localStorage.id,
         };
     },
     async created() {
@@ -71,8 +72,11 @@ export default {
             this.error = err.message;
         }
     },
-    methods: {
         methods: {
+            detail(value){
+                console.log(value.id);
+                this.$router.push({ path: `/displayLeave/${this.id}/${value.id}` });
+            },
             openLoading() {
                 this.isLoading = true
                 setTimeout(() => {
@@ -80,7 +84,7 @@ export default {
                 }, 10 * 1000)
             }
         }
-    }
+    
     
 }
 </script>

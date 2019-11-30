@@ -47,7 +47,7 @@
               <div style="width:100%;">
                 <div class="alert alert-info" style="background-color:white;width:49%; display: inline-block;">
                   <section>
-                    <md-datepicker v-model="date_req">
+                    <md-datepicker v-model="date_req" md-immediately>
                       <label>Required Date</label>
                     </md-datepicker>
                   </section>
@@ -109,8 +109,8 @@
                       <b-input v-model="p_title"></b-input>
                   </b-field>
                   </section>
-                </div>
-                <div class="alert alert-info" style="background-color:white;">
+                <!-- </div>
+                <div class="alert alert-info" style="background-color:white;"> -->
                   <section>
                     <b-field label="Vessel Code">
                       <b-input v-model="vessel_cd"></b-input>
@@ -121,7 +121,7 @@
                 <div class="alert alert-info" style="background-color:#bdfffc; color: black;">
                   <md-card-content>
                     <md-button
-                      class="md-raised md-success"
+                      class="md-raised md-danger"
                       @click="remove()"
                       style="float:right"
                       >Remove</md-button>

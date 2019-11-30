@@ -74,7 +74,7 @@ const routes = [
         component: displayPSR
       },
       {
-        path: "/displayLeave/",
+        path: "/displayLeave/:id/:leave_id",
         name: "Display Leave",
         component: displayLeave
       },

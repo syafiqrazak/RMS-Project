@@ -23,7 +23,8 @@ class admin {
     is_admin,
     t1,
     t2,
-    t3
+    t3,
+    t4
   ) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -38,7 +39,8 @@ class admin {
             is_admin,
             t1,
             t2,
-            t3
+            t3,
+            t4
           },
           { withCredentials: true }
         );

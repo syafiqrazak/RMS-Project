@@ -98,6 +98,7 @@ export default {
         const login = await user.login(this.name, this.password);
 
         if (await login.hasOwnProperty("err")) {
+          this.isLoading = false;
           alert("wrong");
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
@@ -105,7 +106,7 @@ export default {
           localStorage.id = login.id;
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
-          localStorage.t22 = login.t22;
+          localStorage.t4 = login.t4;
           localStorage.t3 = login.t3;
           localStorage.is_admin = login.is_admin;
           localStorage.staffName = login.firstname + " "+  login.lastname;
@@ -119,7 +120,8 @@ export default {
         // document.getElementsByClassName("alert alert-danger").style.display = 'block';
         // var x = document.getElementsByClassName("alert alert-danger");
         // x[0].style.visibility = 'visible';
-        alert("Enter error" + err);
+        this.isLoading = false;
+        // alert("Enter error" + err);
         this.isShow = true;
         console.log(err);
       }
