@@ -2,7 +2,7 @@
   <!-- Material form login -->
 
   <div class="background" :style="sidebarStyle">
-    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="true"></b-loading>
+    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
     <md-card>
       <!-- <div  v-show="isShow" class="alert alert-danger"  style="display:inline-block; margin-left: 15%; top: 50px;  width: 70%; opacity: 30%;">
         <span><b>Warning: </b>{{ error }}</span>

@@ -1,5 +1,6 @@
 <template>
     <div v-if="match">
+        <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
             <h4 class="title">Purchase Order Application</h4>
@@ -11,7 +12,8 @@
                 <section>
                     <div class="block" style="border:1px">
                         <p><strong>PSR INPUT METHOD: </strong></p>
-        {{psrs}}
+        <!-- {{psrs}} -->
+        {{error}}
                         <md-radio v-model="inputMethod" value="1" class="md-primary">Enter PSR</md-radio>
                         <md-radio v-model="inputMethod" value="2" class="md-primary">SEARH PSR</md-radio>
 
@@ -40,8 +42,13 @@
                     </md-card-content>
                 </div>
             <div v-else-if="inputMethod == '2'">
+                {{psrs}}
                <md-card-content>
-                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
+                  <b-table :data="isEmpty ? [] : leaves" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
+                        aria-previous-label="Previous page"
+                        aria-page-label="Page"
+                        aria-current-label="Current page"
+                        :pagination-simple="true"> 
                     <template slot-scope="props">
                         <b-table-column field="po_no" label="PO Number" sortable>
                             <a @click="passPSR(props.row)">
@@ -58,7 +65,7 @@
                             {{ props.row.id }}
                         </b-table-column>
                     </template> 
-        </b-table>
+                </b-table>
                 </md-card-content>
             </div>
             </div>
@@ -82,18 +89,22 @@ export default {
             psrs: [],
             error:'',
             i: 0,
+            isLoading: false,
         }
     },
     async created() {
         try {
-            const data = await psr.show_all_psr();
+            this.isLoading = true;
+            const data = await psr.approved_np();
             this.psrs = data.map(psr => ({
                 ...psr
             }))
             console.log(psrs); 
+            this.isLoading = false;
         } catch (err) {
             console.log(error);
             this.error = err.message;
+            this.isLoading = false;
             // alert(err);
         }
     },
