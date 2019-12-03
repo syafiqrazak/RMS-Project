@@ -121,8 +121,12 @@ export default {
             try {
                 const logout = await user.logout();
                 // console.log(logout); //can be ignored
-                this.$router.push({ path: '/login' })    //add redirect to other page here
-                // alert("Logout");
+                if(logout){
+                  alert("Logout success");
+                  this.$router.push({ path: '/login' })    //add redirect to other page here
+                }
+                else
+                  alert("Logout Fail");
             } catch (err) {
                 this.error = err.message;
             }
