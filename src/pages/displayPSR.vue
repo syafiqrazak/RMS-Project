@@ -100,13 +100,15 @@
             </div>
             <div  style=" margin-left: 40%; margin-right: 40%;">
                 <b-button style="float:left;" type="is-success" @click.prevent="approve()">Approve</b-button>
-                <b-button style="float:right;" type="is-danger">Decline</b-button>
+                <b-button style="float:right;" type="is-danger" @click="decline_psr()">Decline</b-button>
             </div>
             <br><br><br>
         </md-card-content>
         </md-card>
                 {{error}}
+                {{t4}}
         <!-- <div>{{psrs}}</div> -->
+        
     </div>
     
 </template>
@@ -126,6 +128,8 @@ export default {
             status_t1: '',
             totalPrice:0,
             i: 0,
+            t4: localStorage.t4,
+            t3: localStorage.t3,
 
         };
     },
@@ -149,22 +153,22 @@ export default {
             this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
         },
         async approve(){
-          if(localStorage.t2 == "true" || this.t22== "true"){
+          if(localStorage.t2 == "true" || this.t3 == "true"){
             try {
                 const psra = await psr.psr_stat_1(this.psrs.id);
                 this.status_t1 = psra.status_t1;
-                console.log(psr); //can be ignored
-                alert("Tier 2 manager");
+                console.log(psra); //can be ignored
+                alert("Tier 2 & 3 manager");
             } catch (err) {
                 this.error = err.message;
             }
           }
-          else if(localStorage.t3 == "true"){
+          else if(localStorage.t4 == "true"){
             try {
                 const psra = await psr.psr_stat_2(this.psrs.id);
                 this.status_t2 = psra.status_t1;
-                console.log(psr); //can be ignored
-                alert("Tier 3 manager");
+                console.log(psra); //can be ignored
+                alert("Tier 4 manager");
             } catch (err) {
                 this.error = err.message;
             }
@@ -172,6 +176,13 @@ export default {
           else{
             alert("Invalid user! Only manager tier 1 & 2 can approve record. Please contact system admin for assistance.")
           }
+        },async decline_psr() {
+            try {
+                const data = await psr.psr_decline(this.psrs.id);
+                console.log(data); //can be ignored
+            } catch (err) {
+                this.error = err.message;
+            }
         },
         async get_pending() {
             try {

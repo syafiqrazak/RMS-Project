@@ -55,7 +55,7 @@ export default {
       t1: "",
       t2: "",
       t3: "",
-      t22: "",
+      t4: "",
       is_admin: "",
       staffName: '',
       isLoading: false,

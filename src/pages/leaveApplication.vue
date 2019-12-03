@@ -42,7 +42,7 @@
             style="float:right"
             >Apply</md-button
           >
-          {{is_admin}}
+          {{t4}}
           {{error}}
         </md-card-content>
       </md-card>

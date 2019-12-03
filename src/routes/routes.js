@@ -25,6 +25,8 @@ import register from "@/pages/Register.vue";
 import template from "@/pages/TableTemplate.vue";
 import resetPassword from "@/pages/ResetPassword.vue";
 import enterPSR from "@/pages/EnterPSR.vue";
+import myApplication from "@/pages/MyApplication.vue";
+
 
 const routes = [
   {
@@ -52,6 +54,11 @@ const routes = [
         path: "/resetPassword/:id",
         name: "Reset Password",
         component: resetPassword
+      },
+      {
+        path: "/myApplication/:id",
+        name: "My Applications",
+        component: myApplication
       },
       {
         path: "/table/",

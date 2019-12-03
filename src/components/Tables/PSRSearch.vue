@@ -21,7 +21,7 @@ export default {
             id: this.$route.params.id,
             t1: null,
             t2: null,
-            t22: null,
+            t4: null,
             t3: null,
             is_admin: null,
 
@@ -32,8 +32,8 @@ export default {
             this.t1 = localStorage.t1;
         if (localStorage.t2)
             this.t2 = localStorage.t2;
-        if (localStorage.t22)
-            this.t22 = localStorage.t22;
+        if (localStorage.t4)
+            this.t4 = localStorage.t4;
         if (localStorage.t3)
             this.t3 = localStorage.t3;
         if (localStorage.is_admin)
@@ -51,7 +51,7 @@ export default {
                     }))
 
             }
-            else if(this.t2 == "true" || this.t22== "true"){
+            else if(this.t2 == "true" || this.t3== "true"){
                 try {
                     const data = await psr.get_submits(this.page);
                     const limit = 8;
@@ -65,7 +65,7 @@ export default {
                     this.error = err.message;
                 }
             }
-            else if(this.t3 == "true"){
+            else if(this.t4 == "true"){
                 try {
                 const data = await psr.get_pending(this.page);
                 const limit = 8;

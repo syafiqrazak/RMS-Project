@@ -20,13 +20,17 @@
         <md-icon>thumb_up</md-icon>
         <p>PSR</p>
       </sidebar-link>
-      <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || is_admin == 'true'" :to="{ name: 'Notification', params: { id: this.id } }">
+      <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t4 == 'true' || is_admin == 'true'" :to="{ name: 'Notification', params: { id: this.id } }">
         <md-icon>thumb_up</md-icon>
         <p>Approval</p>
       </sidebar-link>
       <sidebar-link :to="{ name: 'Reset Password', params: { id: this.id } }">
         <md-icon>bubble_chart</md-icon>
         <p>Reset Password</p>
+      </sidebar-link>
+      <sidebar-link :to="{ name: 'My Applications', params: { id: this.id } }">
+        <md-icon>bubble_chart</md-icon>
+        <p>My Applications</p>
       </sidebar-link>
       <!-- <sidebar-link :to="{ name: 'Enter PSR', params: { id: this.id } }">
         <md-icon>bubble_chart</md-icon>
@@ -96,6 +100,7 @@ export default {
       id: this.$route.params.id,
       t2: localStorage.t2,
       t3: localStorage.t3,
+      t4: localStorage.t4,
       is_admin: localStorage.is_admin,
     };
   },

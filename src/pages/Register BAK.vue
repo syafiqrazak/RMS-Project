@@ -83,7 +83,7 @@ export default {
       role:'',
       usert1: false,
       usert2: false,
-      usert22: false,
+      usert4: false,
       usert3: false,
       is_admin: false,
       
@@ -95,8 +95,8 @@ export default {
             this.usert1 = true;
         else if(this.tier == "usert2")
             this.usert2 = true;
-        else if(this.tier == "usert22")
-            this.usert22 = true;
+        else if(this.tier == "usert4")
+            this.usert4 = true;
         else if(this.tier == "usert3")
             this.usert3 = true;
         else

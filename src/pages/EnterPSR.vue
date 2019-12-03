@@ -11,6 +11,7 @@
                 <section>
                     <div class="block" style="border:1px">
                         <p><strong>PSR INPUT METHOD: </strong></p>
+        {{psrs}}
                         <md-radio v-model="inputMethod" value="1" class="md-primary">Enter PSR</md-radio>
                         <md-radio v-model="inputMethod" value="2" class="md-primary">SEARH PSR</md-radio>
 
@@ -91,6 +92,7 @@ export default {
             }))
             console.log(psrs); 
         } catch (err) {
+            console.log(error);
             this.error = err.message;
             // alert(err);
         }

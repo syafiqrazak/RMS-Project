@@ -160,7 +160,7 @@
           </div><br><br>
          <div  style=" margin-left: 40%; margin-right: 40%;">
             <b-button type="is-success" @click.prevent="approve()">Approve</b-button>
-            <b-button type="is-danger">Decline</b-button>
+            <b-button type="is-danger" @click.prevent="decline_po()">Decline</b-button>
             {{error}}
           </div>
           {{pos}}
@@ -205,7 +205,7 @@ export default {
             this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
         },
         async approve(){
-          if(localStorage.t2 == "true"){
+          if(localStorage.t2 == "true" || localStorage.t3 == "true"){
             try {
                 const pos = await po.po_stat_1(this.po_id);
                 this.status_t1 = pos.status_t1;
@@ -215,7 +215,7 @@ export default {
                 this.error = err.message;
             }
           }
-          else if(localStorage.t3 == "true"){
+          else if(localStorage.t4 == "true"){
             try {
                 const pos = await po.po_stat_2(this.po_id);
                 this.status_t2 = pos.status_t1;
@@ -228,6 +228,14 @@ export default {
           else{
             alert("Invalid user! Only manager tier 1 & 2 can approve record. Please contact system admin for assistance.")
           }
+        },
+        async decline_po() {
+            try {
+                const data = await po.po_decline(this.po_id);
+                console.log(data); //can be ignored
+            } catch (err) {
+                this.error = err.message;
+            }
         },
         async get_pending() {
             try {
