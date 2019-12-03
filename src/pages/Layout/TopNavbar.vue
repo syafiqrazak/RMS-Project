@@ -121,8 +121,23 @@ export default {
             try {
                 const logout = await user.logout();
                 // console.log(logout); //can be ignored
-                this.$router.push({ path: '/login' })    //add redirect to other page here
-                // alert("Logout");
+                var scripts =  document.getElementsByTagName('script');
+                var torefreshs = ['myscript.js', 'myscript2.js'] ; // list of js to be refresh
+                var key = 1; // change this key every time you want force a refresh
+                for(var i=0;i<scripts.length;i++){ 
+                  for(var j=0;j<torefreshs;j++){ 
+                      if(scripts[i].src && (scripts[i].src.indexOf(torefreshs[j]) > -1)){
+                        new_src = scripts[i].src.replace(torefreshs[j],torefreshs[j] + 'k=' + key );
+                        scripts[i].src = new_src; // change src in order to refresh js
+                      } 
+                  }
+                }
+                if(logout){
+                  alert("Logout success");
+                  this.$router.push({ path: '/login' })    //add redirect to other page here
+                }
+                else
+                  alert("Logout Fail");
             } catch (err) {
                 this.error = err.message;
             }
