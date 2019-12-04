@@ -1,7 +1,7 @@
 <template>
   <div class="content">
 
-             <b-tabs type="is-toggle" size="is-medium" expanded>
+        <b-tabs type="is-toggle" size="is-medium" expanded>
               <b-tab-item label="Leave Application">
                 <md-card-content>
                   <notify-leave></notify-leave>

@@ -27,7 +27,6 @@ import resetPassword from "@/pages/ResetPassword.vue";
 import enterPSR from "@/pages/EnterPSR.vue";
 import myApplication from "@/pages/MyApplication.vue";
 
-
 const routes = [
   {
     path: "/",

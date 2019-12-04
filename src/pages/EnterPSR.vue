@@ -42,9 +42,9 @@
                     </md-card-content>
                 </div>
             <div v-else-if="inputMethod == '2'">
-                {{psrs}}
+                <!-- {{psrs}} -->
                <md-card-content>
-                  <b-table :data="isEmpty ? [] : leaves" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
+                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
                         aria-previous-label="Previous page"
                         aria-page-label="Page"
                         aria-current-label="Current page"
@@ -99,8 +99,8 @@ export default {
             this.psrs = data.map(psr => ({
                 ...psr
             }))
-            console.log(psrs); 
             this.isLoading = false;
+            console.log(psrs); 
         } catch (err) {
             console.log(error);
             this.error = err.message;
@@ -119,9 +119,14 @@ export default {
                 // alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
                 if(this.psrs[i].psr_no == this.PSRNo){
                     // alert("Match");
-                    this.match = true;
-                    this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.PSRNo}` });
-                    break;
+                    try{
+                        this.match = true;
+                        this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.PSRNo}` });
+                        break;
+                    }
+                    catch(error){
+                        alert("failed");
+                    }
                 }
         }
         // alert("Not Found");

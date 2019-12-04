@@ -11,6 +11,9 @@ import notifyLeave from "./Tables/notifyLeave.vue";
 import notifyPO from "./Tables/notifyPO.vue";
 import notifyPSR from "./Tables/notifyPSR.vue";
 import psrSearch from "./Tables/PSRSearch.vue";
+import myLeave from "./Tables/myLeave.vue";
+import myPO from "./Tables/myPO.vue";
+import myPSR from "./Tables/myPSR.vue";
 
 export {
   ChartCard,
@@ -22,5 +25,8 @@ export {
   notifyLeave,
   notifyPO,
   notifyPSR,
-  psrSearch
+  psrSearch,
+  myLeave,
+  myPO,
+  myPSR
 };

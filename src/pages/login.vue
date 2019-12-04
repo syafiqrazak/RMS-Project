@@ -49,7 +49,7 @@ export default {
       // nama: null,
       isShow: false,
       name: null,
-      password: null,
+      password: "password",
       error: "",
       id: "",
       t1: "",
@@ -102,6 +102,7 @@ export default {
           alert("wrong");
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
+          this.isLoading = false;
           this.error = "Work";
           localStorage.id = login.id;
           localStorage.t1 = login.t1;
@@ -115,6 +116,7 @@ export default {
           this.$router.push({ path: `/leaveApplication/${login.id}` });
           
         }
+        this.isLoading = false;
         console.log(login); //can be ignored
       } catch (err) {
         // document.getElementsByClassName("alert alert-danger").style.display = 'block';
