@@ -9,6 +9,17 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
+            <div v-if="action == 'status'" style="width:80%; margin-left:10%;">
+                <div v-if="psrs.status_decline == false && psrs.status_t2 == false" class="alert alert-warning" style="border-radius:30px;" >
+                <h4><center><strong> Status: Pending </strong></center></h4>
+                </div>
+                <div v-else-if="psrs.status_decline == true " class="alert alert-danger" style="border-radius:30px;">
+                <h4><center><strong> Status: Declined </strong></center></h4>
+                </div>
+                <div v-else class="alert alert-success" style="border-radius:30px;">
+                <h4><center><strong> Status: Approved </strong></center></h4>
+                </div>
+            </div>
             <br>
             <div class="alert alert-info" style="background-color:white;width:100%; display: inline-block; height:80px">
                 <div  style="width:40%; display: inline-block;">
@@ -98,15 +109,13 @@
                     <p>-------------------------</p>
                 </div>
             </div>
-            <div  style=" margin-left: 40%; margin-right: 40%;">
+            <div v-if="action == 'approval'"  style=" margin-left: 40%; margin-right: 40%;">
                 <b-button style="float:left;" type="is-success" @click.prevent="approve()">Approve</b-button>
                 <b-button style="float:right;" type="is-danger" @click="decline_psr()">Decline</b-button>
             </div>
             <br><br><br>
         </md-card-content>
         </md-card>
-                {{error}}
-                {{t4}}
         <!-- <div>{{psrs}}</div> -->
         
     </div>
@@ -123,6 +132,7 @@ export default {
             psrs:[],
             id: this.$route.params.id,
             psr_no: this.$route.params.psr_no,
+            action: this.$route.params.action,
             error: '',
             status_t1:'',
             status_t1: '',
@@ -306,6 +316,13 @@ export default {
 </script>
 
 <style scoped>
+/* strong{
+  color: white;
+} */
+.alert{
+  padding:2px 15px;
+  color: #fff;
+}
 .md-card {
   display: inline-block;
   position: relative;

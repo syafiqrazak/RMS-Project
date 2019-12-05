@@ -5,6 +5,30 @@
           {{pos}}
           {{error}}
       </h5>
+      <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" > 
+        <template slot-scope="props">
+            <b-table-column field="id" label="Applicant" width="500" >
+                <a @click="detail(props.row)">
+                    PO/TRD-{{ props.row.po_no |numeral('000000') }}
+                </a>
+            </b-table-column>
+            <b-table-column v-if="props.row.status_decline == false && props.row.status_t2 == false" field="id" label="Status" width="300" >
+                <p>
+                    Pending
+                </p>
+            </b-table-column>
+            <b-table-column v-else-if="props.row.status_decline == true " field="id" label="Status" width="300" >
+                <p>
+                    Decline
+                </p>
+            </b-table-column>
+            <b-table-column v-else field="id" label="Status" width="300" >
+                <p>
+                    Approved
+                </p>
+            </b-table-column>
+        </template>
+   </b-table>
   </div>
 
 </template>
@@ -42,7 +66,10 @@ export default {
         }
     },
         methods: {
-            
+            detail(value){
+            console.log(value.po_no);
+            this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}/status` });
+        },
         }
     
     

@@ -1,12 +1,8 @@
 <template>
   <div >
-      {{leaves}}
+      {{passLeave}}
      <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
-   <b-table :data="isEmpty ? [] : leaves[0][0]" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
-            aria-previous-label="Previous page"
-            aria-page-label="Page"
-            aria-current-label="Current page"
-            :pagination-simple="true"> 
+   <b-table :data="isEmpty ? [] : passLeave" :striped="true" :hoverable="true" > 
      <template slot-scope="props">
        <b-table-column field="id" label="Applicant" width="300" >
           <!-- <a @click="detail(props.row)"> -->
@@ -38,6 +34,7 @@ export default {
     data(){
         return{
             leaves: [], //do for leave in leaves
+            passLeave: [],
             error: '',
             isLoading: false,
             id: localStorage.id,
@@ -55,7 +52,9 @@ export default {
         } catch (err) {
             this.error = err.message;
             this.isLoading = false;
+            alert(err);
         }
+        this.passLeave = this.leaves[0];
     },
         methods: {
             

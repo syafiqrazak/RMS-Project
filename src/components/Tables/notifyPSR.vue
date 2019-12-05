@@ -141,7 +141,7 @@ export default {
     methods: {
         detail(value){
             console.log(value.psr_no);
-            this.$router.push({ path: `/displayPSR/${this.id}/${value.psr_no}` });
+            this.$router.push({ path: `/displayPSR/${this.id}/${value.psr_no}/approval` });
         },
         async get_pending() {
             try {

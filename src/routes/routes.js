@@ -70,12 +70,12 @@ const routes = [
         component: register
       },
       {
-        path: "/displayPO/:id/:po_no",
+        path: "/displayPO/:id/:po_no/:action",
         name: "Display Purchase Order",
         component: displayPO
       },
       {
-        path: "/displayPSR/:id/:psr_no",
+        path: "/displayPSR/:id/:psr_no/:action",
         name: "Display PSR",
         component: displayPSR
       },

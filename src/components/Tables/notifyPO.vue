@@ -134,7 +134,7 @@ export default {
     methods: {
         detail(value){
             console.log(value.po_no);
-            this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
+            this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}/approval` });
         },
         async get_pending() {
             try {

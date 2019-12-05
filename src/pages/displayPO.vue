@@ -8,7 +8,17 @@
         </md-card-header>
         <md-card-content>
           <!-- {{pos}} -->
-          <!-- <br><br><br> -->
+          <div v-if="action == 'status'" style="width:80%; margin-left:10%;">
+            <div v-if="pos.status_decline == false && pos.status_t2 == false" class="alert alert-warning" style="border-radius:30px;" >
+              <h4><center><strong> Status: Pending </strong></center></h4>
+            </div>
+            <div v-else-if="pos.status_decline == true " class="alert alert-danger" style="border-radius:30px;">
+              <h4><center><strong> Status: Declined </strong></center></h4>
+            </div>
+            <div v-else class="alert alert-success" style="border-radius:30px;">
+              <h4><center><strong> Status: Approved </strong></center></h4>
+            </div>
+          </div>
           <div class="alert alert-info" style="background-color:white; color:black;">
 
           <table style="width:100%">
@@ -136,7 +146,7 @@
               </md-table-row>
             </md-table>
           </div> -->
-            <div class="alert alert-info" style="background-color:white;">
+            <div v-if="pos.po_desc" class="alert alert-info" style="background-color:white;">
 
             <b-table :data="isEmpty ? [] : pos.po_desc" :striped="true" :hoverable="true" > 
                 <template slot-scope="props">
@@ -158,12 +168,12 @@
                 </template>
             </b-table>
           </div><br><br>
-         <div  style=" margin-left: 40%; margin-right: 40%;">
+         <div v-if="action == 'approval'" style=" margin-left: 40%; margin-right: 40%;">
             <b-button type="is-success" @click.prevent="approve()">Approve</b-button>
             <b-button type="is-danger" @click.prevent="decline_po()">Decline</b-button>
-            {{error}}
+            <!-- {{error}} -->
           </div>
-          {{pos}}
+          <!-- {{pos}} -->
         </md-card-content>
       </md-card>
     </form>
@@ -184,6 +194,7 @@ export default {
             isNext:false,
             isPrevious:true,
             id: this.$route.params.id,
+            action: this.$route.params.action,
             po_no: this.$route.params.po_no,
             po_id:'',
             status_t1:'',
@@ -359,6 +370,13 @@ export default {
 </script>
 
 <style scoped>
+strong{
+  color: white;
+}
+.alert{
+  padding:2px 15px;
+  color: #fff;
+}
 .md-card {
   display: inline-block;
   position: relative;
