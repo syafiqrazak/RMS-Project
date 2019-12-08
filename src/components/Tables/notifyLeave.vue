@@ -75,7 +75,7 @@ export default {
         methods: {
             detail(value){
                 console.log(value.id);
-                this.$router.push({ path: `/displayLeave/${this.id}/${value.id}` });
+                this.$router.push({ path: `/displayLeave/${this.id}/${value.id}/approval` });
             },
             openLoading() {
                 this.isLoading = true

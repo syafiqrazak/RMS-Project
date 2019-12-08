@@ -16,7 +16,7 @@
                 <h4>Reasons:</h4>
                 <h4>{{reason}}</h4>
             </div>
-            <div  style=" margin-left: 42%; margin-right: 42%;">
+            <div v-if="action=='approval'" style=" margin-left: 42%; margin-right: 42%;">
                 <b-button style="float:left;" type="is-success" @click.prevent="approve_leave()">Approve</b-button>
                 <b-button style="float:right;" type="is-danger">Decline</b-button>
                 {{error}}
@@ -35,6 +35,7 @@ export default {
             id: localStorage.id,
             leave_id: this.$route.params.leave_id,  //vue-router - to get leave_id
             po_no: this.$route.params.po_no,
+            action: this.$route.params.action,
             date_from: '',
             date_to: '',
             reason: '',

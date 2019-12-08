@@ -39,7 +39,6 @@ export default {
     name: "my-PO",
     data(){
         return{
-            leaves: [], //do for leave in leaves
             error: '',
             isLoading: false,
             id: localStorage.id,
@@ -67,9 +66,9 @@ export default {
     },
         methods: {
             detail(value){
-            console.log(value.po_no);
-            this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}/status` });
-        },
+                console.log(value.po_no);
+                this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}/status` });
+            },
         }
     
     

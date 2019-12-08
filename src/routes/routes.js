@@ -80,7 +80,7 @@ const routes = [
         component: displayPSR
       },
       {
-        path: "/displayLeave/:id/:leave_id",
+        path: "/displayLeave/:id/:leave_id/:action",
         name: "Display Leave",
         component: displayLeave
       },
