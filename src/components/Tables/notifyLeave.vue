@@ -25,10 +25,10 @@
           </a>
         </b-table-column>
         <b-table-column field="date_from" label="Start">
-            {{ props.row.date_from }}
+            {{ props.row.date_from | moment("D/MM/YYYY")}}
         </b-table-column>
         <b-table-column field="date_to" label="End">
-            {{ props.row.date_to }}
+            {{ props.row.date_to | moment("Do MMMM YYYY") }}
         </b-table-column>
         <b-table-column field="reason" label="Reason">
             {{ props.row.reason }}
@@ -38,7 +38,7 @@
         </b-table-column>
      </template>
    </b-table>
-       {{leaves}}
+       <!-- {{leaves}} -->
 
   </div>
   <!-- <div v-else>

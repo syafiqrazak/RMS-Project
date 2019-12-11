@@ -51,7 +51,7 @@ export default {
     },
     backgroundImage: {
       type: String,
-      default: require("@/assets/img/sidebar-2.jpg")
+      default: require("@/assets/img/sidebar-3.jpg")
     },
     imgLogo: {
       type: String,
@@ -59,7 +59,7 @@ export default {
     },
     activeColor: {
       type: String,
-      default: "green",
+      default: "blue",
       validator: value => {
         let acceptedValues = ["", "purple", "blue", "green", "orange", "red"];
         return acceptedValues.indexOf(value) !== -1;

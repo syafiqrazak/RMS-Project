@@ -5,20 +5,20 @@
         {{psrs.psr_date}}
         <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
-                <b-table-column field="po_no" label="PO Number" sortable>
+                <b-table-column field="po_no" label="PO Number" width="400" sortable>
                     <a @click="detail(props.row)">
                         PSR/TRD-{{ props.row.psr_no |numeral('000000') }}
                     </a>
                 </b-table-column>
+                 <b-table-column field="createdBy" label="Create By" width="500" >
+                    {{ props.row.create_user_psr.firstname }} {{ props.row.create_user_psr.lastname }}
+                </b-table-column>
                 <b-table-column field="po_date" label="Date Created">
-                    {{ props.row.psr_date | moment("dddd, MMMM Do YYYY") }}
+                    {{ props.row.createdAt | moment("Do MMMM YYYY") }}
                 </b-table-column>
-                <b-table-column>
+                <!-- <b-table-column>
                     {{ props.row.status }}
-                </b-table-column>
-                 <b-table-column field="id" label="ID" width="300" >
-                    {{ props.row.id }}
-                </b-table-column>
+                </b-table-column> -->
             </template>
         </b-table>
         <br><br>
@@ -48,7 +48,7 @@
                     &nbsp;&nbsp;
             </b-tooltip>
         </div>
-        {{psrs}}
+        {{psrs[0]}}
         <!-- {{page}} -->
         {{error}}
     </div>

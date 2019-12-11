@@ -7,11 +7,11 @@
                         PO/TRD-{{ props.row.po_no |numeral('000000') }}
                     </a>
                 </b-table-column>
-                <b-table-column field="po_date" label="Date Created" >
-                        {{ props.row.po_date  | moment("dddd, MMMM Do YYYY")}}
+                 <b-table-column field="createdBy" label="Create By" >
+                    {{ props.row.create_user_po.firstname }} {{ props.row.create_user_po.lastname }}
                 </b-table-column>
-                <b-table-column field="id" label="ID" width="300" >
-                        {{ props.row.id }}
+                <b-table-column field="po_date" label="Date Created" >
+                        {{ props.row.createdAt | moment("Do MMMM YYYY")  }}
                 </b-table-column>
             </template>
         </b-table>
@@ -44,7 +44,7 @@
                 
             </div>
         {{error}}
-        {{pos}}
+        <!-- {{pos}} -->
     </div>
 </template>
 
