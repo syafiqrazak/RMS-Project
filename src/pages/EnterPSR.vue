@@ -11,7 +11,7 @@
               <div class="alert alert-info" style="border:1px; background-color:white; color:black;">
                 <section>
                     <div class="block" style="border:1px">
-                        <p><strong>PSR INPUT METHOD: </strong></p>
+                        <h3><strong>PSR INPUT METHOD: </strong></h3>
         <!-- {{psrs}} -->
         {{error}}
                         <md-radio v-model="inputMethod" value="1" class="md-primary">Enter PSR</md-radio>
@@ -21,15 +21,19 @@
                   </section>
                 <div v-if="inputMethod =='1'">
                     <md-card-content>
-                    <table  cls="clsForm" width="80%:">
+                    <table  cls="clsForm" width="90%:">
+                        <col width="8%">
                         <col width="10%">
                         <col width="70%">
                         <tr>
                         <td class="clsLabel">
                             <h4>PSR NO: </h4>
                         </td>
-                        <td class="clsValue">
-                            <b-input v-model="PSRNo" style="width:98%"></b-input>
+                        <td class="clsLabel">
+                            <h4>PSR/TRD  </h4>
+                        </td>
+                        <td class="clsValue" style="padding:0.6rem;">
+                            <b-input v-model="PSRNo" style="width:38%"></b-input>
                         </td>
                         </tr>
                     </table>
@@ -73,9 +77,9 @@
           </md-card-content>
         </md-card>
     </div>
-    <div v-else>
+    <!-- <div v-else>
         <h3>Not match</h3>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -114,7 +118,9 @@ export default {
             this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.psr_no}` });
         },
         matchPSR(){
-            alert(this.psrs.length);
+            // alert(this.psrs.length);
+            this.PSRNo = parseInt(this.PSRNo);
+            alert(this.PSRNo);
             for(var i=0; i<this.psrs.length; i++){
                 // alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
                 if(this.psrs[i].psr_no == this.PSRNo){
@@ -128,7 +134,10 @@ export default {
                         alert("failed");
                     }
                 }
-        }
+            }
+            if(this.match = false){
+                alert("PSR not found!!!");
+            }
         // alert("Not Found");
     }
 }
