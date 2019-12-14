@@ -85,6 +85,8 @@
                     <h5> {{psrs.vessel_code}}</h5>
                 </div>
             </div>
+            
+        <div>Passed: {{psrs}}</div>
             <div  class="alert alert-info" style="background-color:#bdfffc;width:100%; display: inline-block;">
                 <b-table :data="isEmpty ? [] : psrs.psr_desc" :striped="true" :hoverable="true" > 
                     <template slot-scope="props">
@@ -116,7 +118,10 @@
             <br><br><br>
         </md-card-content>
         </md-card>
-        <!-- <div>{{psrs}}</div> -->
+        <!-- <div>Before: {{psr_no}}</div>
+<br> -->
+        <!-- <div>Passed: {{psrs}}</div> -->
+
         
     </div>
     
@@ -168,7 +173,8 @@ export default {
                 const psra = await psr.psr_stat_1(this.psrs.id);
                 this.status_t1 = psra.status_t1;
                 console.log(psra); //can be ignored
-                alert("Tier 2 & 3 manager");
+                localStorage.message = "PSR Application Approved";
+                this.$router.push({ path: `/message/${this.id}` });
             } catch (err) {
                 this.error = err.message;
             }
@@ -178,7 +184,8 @@ export default {
                 const psra = await psr.psr_stat_2(this.psrs.id);
                 this.status_t2 = psra.status_t1;
                 console.log(psra); //can be ignored
-                alert("Tier 4 manager");
+                localStorage.message = "PSR Application Approved";
+                this.$router.push({ path: `/message/${this.id}` });
             } catch (err) {
                 this.error = err.message;
             }

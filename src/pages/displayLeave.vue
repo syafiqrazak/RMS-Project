@@ -6,6 +6,8 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
+            {{leave_id}} <br>
+            {{data.id}}
             <div class="alert alert-info" style="background-color:white; color:black;" centered>
                 <h4><strong> Start Date:</strong> {{date_from}}</h4>
             </div>
@@ -18,7 +20,7 @@
             </div>
             <div v-if="action=='approval'" style=" margin-left: 42%; margin-right: 42%;">
                 <b-button style="float:left;" type="is-success" @click.prevent="approve_leave()">Approve</b-button>
-                <b-button style="float:right;" type="is-danger">Decline</b-button>
+                <b-button style="float:right;" type="is-danger" @click.prevent="decline_leave()">Decline</b-button>
                 {{error}}
              </div>
              <br><br>
@@ -41,14 +43,17 @@ export default {
             reason: '',
             status: '',
             error: '',
+            data:[],
         };
     },
     async created() {
         try {
             const leave = await leaves.report(this.leave_id);
+            this.data = leave;
             this.date_from = leave.date_from;
             this.date_to = leave.date_to;
             this.reason = leave.reason;
+
         } catch (err) {
             this.error = err.message;
         }
@@ -59,7 +64,18 @@ export default {
                 const leave = await leaves.approve_leave(this.leave_id);
                 this.status = leave.status;
                 alert(this.status);
-                alert("Leave application approved");
+                localStorage.message = "Leave Application Approved";
+                this.$router.push({ path: `/message/${this.id}` });
+            } catch (err) {
+                this.error = err.message;
+            }
+        },
+        async decline_leave() {
+            try {
+                const data = await leaves.decline_leave(this.leave_id);
+                console.log(data); //can be ignored
+                localStorage.message = "Leave Application Declined";
+                this.$router.push({ path: `/message/${this.id}` });
             } catch (err) {
                 this.error = err.message;
             }

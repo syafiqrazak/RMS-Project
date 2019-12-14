@@ -30,6 +30,11 @@ import Buefy from "buefy";
 import vueNumeralFilterInstaller from "vue-numeral-filter";
 import "buefy/dist/buefy.css";
 
+import Vuelidate from "vuelidate";
+import datePicker from "vue-bootstrap-datetimepicker";
+import "bootstrap/dist/css/bootstrap.css";
+import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css";
+
 // MaterialDashboard plugin
 import MaterialDashboard from "./material-dashboard";
 
@@ -50,6 +55,8 @@ Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 Vue.use(require("vue-moment"));
 Vue.use(vueNumeralFilterInstaller);
+Vue.use(Vuelidate);
+Vue.use(datePicker);
 
 /* eslint-disable no-new */
 new Vue({

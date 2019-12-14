@@ -26,6 +26,8 @@ import template from "@/pages/TableTemplate.vue";
 import resetPassword from "@/pages/ResetPassword.vue";
 import enterPSR from "@/pages/EnterPSR.vue";
 import myApplication from "@/pages/MyApplication.vue";
+import message from "@/pages/Message.vue";
+import user from "@/pages/User.vue";
 
 const routes = [
   {
@@ -60,6 +62,11 @@ const routes = [
         component: myApplication
       },
       {
+        path: "/user/:id",
+        name: "User",
+        component: user
+      },
+      {
         path: "/table/",
         name: "Table Template",
         component: template
@@ -68,6 +75,11 @@ const routes = [
         path: "/register/:id",
         name: "Staff Registration",
         component: register
+      },
+      {
+        path: "/message/:id",
+        name: "Message",
+        component: message
       },
       {
         path: "/displayPO/:id/:po_no/:action",

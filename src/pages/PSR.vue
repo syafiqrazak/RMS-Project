@@ -65,10 +65,10 @@
                 <div class="alert alert-info" style="color: black; background-color:white;width:49%; display: inline-block;">
                   <section>
                         <p><strong>Cost Type: </strong></p>
-                        <md-radio v-model="ty" value="UNIT RATE" class="md-primary">UNIT RATE</md-radio>
-                        <md-radio v-model="pur_just" value="AT COST" class="md-primary">AT COST</md-radio>
-                        <md-radio v-model="pur_just" value="OVERHEAD" class="md-primary">OVERHEAD</md-radio>
-                        <md-radio v-model="pur_just" value="COST PLUS" class="md-primary">COST PLUS</md-radio>
+                        <md-radio v-model="costType" value="UNIT RATE" class="md-primary">UNIT RATE</md-radio>
+                        <md-radio v-model="costType" value="AT COST" class="md-primary">AT COST</md-radio>
+                        <md-radio v-model="costType" value="OVERHEAD" class="md-primary">OVERHEAD</md-radio>
+                        <md-radio v-model="costType" value="COST PLUS" class="md-primary">COST PLUS</md-radio>
                   </section>
                 </div>
                  <div class="alert alert-info" style="color: black; background-color:white;width:49%; display: inline-block; float:right">
@@ -96,7 +96,7 @@
                     >Submit</md-button>
               </div>
               </md-card-content>
-                                {{delv}}
+              <!-- {{pur_just}} -->
 
                 </div>
             <div v-show="step === 2">
@@ -136,7 +136,7 @@
                     <tr>
                       <th>No.</th>
                       <th style="width:50%">Item Description</th>
-                      <th style="width:150px">Unit Price</th>
+                      <th style="width:150px">Unit Price(RM)</th>
                       <th style="width:150px">Quantity</th>
                       <th>Total</th>
                     </tr>
@@ -200,6 +200,7 @@
 import psrs from "@/js/psr.js"; //directory to psr.js
 export default {
   data() {
+    let dateFormat = this.$material.locale.dateFormat || 'yyyy-MM-dd'
     return {
       costType:'',
       radio:'',
@@ -243,10 +244,12 @@ export default {
                                               this.vessel_cd, 
                                               this.delv, 
                                               this.desc);
-                console.log("PSR");
-                console.log(psr); //can be ignored
+                // console.log("PSR");
+                // console.log(psr); //can be ignored
                 //add redirect to other page here
-                alert("Success");
+                // alert("Success");
+                localStorage.message = "PSR Application Submitted";
+                this.$router.push({ path: `/message/${this.id}` }); 
             } catch (err) {
                 this.error = err.message;
                 alert("Error!!!");
@@ -257,7 +260,16 @@ export default {
       this.step--;
     },
     next() {
-      this.step++;
+      // To calculate the time difference of two dates 
+      var today = new Date();
+      var Difference_In_Time = new Date(this.date_req) - today;         
+      // To calculate the no. of days between two dates 
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
+
+      if(Difference_In_Time > 0 )
+        this.step++;
+      else
+        alert("Required date must later than todays date");
     },
     submit() {
       alert("Submit to blah and show blah and etc.");
@@ -272,13 +284,18 @@ export default {
       this.inputs.splice(index, 1);
     },
     clone() {
-      this.desc.push({
-        index: this.index,
-        description: null,
-        quantity: 0,
-        unitPrice: 0
-      });
-      this.index++;
+      if(this.desc[this.index-2].description){
+        this.desc.push({
+          index: this.index,
+          description: null,
+          quantity: null,
+          unitPrice: null
+        });
+        this.index++;
+      }
+      else{
+        alert("Cannot add row.")
+      }
     },
     remove() {
       this.desc.pop({

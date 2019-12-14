@@ -5,8 +5,11 @@
    <b-table :data="isEmpty ? [] : passLeave" :striped="true" :hoverable="true" > 
      <template slot-scope="props">
        <b-table-column field="id" label="Applicant" width="300" >
-          <a @click="detail(props.row)">
+          <!-- <a @click="detail(props.row)">
               {{ props.row.user_leave.firstname }}
+          </a> -->
+          <a @click="detail(props.row)">
+              {{ props.row.id }}
           </a>
         </b-table-column>
         <b-table-column field="date_from" label="Start">

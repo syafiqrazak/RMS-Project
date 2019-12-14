@@ -8,6 +8,10 @@
         <md-icon>dashboard</md-icon>
         <p>Register</p>
       </sidebar-link>
+      <sidebar-link v-if="is_admin == 'true'" :to="{ name: 'User', params: { id: this.id } }">
+        <md-icon>dashboard</md-icon>
+        <p>User</p>
+      </sidebar-link>
       <sidebar-link :to="{ name: 'Leave Application', params: { id: this.id } }" >
         <md-icon>thumb_up</md-icon>
         <p>Leave Application</p>

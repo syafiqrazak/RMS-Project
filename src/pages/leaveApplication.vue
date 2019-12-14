@@ -14,8 +14,9 @@
               label="Start Date:"
               style="display:inline-block; float:left; width:47%"
             >
+            <!-- {{isDateDisabled2}} -->
               <md-field>
-                <md-datepicker v-model="leave.startDate" />
+                <md-datepicker v-model="leave.startDate" md-immediately :md-disabled-dates="disabled" />
                 <!-- <md-input v-model="leave.startDate" type="date" ></md-input> -->
               </md-field>
             </b-field>
@@ -25,8 +26,7 @@
               style="display:inline-block; float:right; width:47%"
             >
               <md-field>
-                <md-datepicker v-model="leave.endDate" />
-                <!-- <md-input v-model="leave.endDate" type="date" ></md-input> -->
+                <md-datepicker v-model="leave.endDate" md-immediately  />
               </md-field>
             </b-field>
           </div>
@@ -38,10 +38,11 @@
           {{ user }}
           <md-button
             class="md-raised md-success"
-            @click.once="add_leave()"
+            @click="add_leave()"
             style="float:right"
             >Apply</md-button
           >
+          {{leave.endDate}}
           {{t4}}
           {{error}}
         </md-card-content>
@@ -64,7 +65,15 @@ export default {
         startDate: null,
         endDate: null,
         reason: null,
-      }
+      },
+      disabled: {
+        from: new Date()
+    },
+      isDateDisabled2: function() {
+        var today = new Date();
+      // compare if today is greater then the datepickers date
+      return new Date() > today
+}
     };
   },
   mounted() {
@@ -83,19 +92,43 @@ export default {
     async add_leave() {
       try {
         this.isLoading = true;
-        const leave_data = await leave.add_leave(
-          this.leave.startDate,
-          this.leave.endDate,
-          this.leave.reason,
-        );
-        alert(leave_data); //can be ignored
-        console.log(this.admin);
-        this.isLoading = false;
-        this.$router.push({ path: "/leaveSubmitSuccess/id" }); //add redirect to other page here
+        // To calculate the time difference of two dates 
+        var Difference_In_Time = this.leave.endDate.getTime() - this.leave.startDate.getTime(); 
+          
+        // To calculate the no. of days between two dates 
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
+        if(this.leave.startDate >= new Date()){
+          if(this.leave.startDate && this.leave.endDate && this.leave.reason && Difference_In_Days > 0) {
+            const leave_data = await leave.add_leave(
+              this.leave.startDate,
+              this.leave.endDate,
+              this.leave.reason,
+              );
+            // alert(leave_data); //can be ignored
+            console.log(this.admin);
+            this.isLoading = false;
+            localStorage.message = "Leave Application Submitted";
+            this.$router.push({ path: `/message/${this.id}` });
+          }
+          else if(Difference_In_Days < 0){
+            alert("End Date must after Start Date");
+            this.isLoading = false;
+          }
+          else{
+            alert("All fields are Mandatory");
+            this.isLoading = false;
+          }
+        }
+        else{
+          alert("Start date must be later than today");
+          this.isLoading = false;
+        }
+        
+         //add redirect to other page here
         // alert("Success");
       } catch (err) {
         this.error = err.message;
-        // alert("Fail");
+        alert("Fail");
       }
     }
   }

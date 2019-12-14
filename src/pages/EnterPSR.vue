@@ -46,7 +46,7 @@
                     </md-card-content>
                 </div>
             <div v-else-if="inputMethod == '2'">
-                <!-- {{psrs}} -->
+                {{psrs}}
                <md-card-content>
                   <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
                         aria-previous-label="Previous page"
@@ -118,25 +118,30 @@ export default {
             this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.psr_no}` });
         },
         matchPSR(){
-            // alert(this.psrs.length);
-            this.PSRNo = parseInt(this.PSRNo);
-            alert(this.PSRNo);
-            for(var i=0; i<this.psrs.length; i++){
-                // alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
-                if(this.psrs[i].psr_no == this.PSRNo){
-                    // alert("Match");
-                    try{
-                        this.match = true;
-                        this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.PSRNo}` });
-                        break;
-                    }
-                    catch(error){
-                        alert("failed");
+            if(this.psrs != null){
+                // alert(this.psrs.length);
+                this.PSRNo = parseInt(this.PSRNo);
+                alert(this.PSRNo);
+                for(var i=0; i<this.psrs.length; i++){
+                    alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
+                    if(this.psrs[i].psr_no == this.PSRNo){
+                        // alert("Match");
+                        try{
+                            this.match = true;
+                            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.PSRNo}` });
+                            break;
+                        }
+                        catch(error){
+                            alert("failed");
+                        }
                     }
                 }
+                if(this.match = false){
+                    alert("PSR not found!!!");
+                }
             }
-            if(this.match = false){
-                alert("PSR not found!!!");
+            else{
+                alert("No Approved PSR yet");
             }
         // alert("Not Found");
     }
