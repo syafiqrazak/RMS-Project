@@ -132,12 +132,12 @@ export default {
         else
             this.is_admin = true;
 
-        console.log(this.email);
-        console.log(this.usert2);
+        alert(this.email);
+        alert(this.usert4);
 
         if(this.userName && this.userName)
         try {
-            const users = await admin.new_user(this.userName, this.password, this.firstName, this.lastName, this.email, this.is_admin, this.usert1, this.usert2, this.usert3, this.t4);
+            const users = await admin.new_user(this.userName, this.password, this.firstName, this.lastName, this.email, this.is_admin, this.usert1, this.usert2, this.usert3, this.usert4);
             console.log(users); //can be ignored
             this.posted = true;
             localStorage.message = "New User Created";

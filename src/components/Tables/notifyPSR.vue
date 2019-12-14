@@ -6,12 +6,12 @@
         <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
             <template slot-scope="props">
                 <b-table-column field="po_no" label="PO Number" width="400" sortable>
-                    <!-- <a @click="detail(props.row)">
-                        PSR/TRD-{{ props.row.psr_no |numeral('000000') }}
-                    </a> -->
                     <a @click="detail(props.row)">
-                        PSR/TRD-{{ props.row.id  }}
+                        PSR/TRD-{{ props.row.psr_no |numeral('000000') }}
                     </a>
+                    <!-- <a @click="detail(props.row)">
+                        PSR/TRD-{{ props.row.id  }}
+                    </a> -->
                 </b-table-column>
                  <b-table-column field="createdBy" label="Create By" width="500" >
                     {{ props.row.create_user_psr.firstname }} {{ props.row.create_user_psr.lastname }}

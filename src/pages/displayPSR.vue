@@ -66,7 +66,7 @@
                     <h5><strong> COST TYPE:</strong></h5>
                 </div>
                 <div style="width:49%; display: inline-block; color:black; ">
-                    <h5> {{psrs.delv}}</h5>
+                    <h5> {{psrs.cost_typ}}</h5>
                 </div>
             </div>
             <div v-show="psrs.project_title" class="alert alert-info" style="background-color:white;width:100%; display: inline-block; height:80px">
@@ -168,8 +168,10 @@ export default {
             this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
         },
         async approve(){
+            alert(localStorage.t2 + this.t3 + localStorage.t4);
           if(localStorage.t2 == "true" || this.t3 == "true"){
             try {
+                alert("T2 & T3");
                 const psra = await psr.psr_stat_1(this.psrs.id);
                 this.status_t1 = psra.status_t1;
                 console.log(psra); //can be ignored
@@ -181,6 +183,7 @@ export default {
           }
           else if(localStorage.t4 == "true"){
             try {
+                alert("T4");
                 const psra = await psr.psr_stat_2(this.psrs.id);
                 this.status_t2 = psra.status_t1;
                 console.log(psra); //can be ignored

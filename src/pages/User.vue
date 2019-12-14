@@ -6,32 +6,35 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
-            {{users}}
-            {{error}}
+            <!-- {{users}}
+            {{error}} -->
             <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
-                <b-table :data="isEmpty ? [] : leaves" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
+                <b-table :data="isEmpty ? [] : users" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
                             aria-previous-label="Previous page"
                             aria-page-label="Page"
                             aria-current-label="Current page"
                             :pagination-simple="true"> 
                     <template slot-scope="props">
-                    <b-table-column field="id" label="Applicant" width="300" >
+                    <b-table-column field="id" label="Username" width="300" >
                         <a @click="detail(props.row)">
-                            {{ props.row.user_leave.firstname }}
+                            {{ props.row.username }}
                         </a>
-                        </b-table-column>
-                        <b-table-column field="date_from" label="Start">
-                            {{ props.row.date_from | moment("D/MM/YYYY")}}
-                        </b-table-column>
-                        <b-table-column field="date_to" label="End">
-                            {{ props.row.date_to | moment("Do MMMM YYYY") }}
-                        </b-table-column>
-                        <b-table-column field="reason" label="Reason">
-                            {{ props.row.reason }}
-                        </b-table-column>
-                        <b-table-column field="status" label="Status">
-                            {{ props.row.status }}
-                        </b-table-column>
+                    </b-table-column>
+                    <b-table-column field="id" label="Firstname" width="300" >
+                            {{ props.row.firstname }}
+                    </b-table-column>
+                    <b-table-column field="id" label="Lastname" width="300" >
+                            {{ props.row.lastname }}
+                    </b-table-column>
+                    <b-table-column field="id" label="Role" width="300" >
+                            <span v-if="props.row.t1 == true">Level 1</span>
+                            <span v-else-if="props.row.t2 == true">Level 2</span>
+                            <span v-else-if="props.row.t3 == true">Level 3</span>
+                            <span v-else-if="props.row.t4 == true">Level 4</span>
+                            <span v-else-if="props.row.is_admin == true">Admin</span>
+                            <span v-else>Invalid User</span>
+                    </b-table-column>
+                    
                     </template>
                 </b-table>
         </md-card-content>
@@ -57,7 +60,6 @@
                 const data = await admin.get_all_user();
                 console.log("Users:");
                 this.users = data;
-                alert(this.users);
                 // this.users = data.map(users => ({
                 //     ...users
                 // })) 

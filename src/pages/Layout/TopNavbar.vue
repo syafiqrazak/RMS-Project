@@ -133,7 +133,7 @@ export default {
                   }
                 }
                 if(logout){
-                  alert("Logout success");
+                  console.log("Logout success");
                   this.$router.push({ path: '/login' })    //add redirect to other page here
                 }
                 else

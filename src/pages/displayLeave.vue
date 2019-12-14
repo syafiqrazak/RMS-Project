@@ -6,7 +6,8 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
-            {{leave_id}} <br>
+            {{data}} <br>
+            {{leave_id}} <br> {{error}}
             {{data.id}}
             <div class="alert alert-info" style="background-color:white; color:black;" centered>
                 <h4><strong> Start Date:</strong> {{date_from}}</h4>

@@ -8,8 +8,9 @@
             <!-- <p class="category">Complete your profile</p> -->
           </md-card-header>
 
-          <md-card-content>
+          <md-card-content style="width:100%;">
             <div v-show="step === 1">
+              <md-card-content>
               <table cls="clsForm" width="80%:">
                     <col width="25%">
                     <col width="70%">
@@ -97,73 +98,81 @@
               >
               {{ details }}
               <!-- </div> -->
+              </md-card-content>
             </div>
 
-            <div v-show="step === 2" style="width:100%;">
-              <md-card-content style="width:100%;">
-                <md-button
-                  class="md-raised md-success"
-                  @click="clone()"
-                  style="float:left"
-                  >Add</md-button
-                >
+            <div v-show="step === 2" style="width:150%;">
+             <md-card-content style="width:100%;">
+                
+                <div class="alert alert-info" style="background-color:#bdfffc; color: black;">
+                  <md-card-content>
+                    <md-button
+                      class="md-raised md-danger"
+                      @click="remove()"
+                      style="float:right"
+                      >Remove</md-button>
+                    <md-button
+                      class="md-raised md-success"
+                      @click="clone()"
+                      style="float:right"
+                      >Add</md-button>
                 <br /><br /><br />
-              </md-card-content >
-              <!-- <h1>Step Two</h1> -->
-              <md-card-content style="width:100%;">
-                <table style="width:100%;">
-                  <tr>
-                    <th>No.</th>
-                    <th>Item Description</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                  </tr>
-                  <tr v-for="items in item" :key="items.desccription">
-                    <td>{{ items.index }}</td>
-                    <td>
-                      <md-field>
-                        <!-- <label>Company (disabled)</label> -->
-                        <md-input v-model="items.description" ></md-input>
-                      </md-field>
-                    </td>
-                    <td>
-                      <md-field>
-                        <!-- <label>Company (disabled)</label> -->
-                        <md-input v-model="items.unitPrice"></md-input>
-                      </md-field>
-                    </td>
-                    <td>
-                      <md-field>
-                        <!-- <label>Company (disabled)</label> -->
-                        <md-input v-model="items.quantity"></md-input>
-                      </md-field>
-                    </td>
-                    <td>RM {{ items.unitPrice * items.quantity |numeral('0.00') }}</td>
-                    <td>
-                      <div @click="remove()">
-                        <md-icon>cancel</md-icon>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
               </md-card-content>
-
-              <md-button
-                class="md-raised md-success"
-                @click.prevent="po_addpo()"
+                  <table>
+                    <tr>
+                      <th>No.</th>
+                      <th style="width:50%">Item Description</th>
+                      <th style="width:150px">Unit Price(RM)</th>
+                      <th style="width:150px">Quantity</th>
+                      <th>Total</th>
+                    </tr>
+                    <tr v-for="items in desc" :key="items">
+                      <td>{{ items.index }}.</td>
+                      <td>
+                          <b-field>
+                            <b-input v-model="items.description" placeholder="">
+                            </b-input>
+                        </b-field>
+                      </td>
+                      <td>
+                        <b-field>
+                            <b-input v-model="items.unitPrice" placeholder="" type="number">
+                            </b-input>
+                        </b-field>
+                      </td>
+                      <td>
+                        <b-field>
+                            <b-input v-model="items.quantity" placeholder="" type="number">
+                            </b-input>
+                        </b-field>
+                      </td>
+                      <td><b-field>
+                            <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
+                            </b-input> -->
+                        </b-field>RM {{ items.unitPrice * items.quantity |numeral('0.00')}}</td>
+                      <!-- <td>
+                        <div @click="remove()">
+                          <md-icon>cancel</md-icon>
+                        </div>
+                      </td> -->
+                    </tr>
+                  </table>
+                </div>
+              </md-card-content>
+              {{ desc }}
+              <md-button class="md-raised"
+                @click.prevent="psr_adds()"
                 style="float:right"
                 >Submit</md-button
               >
               <md-button
-                class="md-raised md-success"
+                class="md-raised"
                 @click.prevent="prev()"
                 style="float:right"
                 >Previous</md-button
               >
+              {{error}}
               <!-- <input type="submit" value="Save"> -->
-              {{ item }}
-              {{ error }}
             </div>
           </md-card-content>
         </md-card>
@@ -200,12 +209,12 @@ export default {
         po_no: null,
         address: null
       },
-      item: [
+      desc: [
         {
           index: 1,
           description: null,
-          quantity: 0,
-          unitPrice: 0
+          quantity: null,
+          unitPrice: null,
           //   price:(quantity*unitPrice)
         }
       ]
@@ -225,7 +234,7 @@ export default {
           this.details.CCANo,
           this.details.paymentMode,
           this.details.address,
-          this.item
+          this.desc
         );
         // const po = await po.po_add("123", "date", "po_ref", "due", "ship", "psr", "cca", "pay", "address", {});
         console.log(po); //can be ignored

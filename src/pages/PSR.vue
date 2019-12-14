@@ -96,7 +96,7 @@
                     >Submit</md-button>
               </div>
               </md-card-content>
-              <!-- {{pur_just}} -->
+              {{costType}}
 
                 </div>
             <div v-show="step === 2">
@@ -243,6 +243,7 @@ export default {
                                               this.p_title, 
                                               this.vessel_cd, 
                                               this.delv, 
+                                              this.costType,
                                               this.desc);
                 // console.log("PSR");
                 // console.log(psr); //can be ignored
