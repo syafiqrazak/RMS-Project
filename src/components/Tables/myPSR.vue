@@ -6,7 +6,7 @@
       </h5>
       <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
         <template slot-scope="props">
-            <b-table-column field="id" label="Applicant" width="500" >
+            <b-table-column field="id" label="PSR Number" width="500" >
                 <a @click="detail(props.row)">
                     PSR/TRD-{{ props.row.psr_no |numeral('000000') }}
                 </a>

@@ -56,10 +56,10 @@
                         </td>
                         <td class="clsValue">
                           <b-field>
-                            <b-select expanded style="width:98%;">
-                                <option value="flint">Land </option>
-                                <option value="silver">Ship</option>\
-                                <option value="silver">Air</option>
+                            <b-select v-model="details.modeOfShipment" expanded style="width:98%;">
+                                <option value="Land">Land </option>
+                                <option value="Ship">Ship</option>\
+                                <option value="Air">Air</option>
                             </b-select>
                         </b-field>
                         </td>
@@ -78,11 +78,21 @@
                         </td>
                         <td class="clsValue">
                           <b-field>
-                            <b-select expanded style="width:98%;">
-                                <option value="flint">Debit </option>
-                                <option value="silver">Credit</option>\
-                                <option value="silver">As per Invoice</option>
+                            <b-select v-model="details.paymentMode" expanded style="width:98%;">
+                                <option value="Debit">Debit </option>
+                                <option value="Credit">Credit</option>\
+                                <option value="As per Invoice">As per Invoice</option>
                             </b-select>
+                        </b-field>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Address:</h4>
+                        </td>
+                        <td class="clsValue">
+                          <b-field>
+                            <b-input v-model="details.address" style="width:98%" maxlength="200" type="textarea"></b-input>
                         </b-field>  
                         </td>
                     </tr>
@@ -161,7 +171,7 @@
               </md-card-content>
               {{ desc }}
               <md-button class="md-raised"
-                @click.prevent="psr_adds()"
+                @click.prevent="po_addpo()"
                 style="float:right"
                 >Submit</md-button
               >
@@ -225,12 +235,10 @@ export default {
     async po_addpo() {
       try {
         const po = await purchaseOrder.po_add(
-          this.details.po_no,
-          this.details.date,
           this.details.reference,
-          this.details.dueDate,
+          this.details.date,
           this.details.modeOfShipment,
-          this.details.PSRNo,
+          this.details.po_no,
           this.details.CCANo,
           this.details.paymentMode,
           this.details.address,
@@ -238,7 +246,9 @@ export default {
         );
         // const po = await po.po_add("123", "date", "po_ref", "due", "ship", "psr", "cca", "pay", "address", {});
         console.log(po); //can be ignored
-        alert("Success");
+        // alert("Success");
+          localStorage.message = "Purchase Order Application Submitted";
+          this.$router.push({ path: `/message/${this.id}` });
       } catch (err) {
         alert("Fail");
         this.error = err.message;

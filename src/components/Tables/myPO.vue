@@ -7,7 +7,7 @@
       </h5>
       <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true" > 
         <template slot-scope="props">
-            <b-table-column field="id" label="Applicant" width="500" >
+            <b-table-column field="id" label="PO Number" width="500" >
                 <a @click="detail(props.row)">
                     PO/TRD-{{ props.row.po_no |numeral('000000') }}
                 </a>

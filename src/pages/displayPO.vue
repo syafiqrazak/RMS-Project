@@ -7,7 +7,7 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
-          <!-- {{pos}} -->
+          {{pos}}
           <div v-if="action == 'status'" style="width:80%; margin-left:10%;">
             <div v-if="pos.status_decline == false && pos.status_t2 == false" class="alert alert-warning" style="border-radius:30px;" >
               <h4><center><strong> Status: Pending </strong></center></h4>
@@ -45,7 +45,7 @@
                 <p>PO/TRD-{{ pos.po_no |numeral('0000') }}</p>
               </td>
             </tr>
-            <td rowspan="9"><b>Address:</b> {{ pos.address }}</td>
+            <td rowspan="8"><b>Address:</b> {{ pos.address }}</td>
             <tr>
               <td>
                 <p><b>Date</b></p>
@@ -67,7 +67,7 @@
                 <p><b>Our Ref:</b></p>
               </td>
               <td>
-                <p>{{ pos_ref }}</p>
+                <p>{{ pos.po_ref }}</p>
               </td>
             </tr>
             <tr>
@@ -75,7 +75,7 @@
                 <p><b>Your Quotation:</b></p>
               </td>
               <td>
-                <p>{{ quot }}</p>
+                <p>{{ pos.quot }}</p>
               </td>
             </tr>
             <tr>
