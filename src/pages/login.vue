@@ -10,7 +10,9 @@
       <form>
         <!-- <b-modal :active.sync="isImageModalActive">
             <p class="image is-4by3"> -->
-                <div id="clsImage"><img class="logo" src="@/assets/img/dinastiaLogo.png" ></div>
+        <div id="clsImage">
+          <img class="logo" src="@/assets/img/dinastiaLogo.png" />
+        </div>
             <!-- </p>
         </b-modal> -->
         <b-field label="Username:" style="color:#FAFAFA;" center>
@@ -103,18 +105,19 @@ export default {
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
           this.isLoading = false;
-          this.error = "Work";
+          // this.error = "Work";
           localStorage.id = login.id;
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
           localStorage.t4 = login.t4;
           localStorage.t3 = login.t3;
           localStorage.is_admin = login.is_admin;
-          localStorage.staffName = login.firstname + " "+  login.lastname;
+          localStorage.department = login.department;
+          localStorage.acct_t = login.acct_t;
+          localStorage.staffName = login.firstname + " " + login.lastname;
           // alert(localStorage.staffName);
           this.isLoading = false;
           this.$router.push({ path: `/leaveApplication/${login.id}` });
-          
         }
         this.isLoading = false;
         console.log(login); //can be ignored

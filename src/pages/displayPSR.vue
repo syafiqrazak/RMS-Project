@@ -86,7 +86,7 @@
                 </div>
             </div>
             
-        <div>Passed: {{psrs}}</div>
+        <!-- <div>Passed: {{psrs}}</div> -->
             <div  class="alert alert-info" style="background-color:#bdfffc;width:100%; display: inline-block;">
                 <b-table :data="isEmpty ? [] : psrs.psr_desc" :striped="true" :hoverable="true" > 
                     <template slot-scope="props">

@@ -84,29 +84,32 @@
 
 <script>
 import psr from "@/js/psr.js"; //directory to psr.js
+import psrClass from "@/js/class/psr_class.js"; //directory to psr_class.js
 export default {
     data(){
         return {
             match: true,
             inputMethod: '0',
             PSRNo: '',
+            PSR_id:'',
             psrs: [],
             error:'',
             i: 0,
             isLoading: false,
+            psrObj: new psrClass(),
         }
     },
     async created() {
         try {
             this.isLoading = true;
-            const data = await psr.approved_np();
+            const data = await psr.get_approved(this.psrObj);
             this.psrs = data.map(psr => ({
                 ...psr
             }))
             this.isLoading = false;
-            console.log(psrs); 
+            console.log(this.psrs); 
         } catch (err) {
-            console.log(error);
+            console.log(err);
             this.error = err.message;
             this.isLoading = false;
             // alert(err);
@@ -114,8 +117,8 @@ export default {
     },
     methods: {
         passPSR(value){
-            console.log(value.psr_no);
-            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.psr_no}` });
+            console.log(value.id);
+            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.id}` });
         },
         matchPSR(){
             if(this.psrs != null){

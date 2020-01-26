@@ -15,7 +15,7 @@
                             <h4>First Name:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="firstName" style="width:98%"></b-input>
+                            <b-input v-model="userObj.firstname" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -23,7 +23,7 @@
                             <h4>Last Name:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="lastName" style="width:98%"></b-input>
+                            <b-input v-model="userObj.lastname" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -31,7 +31,7 @@
                             <h4>Email Address:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="email" style="width:98%"></b-input>
+                            <b-input v-model="userObj.email" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -39,7 +39,57 @@
                             <h4>Username:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userName" style="width:98%"></b-input>
+                            <b-input v-model="userObj.username" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Department:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="userObj.department" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Home Address:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="userObj.address_1" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <!-- <h4>Home Address:</h4> -->
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="userObj.address_2" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="clsLabel">
+                            <!-- <h4>Home Address:</h4> -->
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="userObj.address_3" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="clsLabel">
+                            <!-- <h4>Home Address:</h4> -->
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="userObj.address_4" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Contact Number:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-field>
+                                <b-input type="password" v-model="userObj.contact_no" style="width:98%"  password-reveal></b-input>
+                            </b-field>
                         </td>
                     </tr>
                     <tr>
@@ -48,7 +98,7 @@
                         </td>
                         <td class="clsValue">
                             <b-field>
-                                <b-input type="password" v-model="password" style="width:98%"  password-reveal></b-input>
+                                <b-input type="password" v-model="userObj.password" style="width:98%"  password-reveal></b-input>
                             </b-field>
                         </td>
                     </tr>
@@ -58,7 +108,7 @@
                         </td>
                         <td class="clsValue">
                             <b-field>
-                                <b-input type="password" v-model="confirmPassword" style="width:98%"  password-reveal></b-input>
+                                <b-input type="password" v-model="userObj.confirmPassword" style="width:98%"  password-reveal></b-input>
                             </b-field>
                         </td>
                     </tr>
@@ -74,13 +124,14 @@
                                     <md-radio v-model="tier" value="usert2" class="md-primary">User Tier 2</md-radio>
                                     <md-radio v-model="tier" value="usert3" class="md-primary">User Tier 3</md-radio>
                                     <md-radio v-model="tier" value="usert4" class="md-primary">User Tier 4</md-radio>
+                                    <md-radio v-model="tier" value="acct_t" class="md-primary">Accountant Tier</md-radio>
                                     <md-radio v-model="tier" value="is_admin" class="md-primary">Admin</md-radio>
                             </div>
                             <!-- </b-field> -->
                         </td>
                     </tr>
                 </table>
-                {{password}}
+                {{userObj.password}}
                 <br><br>
                 <md-button
                     class="md-raised md-success"
@@ -99,45 +150,59 @@
 
 <script>
 import admin from "@/js/admin.js"; //directory to admin.js
+import userClass from "@/js/class/user_class.js"; //directory to admin.js
 export default {
     name: "edit-profile-form",
   data() {
     return {
-      firstName: '',
-      lastName:'',
-      userName: '',
-      email:'',
-      tier:'',
-      password:'',
-      confirmPassword:'',
-      role:'',
-      usert1: false,
-      usert2: false,
-      usert4: false,
-      usert3: false,
-      is_admin: false,
+    //     firstName: '',
+    //     lastName:'',
+    //     userName: '',
+    //     email:'',
+        tier:'',
+    //     home_address1:'',
+    //     home_address2:'',
+    //     home_address3:'',
+    //     home_address4:'',
+    //     department:'',
+    //     contact_number:'',
+    //     password:'',
+    //     confirmPassword:'',
+    //     role:'',
+    //     t1: false,
+    //     t2: false,
+    //     t3: false,
+    //     t4: false,
+    //     is_admin: false,
+        // posted: false,
+      userObj: new userClass(),
       posted: false,
     };
   },
   methods: {
     async new_user() {
         if(this.tier == "usert1")
-            this.usert1 = true;
+            this.userObj.t1 = true;
         else if(this.tier == "usert2")
-            this.usert2 = true;
+            this.userObj.t2 = true;
         else if(this.tier == "usert4")
-            this.usert4 = true;
+            this.userObj.t4 = true;
         else if(this.tier == "usert3")
-            this.usert3 = true;
+            this.userObj.t3 = true;
+        else if(this.tier == "acct_t")
+            this.userObj.acct_t = true;
         else
-            this.is_admin = true;
+            this.userObj.is_admin = true;
 
-        alert(this.email);
-        alert(this.usert4);
-
-        if(this.userName && this.userName)
+        alert(this.userObj.email);
+        alert(this.userObj.t1);
+        console.log(this.userObj.toJson());
+        // if(this.register.userName && this.register.password)
         try {
-            const users = await admin.new_user(this.userName, this.password, this.firstName, this.lastName, this.email, this.is_admin, this.usert1, this.usert2, this.usert3, this.usert4);
+            // this.userObj.
+            // var temp = this.register.toJson();
+            // temp = toJson(this.register);
+            const users = await admin.new_user(this.userObj.toJson());
             console.log(users); //can be ignored
             this.posted = true;
             localStorage.message = "New User Created";

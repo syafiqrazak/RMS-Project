@@ -45,7 +45,7 @@
                         <td class="clsValue">
                           <div class="block" style="border: 1px solid #dbdbdb; border-radius:4px; padding-left:1em; height:3.5em; width:98%; verticle-align:middle;">
                             <!-- <b-field label="Select datetime"> -->
-                              <md-datepicker v-model="selectedDate" style="padding-top: 0px;" md-immediately />
+                              <md-datepicker v-model="details.dueDate" style="padding-top: 0px;" md-immediately />
                           </div>
                         </td>
                     </tr>
@@ -200,6 +200,8 @@ import { SimpleTable, notifyLeave, notifyPO, notifyPSR, psrSearch } from "@/comp
 export default {
   data() {
     return {
+      
+      psr_id: this.$route.params.psr_id,
       PSRAvailable: true,
       inputMethod: '0',
       isSearch: false,
@@ -234,11 +236,12 @@ export default {
   methods: {
     async po_addpo() {
       try {
+        alert(this.psr_id)
         const po = await purchaseOrder.po_add(
           this.details.reference,
-          this.details.date,
+          this.details.dueDate,
           this.details.modeOfShipment,
-          this.details.po_no,
+          this.details.psr_id,
           this.details.CCANo,
           this.details.paymentMode,
           this.details.address,

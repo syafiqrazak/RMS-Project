@@ -1,8 +1,8 @@
 <template>
   <div >
       <h5>
-          {{psrs}}
-          {{error}}
+          <!-- {{psrs}}
+          {{error}} -->
       </h5>
       <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
         <template slot-scope="props">

@@ -51,7 +51,7 @@
                     &nbsp;&nbsp;
             </b-tooltip>
         </div>
-        {{psrs[0]}}
+        <!-- {{psrs[0]}} -->
         <!-- {{page}} -->
         {{error}}
     </div>

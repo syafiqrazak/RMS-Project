@@ -127,7 +127,7 @@ const routes = [
         component: leaveApplication
       },
       {
-        path: "/purchaseOrder/:id/:psr_no",
+        path: "/purchaseOrder/:id/:psr_id",
         name: "Purchase Order",
         component: purchaseOrder
       },
