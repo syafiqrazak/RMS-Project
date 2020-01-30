@@ -1,6 +1,6 @@
 <template>
     <div v-if="match">
-        <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
+        <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
             <h4 class="title">Purchase Order Application</h4>
@@ -102,12 +102,14 @@ export default {
     async created() {
         try {
             this.isLoading = true;
+            this.psrObj.in_page = 1;
             const data = await psr.get_approved(this.psrObj);
-            this.psrs = data.map(psr => ({
-                ...psr
-            }))
+            console.log(data.result);
+            this.psrs = data.result[0];
+            // this.psrs = data.map(psr => ({
+            //     ...psr
+            // }))
             this.isLoading = false;
-            console.log(this.psrs); 
         } catch (err) {
             console.log(err);
             this.error = err.message;
@@ -139,7 +141,7 @@ export default {
                         }
                     }
                 }
-                if(this.match = false){
+                if(!this.match){
                     alert("PSR not found!!!");
                 }
             }

@@ -12,6 +12,14 @@
         <md-icon>dashboard</md-icon>
         <p>User</p>
       </sidebar-link>
+      <sidebar-link v-if="is_acct == 'true'" :to="{ name: 'Purchase Order Listing', params: { id: this.id } }">
+        <md-icon>dashboard</md-icon>
+        <p>Purchase Order List</p>
+      </sidebar-link>
+      <sidebar-link v-if="is_acct == 'true'" :to="{ name: 'PSR Listing', params: { id: this.id } }">
+        <md-icon>dashboard</md-icon>
+        <p>PSR List</p>
+      </sidebar-link>
       <sidebar-link :to="{ name: 'Leave Application', params: { id: this.id } }" >
         <md-icon>thumb_up</md-icon>
         <p>Leave Application</p>
@@ -106,6 +114,7 @@ export default {
       t3: localStorage.t3,
       t4: localStorage.t4,
       is_admin: localStorage.is_admin,
+      is_acct: localStorage.acct_t,
     };
   },
   // created() {

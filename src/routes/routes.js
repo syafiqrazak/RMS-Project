@@ -28,6 +28,9 @@ import enterPSR from "@/pages/EnterPSR.vue";
 import myApplication from "@/pages/MyApplication.vue";
 import message from "@/pages/Message.vue";
 import user from "@/pages/User.vue";
+import poListing from "@/pages/POListing.vue";
+import psrListing from "@/pages/PSRListing.vue";
+
 
 const routes = [
   {
@@ -55,6 +58,16 @@ const routes = [
         path: "/resetPassword/:id",
         name: "Reset Password",
         component: resetPassword
+      },
+      {
+        path: "/poListing/:id",
+        name: "Purchase Order Listing",
+        component: poListing
+      },
+      {
+        path: "/psrListing/:id",
+        name: "PSR Listing",
+        component: psrListing
       },
       {
         path: "/myApplication/:id",

@@ -1,11 +1,15 @@
 <template>
   <div class="container">
-    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    ></b-loading>
 
     <form>
       <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
-          <h4 class="title">Leave Application </h4>
+          <h4 class="title">Leave Application</h4>
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
@@ -14,9 +18,13 @@
               label="Start Date:"
               style="display:inline-block; float:left; width:47%"
             >
-            <!-- {{isDateDisabled2}} -->
+              <!-- {{isDateDisabled2}} -->
               <md-field>
-                <md-datepicker v-model="leave.startDate" md-immediately :md-disabled-dates="disabled" />
+                <md-datepicker
+                  v-model="leave.startDate"
+                  md-immediately
+                  :md-disabled-dates="disabled"
+                />
                 <!-- <md-input v-model="leave.startDate" type="date" ></md-input> -->
               </md-field>
             </b-field>
@@ -26,13 +34,23 @@
               style="display:inline-block; float:right; width:47%"
             >
               <md-field>
-                <md-datepicker v-model="leave.endDate" md-immediately  />
+                <md-datepicker v-model="leave.endDate" md-immediately />
               </md-field>
             </b-field>
           </div>
           <b-field label="Reasons:">
             <md-field>
               <md-textarea v-model="leave.reason" type="textbox"></md-textarea>
+            </md-field>
+          </b-field>
+          <b-field label="Emergency Contact Number:">
+            <md-field>
+              <md-input v-model="leave.emergency_contact" type="number"></md-input>
+            </md-field>
+          </b-field>
+          <b-field label="Replacement:">
+            <md-field>
+              <md-input v-model="leave.replacement"></md-input>
             </md-field>
           </b-field>
           {{ user }}
@@ -42,9 +60,9 @@
             style="float:right"
             >Apply</md-button
           >
-          {{leave.endDate}}
-          {{t4}}
-          {{error}}
+          {{ leave.endDate }}
+          {{ t4 }}
+          {{ error }}
         </md-card-content>
       </md-card>
     </form>
@@ -53,27 +71,31 @@
 
 <script>
 import leave from "@/js/leave.js"; //directory to leave.js
+import leaveClass from "@/js/class/leave_class.js"; //directory to leave_class.js
 export default {
   name: "edit-profile-form",
   data() {
     return {
+      leaveObj: new leaveClass(),
       isLoading: false,
       error: "",
-      is_admin:null,
+      is_admin: null,
       name: "null",
       leave: {
         startDate: null,
         endDate: null,
         reason: null,
+        emergency_contact: null,
+        replacement: null
       },
       disabled: {
         from: new Date()
-    },
+      },
       isDateDisabled2: function() {
         var today = new Date();
-      // compare if today is greater then the datepickers date
-      return new Date() > today
-}
+        // compare if today is greater then the datepickers date
+        return new Date() > today;
+      }
     };
   },
   mounted() {
@@ -83,53 +105,60 @@ export default {
   },
   methods: {
     openLoading() {
-      this.isLoading = true
+      this.isLoading = true;
       setTimeout(() => {
-            this.isLoading = false
-        }, 10 * 1000)
-      },
-        
+        this.isLoading = false;
+      }, 10 * 1000);
+    },
+
     async add_leave() {
       try {
         this.isLoading = true;
-        // To calculate the time difference of two dates 
-        var Difference_In_Time = this.leave.endDate.getTime() - this.leave.startDate.getTime(); 
-          
-        // To calculate the no. of days between two dates 
-        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
-        if(this.leave.startDate >= new Date()){
-          if(this.leave.startDate && this.leave.endDate && this.leave.reason && Difference_In_Days > 0) {
-            const leave_data = await leave.add_leave(
-              this.leave.startDate,
-              this.leave.endDate,
-              this.leave.reason,
-              );
+        // To calculate the time difference of two dates
+        var Difference_In_Time =
+          this.leave.endDate.getTime() - this.leave.startDate.getTime();
+
+        // To calculate the no. of days between two dates
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        if (this.leave.startDate >= new Date()) {
+          if (
+            this.leave.startDate &&
+            this.leave.endDate &&
+            this.leave.reason &&
+            Difference_In_Days > 0
+          ) {
+            this.mapObj();
+            const leave_data = await leave.add_leave(this.leaveObj);
             // alert(leave_data); //can be ignored
             console.log(this.admin);
             this.isLoading = false;
             localStorage.message = "Leave Application Submitted";
             this.$router.push({ path: `/message/${this.id}` });
-          }
-          else if(Difference_In_Days < 0){
+          } else if (Difference_In_Days < 0) {
             alert("End Date must after Start Date");
             this.isLoading = false;
-          }
-          else{
+          } else {
             alert("All fields are Mandatory");
             this.isLoading = false;
           }
-        }
-        else{
+        } else {
           alert("Start date must be later than today");
           this.isLoading = false;
         }
-        
-         //add redirect to other page here
+
+        //add redirect to other page here
         // alert("Success");
       } catch (err) {
         this.error = err.message;
         alert("Fail");
       }
+    },
+    mapObj() {
+      this.leaveObj.date_from = this.leave.startDate;
+      this.leaveObj.date_to = this.leave.endDate;
+      this.leaveObj.reason = this.leave.reason;
+      this.leaveObj.emergency_contact = this.leave.emergency_contact;
+      this.leaveObj.replace_id = this.leave.replacement;
     }
   }
 };

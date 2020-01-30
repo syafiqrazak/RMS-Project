@@ -65,9 +65,7 @@
 
 <script>
 import po from "@/js/po.js"; //directory to po.js
-import user from "@/js/user.js"; //directory to user.js
 import poClass from "@/js/class/po_class.js"; //directory to po_class.js
-
 
 export default {
   name: "notify-PO",
@@ -89,47 +87,25 @@ export default {
     };
   },
   async created() {
-    this.poObj.in_page = 1;
-    if (localStorage.t1) this.t1 = localStorage.t1;
-    if (localStorage.t2) this.t2 = localStorage.t2;
-    if (localStorage.t3) this.t3 = localStorage.t3;
-    if (localStorage.t3) this.t4 = localStorage.t4;
-    if (localStorage.is_admin) this.is_admin = localStorage.is_admin;
     try {
-      if (this.is_admin == "true") {
-        const data = await po.show_po_page(this.poObj);
+      //testing starts
+      this.poObj.in_param_1 = null;
+      this.poObj.in_param_2 = null;
+      this.poObj.in_param_3 = null;
+      this.poObj.in_param_4 = null;
+      this.poObj.in_param_5 = null;
+      this.poObj.in_page = 1;
+      console.log(this.poObj);
+      this.poObj.toJson();
+      //testing ends
+      this.poObj.in_page = 1;
+      const data = await po.po_search(this.poObj);
 
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } else if (this.t4 == "true") {
-        try {
-          const data = await po.get_pending(this.poObj);
-
-          const pos1 = data.result[0];
-          this.total_page = data.result[1];
-          this.pos = pos1.map(pos => ({
-            ...pos
-          }));
-        } catch (err) {
-          this.error = err.message;
-        }
-      } else if (this.t2 == "true" || this.t3 == "true") {
-        try {
-          const data = await po.get_submits(this.poObj);
-          const pos1 = data.result[0];
-          this.total_page = data.result[1];
-          this.pos = pos1.map(pos => ({
-            ...pos
-          }));
-        } catch (err) {
-          this.error = err.message;
-        }
-      } else {
-        alert("Invalid user! Please contact your system admin.");
-      }
+      const pos1 = data.result[0];
+      this.total_page = data.result[1];
+      this.pos = pos1.map(pos => ({
+        ...pos
+      }));
     } catch (err) {
       this.error = err.message;
     }
@@ -191,7 +167,8 @@ export default {
       } else this.page += 1;
       if (this.page == this.total_page) this.isNext = true;
       try {
-        const data = await po.show_po_page(this.page);
+        this.poObj.in_page = this.page;
+        const data = await po.show_po_page(this.poObj);
 
         const pos1 = data.result[0];
         this.total_page = data.result[1];
@@ -210,8 +187,8 @@ export default {
       } else this.page -= 1;
       if (this.page == 1) this.isPrevious = true;
       try {
-        const data = await po.show_po_page(this.page);
-
+        this.poObj.in_page = this.page;
+        const data = await po.show_po_page(this.poObj);
         const pos1 = data.result[0];
         this.total_page = data.result[1];
         this.pos = pos1.map(pos => ({

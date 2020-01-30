@@ -233,11 +233,13 @@
 
 <script>
 import po from "@/js/po.js"; //directory to po.js
+import poClass from "@/js/class/po_class.js"; //directory to po_class.js
 
 export default {
   name: "display-PO",
   data() {
     return {
+      poObj: new poClass(),
       pos: [], //for po in pos {{po.[var name]}}
       page: 1,
       error: "",
@@ -248,13 +250,15 @@ export default {
       action: this.$route.params.action,
       po_no: this.$route.params.po_no,
       po_id: "",
-      status_t1: "",
       status_t1: ""
+      // status_t1: ""
     };
   },
   async created() {
     try {
-      const data = await po.find(this.po_no);
+      this.poObj.in_page = 1;
+      this.poObj.po_no = this.po_no;
+      const data = await po.find(this.poObj);
       this.pos = data;
       this.po_id = this.pos.id;
     } catch (err) {

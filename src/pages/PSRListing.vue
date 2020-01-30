@@ -70,7 +70,7 @@
 
 <script>
 import psr from "@/js/psr.js"; //directory to psr.js
-import psrClass from "@/js/class/psr_class.js"; //directory to psr_class.js
+import psrClass from "@/js/class/psr_class.js"; //directory to po_class.js
 
 export default {
   name: "notify-PSR",
@@ -92,51 +92,23 @@ export default {
     };
   },
   async created() {
-    this.psrObj.in_page = 1;
-    if (localStorage.t1) this.t1 = localStorage.t1;
-    if (localStorage.t2) this.t2 = localStorage.t2;
-    if (localStorage.t4) this.t4 = localStorage.t4;
-    if (localStorage.t3) this.t3 = localStorage.t3;
-    if (localStorage.is_admin) this.is_admin = localStorage.is_admin;
-
     try {
-      if (this.is_admin == "true") {
-        const data = await psr.show_psr_page(this.psrObj);
-
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
-      } else if (this.t2 || this.t3) {
-        try {
-          const data = await psr.get_submits(this.psrObj);
-          const limit = 8;
-
-          const psrs1 = data.result[0];
-          this.total_page = data.result[1];
-          this.psrs = psrs1.map(psrs => ({
-            ...psrs
-          }));
-        } catch (err) {
-          this.error = err.message;
-        }
-      } else if (this.t4 == "true") {
-        try {
-          const data = await psr.get_pending(this.psrObj);
-          const limit = 8;
-
-          const psrs1 = data.result[0];
-          this.total_page = data.result[1];
-          this.psrs = psrs1.map(psrs => ({
-            ...psrs
-          }));
-        } catch (err) {
-          this.error = err.message;
-        }
-      } else {
-        alert("Invalid user! Please contact your system admin.");
-      }
+      //testing starts
+      this.psrObj.in_param_1 = null;
+      this.psrObj.in_param_2 = null;
+      this.psrObj.in_param_3 = null;
+      this.psrObj.in_param_4 = null;
+      this.psrObj.in_param_5 = null;
+      this.psrObj.in_page = 1;
+      console.log(this.psrObj);
+      this.psrObj.toJson();
+      //testing ends
+      const data = await psr.psr_search(this.psrObj);
+      const psrs1 = data.result[0];
+      this.total_page = data.result[1];
+      this.psrs = psrs1.map(psrs => ({
+        ...psrs
+      }));
     } catch (err) {
       this.error = err.message;
     }
@@ -147,6 +119,15 @@ export default {
       this.$router.push({
         path: `/displayPSR/${this.id}/${value.psr_no}/approval`
       });
+    },
+    async search() {
+      try {
+        const data = await psr.psr_search(this.poObj);
+        this.pos = data;
+        this.po_id = this.pos.id;
+      } catch (err) {
+        this.error = err.message;
+      }
     },
     async get_pending() {
       try {
@@ -189,7 +170,8 @@ export default {
       if (this.page == this.total_page) this.isNext = true;
       try {
         // alert(this.page);
-        const data = await psr.show_psr_page(this.page);
+        this.psrObj.in_page = this.page;
+        const data = await psr.show_psr_page(this.psrObj);
 
         const psrs1 = data.result[0];
         this.total_page = data.result[1];
@@ -208,7 +190,8 @@ export default {
       } else this.page -= 1;
       if (this.page == 1) this.isPrevious = true;
       try {
-        const data = await psr.show_psr_page(this.page);
+        this.psrObj.in_page = this.page;
+        const data = await psr.show_psr_page(this.psrObj);
 
         const psrs1 = data.result[0];
         this.total_page = data.result[1];

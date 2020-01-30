@@ -80,7 +80,7 @@
                           <b-field>
                             <b-select v-model="details.paymentMode" expanded style="width:98%;">
                                 <option value="Debit">Debit </option>
-                                <option value="Credit">Credit</option>\
+                                <option value="Credit">Credit</option>
                                 <option value="As per Invoice">As per Invoice</option>
                             </b-select>
                         </b-field>  
@@ -92,8 +92,26 @@
                         </td>
                         <td class="clsValue">
                           <b-field>
-                            <b-input v-model="details.address" style="width:98%" maxlength="200" type="textarea"></b-input>
+                            <b-input v-model="details.address1" style="width:98%"></b-input>
                         </b-field>  
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="clsLabel"></td>
+                        <td class="clsValue">
+                            <b-input v-model="details.address2" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="clsLabel"> </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.address3" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="clsLabel"> </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.address4" style="width:98%"></b-input>
                         </td>
                     </tr>
                 
@@ -197,10 +215,12 @@
 <script>
 import purchaseOrder from "@/js/po.js"; //directory to po.js
 import { SimpleTable, notifyLeave, notifyPO, notifyPSR, psrSearch } from "@/components";
+import poClass from "@/js/class/po_class.js"; //directory to po_class.js
 export default {
   data() {
     return {
       
+      poObj: new poClass(),
       psr_id: this.$route.params.psr_id,
       PSRAvailable: true,
       inputMethod: '0',
@@ -219,7 +239,10 @@ export default {
         paymentMode: null,
         CCANo: null,
         po_no: null,
-        address: null
+        address1: null,
+        address2: null,
+        address3: null,
+        address4: null,
       },
       desc: [
         {
@@ -237,16 +260,8 @@ export default {
     async po_addpo() {
       try {
         alert(this.psr_id)
-        const po = await purchaseOrder.po_add(
-          this.details.reference,
-          this.details.dueDate,
-          this.details.modeOfShipment,
-          this.details.psr_id,
-          this.details.CCANo,
-          this.details.paymentMode,
-          this.details.address,
-          this.desc
-        );
+        this.mapObj();
+        const po = await purchaseOrder.po_add(this.poObj);
         // const po = await po.po_add("123", "date", "po_ref", "due", "ship", "psr", "cca", "pay", "address", {});
         console.log(po); //can be ignored
         // alert("Success");
@@ -257,6 +272,19 @@ export default {
         this.error = err.message;
         console.log(this.error);
       }
+    },
+    mapObj(){
+          this.poObj.po_ref = this.details.reference;
+          this.poObj.delv_due = this.details.dueDate;
+          this.poObj.ship_mode = this.details.modeOfShipment;
+          this.poObj.psr_id = this.details.psr_id;
+          this.poObj.cca_no = this.details.CCANo;
+          this.poObj.pay_mode = this.details.paymentMode;
+          this.poObj.address_1 = this.details.address1;
+          this.poObj.address_2 = this.details.address2;
+          this.poObj.address_3 = this.details.address3;
+          this.poObj.address_4 = this.details.address4;
+          this.poObj.po_desc = this.desc;
     },
     prev() {
       this.step--;

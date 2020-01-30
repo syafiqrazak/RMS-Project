@@ -343,26 +343,24 @@ export default {
   data() {
     let dateFormat = this.$material.locale.dateFormat || "yyyy-MM-dd";
     return {
-      psrObj: {
-        costType: "",
-        radio: "",
-        radio2: "",
-        error: "",
-        step: 1,
-        index: 2,
-        isApplicable: "0",
-        psr_no: "",
-        date: new Date().toJSON().slice(0, 10),
-        psr_data: "",
-        pur_class: "",
-        pur_typ: "",
-        pur_just: "",
-        date_req: "",
-        p_title: "",
-        vessel_cd: "",
-        delv: ""
-      },
-
+      costType: "",
+      radio: "",
+      radio2: "",
+      error: "",
+      step: 1,
+      index: 2,
+      isApplicable: "0",
+      psr_no: "",
+      date: new Date().toJSON().slice(0, 10),
+      psr_data: "",
+      pur_class: "",
+      pur_typ: "",
+      pur_just: "",
+      date_req: "",
+      p_title: "",
+      vessel_cd: "",
+      delv: "",
+      psrObj: new psrClass(),
       desc: [
         //must be in json format
         {
@@ -372,14 +370,15 @@ export default {
           unitPrice: ""
           //   price:(quantity*unitPrice)
         }
-      ],
-      posted: false
+      ]
     };
   },
   async created() {},
   methods: {
     async psr_adds() {
       try {
+        this.mapObj();
+        console.log(this.psrObj);
         const psr = await psrs.psr_add(this.psrObj);
         // console.log("PSR");
         // console.log(psr); //can be ignored
@@ -390,7 +389,7 @@ export default {
       } catch (err) {
         this.error = err.message;
         alert("Error!!!");
-        alert(error);
+        alert(err);
       }
     },
     prev() {
@@ -414,6 +413,17 @@ export default {
         one: "",
         two: ""
       });
+    },
+    mapObj() {
+      this.psrObj.purchase_class = this.pur_class;
+      this.psrObj.purchase_typ = this.pur_typ;
+      this.psrObj.purchase_just = this.pur_just;
+      this.psrObj.cost_typ = this.costType;
+      this.psrObj.date_req = this.date_req;
+      this.psrObj.project_title = this.p_title;
+      this.psrObj.vessel_code = this.vessel_cd;
+      this.psrObj.delv = this.delv;
+      this.psrObj.psr_desc = this.desc;
     },
     deleteRow(index) {
       this.inputs.splice(index, 1);
