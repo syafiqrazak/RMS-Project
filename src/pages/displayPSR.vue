@@ -11,6 +11,7 @@
         <div v-if="action == 'status'" style="width:80%; margin-left:10%;">
           <div
             v-if="psrs.status_decline == false && psrs.status_t2 == false"
+            @click="showDialog = true"
             class="alert alert-warning"
             style="border-radius:30px;"
           >
@@ -20,6 +21,7 @@
           </div>
           <div
             v-else-if="psrs.status_decline == true"
+            @click="showDialog = true"
             class="alert alert-danger"
             style="border-radius:30px;"
           >
@@ -27,7 +29,12 @@
               <center><strong> Status: Declined </strong></center>
             </h4>
           </div>
-          <div v-else class="alert alert-success" style="border-radius:30px;">
+          <div
+            v-else
+            class="alert alert-success"
+            style="border-radius:30px;"
+            @click="showDialog = true"
+          >
             <h4>
               <center><strong> Status: Approved </strong></center>
             </h4>
@@ -187,7 +194,127 @@
             >Decline</b-button
           >
         </div>
+        {{ psrs }}
         <br /><br /><br />
+        <md-dialog :md-active.sync="showDialog" style="width:100%; overflow:auto;">
+            <md-dialog-title>Purchase Order Details</md-dialog-title>
+            <md-content>
+              <table cls="clsFormDetails" width="95%:" style="margin-left: 3%;">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    <!-- creator -->
+                    <tr>
+                      <td class="clsHeader" colspan="4">
+                        <h4>Creator</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabelDetails">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.create_user_psr.firstname}}{{psrs.create_user_psr.lastname}}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Created </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.createdAt | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+                    <!-- Approver T2 -->
+                    <tr v-if="psrs.t2_user_psr"> 
+                      <td class="clsHeader" colspan="4">
+                        <h4>Approver T2</h4>
+                      </td>
+                    </tr>
+                    <tr v-if="psrs.t2_user_psr">
+                        <td class="clsLabelDetails" colspan="2">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails" colspan="2">
+                            <h4>{{psrs.t2_user_psr.firstname}}{{psrs.t2_user_psr.lastname}}</h4>
+                        </td>
+                    </tr>
+                    <tr v-if="psrs.t2_user_psr">
+                        <td class="clsLabelDetails">
+                            <h4>Status </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.status_t1_1}}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Approved </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.date_pending_1 | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+                    <!-- Approver T3 -->
+                    <tr v-if="psrs.t3_user_psr">
+                      <td class="clsHeader" colspan="4">
+                        <h4>Approver T3</h4>
+                      </td>
+                    </tr>
+                    <tr v-if="psrs.t3_user_psr">
+                        <td class="clsLabelDetails" colspan="2">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails" colspan="2">
+                            <h4>{{psrs.t3_user_psr.firstname}}{{psrs.t3_user_psr.lastname}}</h4>
+                        </td>
+                    </tr>
+                    <tr v-if="psrs.t3_user_psr">
+                        <td class="clsLabelDetails">
+                            <h4>Status </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.status_t1_2}}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Approved </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.date_pending_2 | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+                    <!-- Approver T4 -->
+                    <tr v-if="psrs.approver_psr" >
+                      <td class="clsHeader" colspan="4">
+                        <h4>Approver T4</h4>
+                      </td>
+                    </tr>
+                    <tr v-if="psrs.approver_psr">
+                        <td class="clsLabelDetails" colspan="2">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails" colspan="2">
+                            <h4>{{psrs.approver_psr.firstname}}{{psrs.approver_psr.lastname}}</h4>
+                        </td>
+                    </tr>
+                    <tr v-if="psrs.approver_psr">
+                        <td class="clsLabelDetails">
+                            <h4>Status </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.status_t2 }}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Approved </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{psrs.date_approve | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+              </table>
+              <br><br><br>
+              <md-dialog-actions>
+                <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+              </md-dialog-actions>
+            </md-content>
+          </md-dialog>
       </md-card-content>
     </md-card>
     <!-- <div>Before: {{psr_no}}</div>
@@ -211,7 +338,7 @@ export default {
       action: this.$route.params.action,
       error: "",
       status_t1: "",
-      status_t1: "",
+      showDialog: false,
       totalPrice: 0,
       i: 0,
       t4: localStorage.t4,
@@ -383,7 +510,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped src="@/assets/style/style.css">
 /* strong{
   color: white;
 } */

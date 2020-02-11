@@ -1,65 +1,123 @@
 <template>
   <div>
-    <b-table
-      :data="isEmpty ? [] : pos"
-      :striped="true"
-      :hoverable="true"
-      :default-sort-direction="asc"
-    >
-      <template slot-scope="props">
-        <b-table-column field="po_no" label="PO Number" sortable>
-          <a @click="detail(props.row)">
-            PO/TRD-{{ props.row.po_no | numeral("000000") }}
-          </a>
-        </b-table-column>
-        <b-table-column field="createdBy" label="Create By">
-          {{ props.row.create_user_po.firstname }}
-          {{ props.row.create_user_po.lastname }}
-        </b-table-column>
-        <b-table-column field="po_date" label="Date Created">
-          {{ props.row.createdAt | moment("Do MMMM YYYY") }}
-        </b-table-column>
-      </template>
-    </b-table>
-    <br /><br />
-    <div style=" width:15%; float:right; ">
-      <form v-on:submit="pagination">
-        <md-input
-          style="width:30px; float: left; height:28px;text-align: right; "
-          type="number"
-          v-model="page"
-          :disabled="false"
-        />
-      </form>
-      &nbsp;<b>/{{ total_page }}</b>
-      &nbsp;&nbsp;
-      <b-tooltip label="Previous" type="is-light" position="is-bottom">
-        <b-button
-          @click="previousPage"
-          :disabled="isPrevious"
-          size="is-small"
-          float="right"
-          type="is-light"
+    <md-card>
+      <md-card-header :data-background-color="dataBackgroundColor">
+        <h4 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h4>
+        <!-- <p class="category">Complete your profile</p> -->
+      </md-card-header>
+      <md-card-content>
+        <md-card-content>
+          <div class="alert alert-info" style="color: black; background-color:white;width:100%; display: inline-block;">
+            <table cls="clsForm" width="80%:">
+                    <col width="25%">
+                    <col width="70%">
+
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Purchase Order No.: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Company Name: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Purchase Order No.: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Purchase Order No.:: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Purchase Order No.:: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input style="width:98%"></b-input>
+                        </td>
+                    </tr>
+
+            </table>
+          </div>
+        </md-card-content>
+        <b-table
+          :data="isEmpty ? [] : pos"
+          :striped="true"
+          :hoverable="true"
+          :default-sort-direction="asc"
         >
-          <md-icon>navigate_before</md-icon>
-        </b-button>
-      </b-tooltip>
-      <!-- &nbsp; -->
-      <b-tooltip label="Next" type="is-light" position="is-bottom">
-        <b-button
-          @click="nextPage"
-          :disabled="isNext"
-          size="is-small"
-          float="right"
-          type="is-light"
-        >
-          <md-icon>navigate_next</md-icon>
-        </b-button>
-        &nbsp;&nbsp;
-      </b-tooltip>
-    </div>
-    {{ error }}
-    <!-- {{pos}} -->
+          <template slot-scope="props">
+            <b-table-column field="po_no" label="PO Number" sortable>
+              <a @click="detail(props.row)">
+                PO/TRD-{{ props.row.po_no | numeral("000000") }}
+              </a>
+            </b-table-column>
+            <b-table-column field="create_user" label="Create By">
+              {{ props.row.create_user }}
+            </b-table-column>
+            <b-table-column field="created_at" label="Date Created">
+              {{ props.row.created_at | moment("Do MMMM YYYY") }}
+            </b-table-column>
+          </template>
+        </b-table>
+        <br /><br />
+        <div style=" width:15%; float:right; ">
+          <form v-on:submit="pagination">
+            <md-input
+              style="width:30px; float: left; height:28px;text-align: right; "
+              type="number"
+              v-model="page"
+              :disabled="false"
+            />
+          </form>
+          &nbsp;<b>/{{ total_page }}</b>
+          &nbsp;&nbsp;
+          <b-tooltip label="Previous" type="is-light" position="is-bottom">
+            <b-button
+              @click="previousPage"
+              :disabled="isPrevious"
+              size="is-small"
+              float="right"
+              type="is-light"
+            >
+              <md-icon>navigate_before</md-icon>
+            </b-button>
+          </b-tooltip>
+          <!-- &nbsp; -->
+          <b-tooltip label="Next" type="is-light" position="is-bottom">
+            <b-button
+              @click="nextPage"
+              :disabled="isNext"
+              size="is-small"
+              float="right"
+              type="is-light"
+            >
+              <md-icon>navigate_next</md-icon>
+            </b-button>
+            &nbsp;&nbsp;
+          </b-tooltip>
+          <br /><br /><br />
+        </div>
+        {{ error }}
+        <!-- {{ pos }} -->
+      </md-card-content>
+    </md-card>
   </div>
 </template>
 
@@ -96,13 +154,14 @@ export default {
       this.poObj.in_param_5 = null;
       this.poObj.in_page = 1;
       console.log(this.poObj);
-      this.poObj.toJson();
+      // this.poObj.toJson();
       //testing ends
       this.poObj.in_page = 1;
-      const data = await po.po_search(this.poObj);
+      const data = await po.po_search(this.poObj.toJson());
 
       const pos1 = data.result[0];
-      this.total_page = data.result[1];
+      // this.total_page = data.result[1];
+      this.total_page = data.totalrecords;
       this.pos = pos1.map(pos => ({
         ...pos
       }));
@@ -221,3 +280,40 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.clsLabel{
+    /* background-color: #969191; */
+    /* color: #ffffff; */
+    height: 65px;
+    vertical-align: middle;
+    padding-left: 1em;
+    font-weight: 700;
+    font-size: 150%;
+    text-align: left;
+    /* border-right:8px solid #ffffff; */
+    /* border-bottom: 5px solid #ffffff; */
+    border-radius: 10px;
+    /* border-right: 7px; */
+}
+.clsLabel h4{
+    font-weight: 500;
+
+}
+.clsValue{
+    /* background-color: #f3f3f3; */
+    /* background-color: #ffffff; */
+    color: black;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 5%;
+    font-weight: 400;
+    border-bottom: 5px solid #ffffff;
+    /* border: 5px solid red; */
+    border-radius: 10px;
+}
+.clsForm{
+    border-radius: 30px;
+    border: 1px solid #ffffff;
+}
+</style>

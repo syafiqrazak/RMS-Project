@@ -107,7 +107,7 @@ export default {
       } else if (this.t4 == "true") {
         try {
           const data = await po.get_pending(this.poObj);
-
+          alert("REquest T4 approval");
           const pos1 = data.result[0];
           this.total_page = data.result[1];
           this.pos = pos1.map(pos => ({

@@ -2,69 +2,81 @@
   <div>
     <!-- <div>{{ new Date() | dateFormat('YYYY.MM.DD') }}</div> -->
     <!-- <div>Date: {{psrs.psr_date[0]}}</div> -->
-    {{ psrs }}
-    <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
-      <template slot-scope="props">
-        <b-table-column field="po_no" label="PO Number" width="400" sortable>
-          <a @click="detail(props.row)">
-            PSR/TRD-{{ props.row.psr_no | numeral("000000") }}
-          </a>
-          <!-- <a @click="detail(props.row)">
+    <md-card>
+      <md-card-header :data-background-color="dataBackgroundColor">
+        <h4 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h4>
+        <!-- <p class="category">Complete your profile</p> -->
+      </md-card-header>
+      <md-card-content>
+        {{ psrs }}
+        <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
+          <template slot-scope="props">
+            <b-table-column
+              field="psr_no"
+              label="PSR Number"
+              width="400"
+              sortable
+            >
+              <a @click="detail(props.row)">
+                PSR/TRD-{{ props.row.psr_no | numeral("000000") }}
+              </a>
+              <!-- <a @click="detail(props.row)">
                         PSR/TRD-{{ props.row.id  }}
                     </a> -->
-        </b-table-column>
-        <b-table-column field="createdBy" label="Create By" width="500">
-          {{ props.row.create_user_psr.firstname }}
-          {{ props.row.create_user_psr.lastname }}
-        </b-table-column>
-        <b-table-column field="po_date" label="Date Created">
-          {{ props.row.createdAt | moment("Do MMMM YYYY") }}
-        </b-table-column>
-        <!-- <b-table-column>
+            </b-table-column>
+            <b-table-column field="createdBy" label="Create By" width="500">
+              {{ props.row.create_user }}
+            </b-table-column>
+            <b-table-column field="created_at" label="Date Created">
+              {{ props.row.created_at | moment("Do MMMM YYYY") }}
+            </b-table-column>
+            <!-- <b-table-column>
                     {{ props.row.status }}
                 </b-table-column> -->
-      </template>
-    </b-table>
-    <br /><br />
-    <div style=" width:15%; float:right; display:block-inline; ">
-      <form v-on:submit="pagination">
-        <md-input
-          style="width:30px; float: left; height:28px; text-align: right; "
-          type="number"
-          v-model="page"
-          :disabled="false"
-        />
-      </form>
-      &nbsp; <b>/{{ total_page }}</b>
-      &nbsp;&nbsp;
-      <b-tooltip label="Previous" type="is-light" position="is-bottom">
-        <b-button
-          @click="previousPage"
-          :disabled="isPrevious"
-          size="is-small"
-          float="right"
-          type="is-light"
-        >
-          <md-icon>navigate_before</md-icon>
-        </b-button>
-      </b-tooltip>
-      <!-- &nbsp; -->
-      <b-tooltip label="Next" type="is-light" position="is-bottom">
-        <b-button
-          @click="nextPage"
-          :disabled="isNext"
-          size="is-small"
-          float="right"
-          type="is-light"
-        >
-          <md-icon>navigate_next</md-icon>
-        </b-button>
-        &nbsp;&nbsp;
-      </b-tooltip>
-    </div>
-    <!-- {{psrs[0]}} -->
-    <!-- {{page}} -->
-    {{ error }}
+          </template>
+        </b-table>
+        <br /><br />
+        <div style=" width:15%; float:right; display:block-inline; ">
+          <form v-on:submit="pagination">
+            <md-input
+              style="width:30px; float: left; height:28px; text-align: right; "
+              type="number"
+              v-model="page"
+              :disabled="false"
+            />
+          </form>
+          &nbsp; <b>/{{ total_page }}</b>
+          &nbsp;&nbsp;
+          <b-tooltip label="Previous" type="is-light" position="is-bottom">
+            <b-button
+              @click="previousPage"
+              :disabled="isPrevious"
+              size="is-small"
+              float="right"
+              type="is-light"
+            >
+              <md-icon>navigate_before</md-icon>
+            </b-button>
+          </b-tooltip>
+          <!-- &nbsp; -->
+          <b-tooltip label="Next" type="is-light" position="is-bottom">
+            <b-button
+              @click="nextPage"
+              :disabled="isNext"
+              size="is-small"
+              float="right"
+              type="is-light"
+            >
+              <md-icon>navigate_next</md-icon>
+            </b-button>
+            &nbsp;&nbsp;
+          </b-tooltip>
+        </div>
+        <!-- {{psrs[0]}} -->
+        <!-- {{page}} -->
+        {{ error }}
+      </md-card-content>
+    </md-card>
   </div>
 </template>
 
@@ -101,9 +113,9 @@ export default {
       this.psrObj.in_param_5 = null;
       this.psrObj.in_page = 1;
       console.log(this.psrObj);
-      this.psrObj.toJson();
+      // this.psrObj.toJson();
       //testing ends
-      const data = await psr.psr_search(this.psrObj);
+      const data = await psr.psr_search(this.psrObj.toJson());
       const psrs1 = data.result[0];
       this.total_page = data.result[1];
       this.psrs = psrs1.map(psrs => ({
@@ -111,6 +123,7 @@ export default {
       }));
     } catch (err) {
       this.error = err.message;
+      alert(err);
     }
   },
   methods: {

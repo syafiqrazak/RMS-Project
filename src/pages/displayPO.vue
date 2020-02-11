@@ -1,16 +1,15 @@
 <template>
-  <div class="container" border="3px" height="5000px">
+  <div class="container" border="3px" height="5000px" style="display:block">
     <form>
       <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
           <h4 class="title">Purchase Order Details</h4>
-          <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
-          <!-- {{pos}} -->
           <div v-if="action == 'status'" style="width:80%; margin-left:10%;">
             <div
               v-if="pos.status_decline == false && pos.status_t2 == false"
+              @click="showDialog = true"
               class="alert alert-warning"
               style="border-radius:30px;"
             >
@@ -22,12 +21,13 @@
               v-else-if="pos.status_decline == true"
               class="alert alert-danger"
               style="border-radius:30px;"
+              @click="showDialog = true"
             >
               <h4>
                 <center><strong> Status: Declined </strong></center>
               </h4>
             </div>
-            <div v-else class="alert alert-success" style="border-radius:30px;">
+            <div v-else class="alert alert-success" style="border-radius:30px;" @click="showDialog = true">
               <h4>
                 <center><strong> Status: Approved </strong></center>
               </h4>
@@ -61,8 +61,8 @@
                   <p>PO/TRD-{{ pos.po_no | numeral("0000") }}</p>
                 </td>
               </tr>
-              <td rowspan="8"><b>Address:</b> {{ pos.address }}</td>
               <tr>
+                <td rowspan="1"><b>Address:</b></td>
                 <td>
                   <p><b>Date</b></p>
                 </td>
@@ -79,6 +79,7 @@
               </td>
             </tr> -->
               <tr>
+                <td rowspan="1"> {{ pos.address_1 }}</td>
                 <td>
                   <p><b>Our Ref:</b></p>
                 </td>
@@ -87,6 +88,7 @@
                 </td>
               </tr>
               <tr>
+                <td rowspan="1"> {{ pos.address_2 }}</td>
                 <td>
                   <p><b>Your Quotation:</b></p>
                 </td>
@@ -95,6 +97,7 @@
                 </td>
               </tr>
               <tr>
+                <td rowspan="1"> {{ pos.address_3 }}</td>
                 <td>
                   <p><b>Delivery Due Date:</b></p>
                 </td>
@@ -103,6 +106,7 @@
                 </td>
               </tr>
               <tr>
+                <td rowspan="3"> {{ pos.address_4 }}</td>
                 <td>
                   <p><b>Mode of Shipment:</b></p>
                 </td>
@@ -212,6 +216,9 @@
             </b-table>
           </div>
           <br /><br />
+          <b-button type="is-success" @click.prevent="printPDF()"
+              >Generate</b-button
+            >
           <div
             v-if="action == 'approval'"
             style=" margin-left: 40%; margin-right: 40%;"
@@ -225,6 +232,126 @@
             <!-- {{error}} -->
           </div>
           <!-- {{pos}} -->
+          
+          <md-dialog :md-active.sync="showDialog" style="width:100%; overflow:auto;">
+            <md-dialog-title>Purchase Order Details</md-dialog-title>
+            <md-content>
+              <table cls="clsFormDetails" width="95%:" style="margin-left: 3%;">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    <!-- creator -->
+                    <tr>
+                      <td class="clsHeader" colspan="4">
+                        <h4>Creator</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabelDetails">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.create_user_po.firstname}}{{pos.create_user_po.lastname}}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Created </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.createdAt | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+                    <!-- Approver T2 -->
+                    <tr v-if="pos.t2_user_po"> 
+                      <td class="clsHeader" colspan="4">
+                        <h4>Approver T2</h4>
+                      </td>
+                    </tr>
+                    <tr v-if="pos.t2_user_po">
+                        <td class="clsLabelDetails" colspan="2">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails" colspan="2">
+                            <h4>{{pos.t2_user_po.firstname}}{{pos.t2_user_po.lastname}}</h4>
+                        </td>
+                    </tr>
+                    <tr v-if="pos.t2_user_po">
+                        <td class="clsLabelDetails">
+                            <h4>Status </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.status_t1_1}}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Approved </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.date_pending_1 | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+                    <!-- Approver T3 -->
+                    <tr v-if="pos.t3_user_po">
+                      <td class="clsHeader" colspan="4">
+                        <h4>Approver T3</h4>
+                      </td>
+                    </tr>
+                    <tr v-if="pos.t3_user_po">
+                        <td class="clsLabelDetails" colspan="2">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails" colspan="2">
+                            <h4>{{pos.t3_user_po.firstname}}{{pos.t3_user_po.lastname}}</h4>
+                        </td>
+                    </tr>
+                    <tr v-if="pos.t3_user_po">
+                        <td class="clsLabelDetails">
+                            <h4>Status </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.status_t1_2}}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Approved </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.date_pending_2 | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+                    <!-- Approver T4 -->
+                    <tr v-if="pos.approver_po" >
+                      <td class="clsHeader" colspan="4">
+                        <h4>Approver T4</h4>
+                      </td>
+                    </tr>
+                    <tr v-if="pos.approver_po">
+                        <td class="clsLabelDetails" colspan="2">
+                            <h4>Name </h4>
+                        </td>
+                        <td class="clsValueDetails" colspan="2">
+                            <h4>{{pos.approver_po.firstname}}{{pos.approver_po.lastname}}</h4>
+                        </td>
+                    </tr>
+                    <tr v-if="pos.approver_po">
+                        <td class="clsLabelDetails">
+                            <h4>Status </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.status_t2 }}</h4>
+                        </td>
+                        <td class="clsLabelDetails">
+                            <h4>Date Approved </h4>
+                        </td>
+                        <td class="clsValueDetails">
+                            <h4>{{pos.date_approve | moment("Do MMMM YYYY")}}</h4>
+                        </td>
+                    </tr>
+              </table>
+              <br><br><br>
+              <md-dialog-actions>
+                <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+              </md-dialog-actions>
+            </md-content>
+          </md-dialog>
         </md-card-content>
       </md-card>
     </form>
@@ -233,7 +360,9 @@
 
 <script>
 import po from "@/js/po.js"; //directory to po.js
+// import pdf from "@/js/receiptSample.js"; //directory to po.js
 import poClass from "@/js/class/po_class.js"; //directory to po_class.js
+import jsPDF from 'jspdf';
 
 export default {
   name: "display-PO",
@@ -250,10 +379,16 @@ export default {
       action: this.$route.params.action,
       po_no: this.$route.params.po_no,
       po_id: "",
-      status_t1: ""
+      status_t1: "",
+      showDialog: false
       // status_t1: ""
     };
   },
+  mounted() {
+      let pdfScript = document.createElement('script')
+      pdfScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js')
+      document.head.appendChild(pdfScript)
+    },
   async created() {
     try {
       this.poObj.in_page = 1;
@@ -270,22 +405,44 @@ export default {
       console.log(value.po_no);
       this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
     },
+    // generateReceipt(value) {
+    //   console.log(value.po_no);
+    //   receipt.createInvoice();
+    // },
+    printPDF() {
+
+			// @param 1 - Coordinate (in units declared at inception of PDF document) against left edge of the page
+			// @param 2 - Coordinate (in units declared at inception of PDF document) against upper edge of the page
+			// @param 3 - String or array of strings to be added to the page. Each line is shifted one line down per font, spacing settings declared before this call.
+      alert("printPDF");
+      pdfScript.text(10, 10, `You have to pay `);
+
+			// save the PDF document (downloadable)
+			pdfScript.save();
+
+		},
     async approve() {
+      this.poObj.id = this.po_id;
       if (localStorage.t2 == "true" || localStorage.t3 == "true") {
         try {
-          const pos = await po.po_stat_1(this.po_id);
+          alert("Tier 2 manager");
+          const pos = await po.po_stat_1(this.poObj);
           this.status_t1 = pos.status_t1;
           console.log(po); //can be ignored
-          alert("Tier 2 manager");
+          localStorage.message = "Purchase Order Application Approved";
+          this.$router.push({ path: `/message/${this.id}` });
         } catch (err) {
+          alert(err);
           this.error = err.message;
         }
       } else if (localStorage.t4 == "true") {
         try {
-          const pos = await po.po_stat_2(this.po_id);
+          alert("Tier 3 manager");
+          const pos = await po.po_stat_2(this.poObj);
           this.status_t2 = pos.status_t1;
           console.log(pos); //can be ignored
-          alert("Tier 3 manager");
+          localStorage.message = "Purchae Order Application Approved";
+          this.$router.push({ path: `/message/${this.id}` });
         } catch (err) {
           this.error = err.message;
         }
@@ -296,8 +453,9 @@ export default {
       }
     },
     async decline_po() {
+      this.poObj.id = this.po_id;
       try {
-        const data = await po.po_decline(this.po_id);
+        const data = await po.po_decline(this.poObj);
         console.log(data); //can be ignored
       } catch (err) {
         this.error = err.message;
@@ -406,7 +564,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped src="@/assets/style/style.css">
 strong {
   color: white;
 }
