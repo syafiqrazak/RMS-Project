@@ -119,10 +119,10 @@
                   <p><b>PSR No.:</b></p>
                 </td>
                 <td>
-                  <!-- <p>{{ pos.psr_no }}</p> -->
-                  <p>
+                  <p>{{ pos.po_no }}</p>
+                  <!-- <p>
                     PO/TRD-000004
-                  </p>
+                  </p> -->
                 </td>
               </tr>
               <tr>
@@ -360,7 +360,7 @@
 
 <script>
 import po from "@/js/po.js"; //directory to po.js
-// import pdf from "@/js/receiptSample.js"; //directory to po.js
+import generatePO from "@/js/generatePO.js"; //directory to po.js
 import poClass from "@/js/class/po_class.js"; //directory to po_class.js
 import jsPDF from 'jspdf';
 
@@ -405,20 +405,14 @@ export default {
       console.log(value.po_no);
       this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
     },
-    // generateReceipt(value) {
-    //   console.log(value.po_no);
-    //   receipt.createInvoice();
-    // },
     printPDF() {
-
-			// @param 1 - Coordinate (in units declared at inception of PDF document) against left edge of the page
-			// @param 2 - Coordinate (in units declared at inception of PDF document) against upper edge of the page
-			// @param 3 - String or array of strings to be added to the page. Each line is shifted one line down per font, spacing settings declared before this call.
-      alert("printPDF");
-      pdfScript.text(10, 10, `You have to pay `);
-
-			// save the PDF document (downloadable)
-			pdfScript.save();
+      generatePO.printPDF(this.pos);
+      // var fileName = "PO/TRD-"+this.pos.po_no + ".pdf";
+      // alert("printPDF");
+      // var doc = new jsPDF()
+ 
+      // doc.text('Hello world!', 10, 10)
+      // doc.save(fileName)
 
 		},
     async approve() {

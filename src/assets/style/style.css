@@ -71,7 +71,7 @@ td.clsValueDetails{
     vertical-align: middle;
     padding-left: 5%;
     font-weight: 400;
-    border-bottom: 5px solid #ffffff;
+    /* border-bottom: 5px solid #ffffff; */
     /* border: 5px solid red; */
     /* border-radius: 10px; */
     border-style: solid;
