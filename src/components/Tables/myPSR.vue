@@ -7,8 +7,11 @@
     <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
       <template slot-scope="props">
         <b-table-column field="id" label="PSR Number" width="500">
-          <a @click="detail(props.row)">
+          <!-- <a @click="detail(props.row)">
             PSR/TRD-{{ props.row.psr_no | numeral("000000") }}
+          </a> -->
+          <a @click="detail(props.row)">
+            {{ props.row.psr_no }}
           </a>
         </b-table-column>
         <b-table-column
@@ -65,6 +68,7 @@ export default {
     try {
       this.psrObj.in_page = 1;
       const data = await psr.show_own_psr_page(this.psrObj);
+      console.log(data);
       const limit = 8;
 
       const psrs1 = data.result[0];
@@ -79,9 +83,10 @@ export default {
   },
   methods: {
     detail(value) {
+      alert(value.id);
       console.log(value.psr_no);
       this.$router.push({
-        path: `/displayPSR/${this.id}/${value.psr_no}/status`
+        path: `/displayPSR/${this.id}/${value.id}/status`
       });
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container">
+    <!-- <div class="container"> -->
       <form action="https://postman-echo.com/post" method="post">
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
@@ -121,11 +121,9 @@
                     class="alert alert-info"
                     style="background-color:white;width:49%; display: inline-block;"
                   >
-                    <section>
                       <md-datepicker v-model="date_req" md-immediately>
                         <label>Required Date</label>
                       </md-datepicker>
-                    </section>
                   </div>
                   <div
                     class="alert alert-info"
@@ -139,10 +137,10 @@
                   </div>
                 </div>
                 <!-- </div> -->
-                <div style="width:100%; display:block-inline">
+                <div style="width:100%; ">
                   <div
                     class="alert alert-info"
-                    style="color: black; background-color:white;width:49%; display: inline-block;"
+                    style="color: black; background-color:white;width:49%; display: inline-block; float:left"
                   >
                     <section>
                       <p><strong>Cost Type: </strong></p>
@@ -241,9 +239,9 @@
 
                 <div
                   class="alert alert-info"
-                  style="background-color:#bdfffc; color: black;"
+                  style="background-color:#bdfffc; color: black; overflow:yes;"
                 >
-                  <md-card-content>
+                  <md-card-content class="md-scrollbar">
                     <md-button
                       class="md-raised md-danger"
                       @click="remove()"
@@ -261,9 +259,11 @@
                   <table>
                     <tr>
                       <th>No.</th>
-                      <th style="width:50%">Item Description</th>
-                      <th style="width:150px">Unit Price(RM)</th>
-                      <th style="width:150px">Quantity</th>
+                      <th style="width:1600px">Item Description</th>
+                      <th style="width:250px">Unit Price(RM)</th>
+                      <th style="width:250px">Quantity</th>
+                      <th style="width:250px">Cost Code</th>
+                      <th style="width:250px">Remarks</th>
                       <th>Total</th>
                     </tr>
                     <tr v-for="items in desc" :key="items">
@@ -290,6 +290,24 @@
                             v-model="items.quantity"
                             placeholder=""
                             type="number"
+                          >
+                          </b-input>
+                        </b-field>
+                      </td>
+                      <td>
+                        <b-field>
+                          <b-input
+                            v-model="items.costCode"
+                            placeholder=""
+                          >
+                          </b-input>
+                        </b-field>
+                      </td>
+                      <td>
+                        <b-field>
+                          <b-input
+                            v-model="items.remarks"
+                            placeholder=""
                           >
                           </b-input>
                         </b-field>
@@ -331,7 +349,7 @@
           </md-card-content>
         </md-card>
       </form>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -367,7 +385,9 @@ export default {
           index: 1,
           description: null,
           quantity: "",
-          unitPrice: ""
+          unitPrice: "",
+          costCode: "",
+          remarks: ""
           //   price:(quantity*unitPrice)
         }
       ]
@@ -379,17 +399,18 @@ export default {
       try {
         this.mapObj();
         console.log(this.psrObj);
+        console.log(localStorage.branch);
+        console.log(localStorage.department);
         const psr = await psrs.psr_add(this.psrObj);
         // console.log("PSR");
-        // console.log(psr); //can be ignored
+        console.log(psr); //can be ignored
         //add redirect to other page here
         // alert("Success");
         localStorage.message = "PSR Application Submitted";
         this.$router.push({ path: `/message/${this.id}` });
       } catch (err) {
         this.error = err.message;
-        alert("Error!!!");
-        alert(err);
+        alert("Error!!!" + err);
       }
     },
     prev() {
@@ -424,6 +445,8 @@ export default {
       this.psrObj.vessel_code = this.vessel_cd;
       this.psrObj.delv = this.delv;
       this.psrObj.psr_desc = this.desc;
+      this.psrObj.branch = localStorage.branch;
+      this.psrObj.department = localStorage.department;
     },
     deleteRow(index) {
       this.inputs.splice(index, 1);

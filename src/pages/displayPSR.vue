@@ -8,7 +8,7 @@
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content>
-        <div v-if="action == 'status'" style="width:80%; margin-left:10%;">
+        <div v-if="action == 'status' || action == 'audit'" style="width:80%; margin-left:10%;">
           <div
             v-if="psrs.status_decline == false && psrs.status_t2 == false"
             @click="showDialog = true"
@@ -183,7 +183,7 @@
         <div
           v-if="action == 'approval'"
           style=" margin-left: 40%; margin-right: 40%;"
-        >
+        ><md-card-actions md-alignment="space-between">
           <b-button
             style="float:left;"
             type="is-success"
@@ -192,10 +192,20 @@
           >
           <b-button style="float:right;" type="is-danger" @click="decline_psr()"
             >Decline</b-button
-          >
+          ></md-card-actions>
         </div>
-        {{ psrs }}
+        <div
+          v-if="action == 'audit'"
+          style=" float:right;"
+        ><md-card-actions md-alignment="space-between">
+          <b-button type="is-success" @click.prevent="printPDF()"
+              >Generate</b-button
+            >
+          </md-card-actions>
+        </div>
+        <!-- {{ psrs }} -->
         <br /><br /><br />
+        
         <md-dialog :md-active.sync="showDialog" style="width:100%; overflow:auto;">
             <md-dialog-title>Purchase Order Details</md-dialog-title>
             <md-content>
@@ -326,6 +336,7 @@
 <script>
 import psr from "@/js/psr.js"; //directory to psr.js
 import psrClass from "@/js/class/psr_class.js"; //directory to psr_class.js
+import generatePSR from "@/js/generatePSR.js"; //directory to generatePSR.js
 
 export default {
   name: "display-PSR",
@@ -335,6 +346,7 @@ export default {
       psrs: [],
       id: this.$route.params.id,
       psr_no: this.$route.params.psr_no,
+      psr_id: this.$route.params.psr_id,
       action: this.$route.params.action,
       error: "",
       status_t1: "",
@@ -348,9 +360,13 @@ export default {
   async created() {
     try {
       this.psrObj.in_page = 1;
-      this.psrObj._psr_no = this.psr_no;
-      const data = await psr.find(this.psrObj);
+      // this.psrObj._psr_no = this.psr_no;
+      this.psrObj._id = this.psr_id;
+      alert("ID= "+ this.psrObj._id);
+      const data = await psr.report(this.psrObj);
       this.psrs = data;
+      console.log(this.psrObj._id);
+      console.log(data);
       // alert(data.psr_desc[0].quantity);
       for (this.i = 0; this.i < data.psr_desc.length; this.i++) {
         this.totalPrice =
@@ -361,6 +377,7 @@ export default {
       console.log(this.totalPrice);
     } catch (err) {
       this.error = err.message;
+      alert(err);
     }
   },
   methods: {
@@ -368,6 +385,9 @@ export default {
       console.log(value.po_no);
       this.$router.push({ path: `/displayPO/${this.id}/${value.po_no}` });
     },
+    printPDF() {
+      generatePSR.printPDF(this.psrs);
+		},
     async approve() {
       alert(localStorage.t2 + this.t3 + localStorage.t4);
       this.psrObj._id = this.psrs.id;

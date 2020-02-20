@@ -8,6 +8,119 @@
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content>
+        <md-card-expand>
+        <md-card-actions md-alignment="space-between">
+          <md-card-expand-trigger>
+            <md-button>Filter</md-button>
+          </md-card-expand-trigger>
+        </md-card-actions>
+
+        <md-card-expand-content>
+          <md-card-content>
+            <md-card-content>
+          <div class="alert alert-info" style="color: black; background-color:white;width:100%; display: inline-block;">
+            <table cls="clsForm" width="80%:">
+                    <col width="25%">
+                    <col width="70%">
+
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Purchase Order No.: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="poNo" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Company Name: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="companyName" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Date </h4>
+                        </td>
+                        <td class="clsValue">
+                            
+                          <b-field>
+                            <b-select v-model="date" style="width:10%">
+                                <option value= null> </option>
+                                <option value="1">1 </option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4 </option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7 </option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10 </option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13 </option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16 </option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19 </option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22 </option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25 </option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28 </option>
+                                <option value="28">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31 </option>
+                            </b-select>
+                            <b-select v-model="month">
+                                <option value= ''> </option>
+                                <option value="1">January </option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">Aptil</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </b-select>
+                            <b-input v-model="year" style="width:20%"></b-input>
+                        </b-field>
+                        {{month}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Is Approved </h4>
+                        </td>
+                        <td class="clsValue">
+                          <b-checkbox v-model="isApproved">
+                            {{ isApproved }}
+                        </b-checkbox>
+                        </td>
+                    </tr>
+
+            </table>
+            
+        <md-card-actions md-alignment="right">
+            <md-button @click="filter()">Submit</md-button>
+        </md-card-actions>
+          </div>
+        </md-card-content>
+          </md-card-content>
+        </md-card-expand-content>
+      </md-card-expand>
         {{ psrs }}
         <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
           <template slot-scope="props">
@@ -88,6 +201,10 @@ export default {
   name: "notify-PSR",
   data() {
     return {
+      date: '',
+      month: '',
+      year: '',
+      isApproved: false,
       psrObj: new psrClass(),
       psrs: [], //for psr in psrs {{psr.[var name]}}
       page: 1,
@@ -130,7 +247,7 @@ export default {
     detail(value) {
       alert(value.id);
       this.$router.push({
-        path: `/displayPSR/${this.id}/${value.psr_no}/approval`
+        path: `/displayPSR/${this.id}/${value.psr_no}/audit`
       });
     },
     async search() {
@@ -238,3 +355,40 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.clsLabel{
+    /* background-color: #969191; */
+    /* color: #ffffff; */
+    height: 65px;
+    vertical-align: middle;
+    padding-left: 1em;
+    font-weight: 700;
+    font-size: 150%;
+    text-align: left;
+    /* border-right:8px solid #ffffff; */
+    /* border-bottom: 5px solid #ffffff; */
+    border-radius: 10px;
+    /* border-right: 7px; */
+}
+.clsLabel h4{
+    font-weight: 500;
+
+}
+.clsValue{
+    /* background-color: #f3f3f3; */
+    /* background-color: #ffffff; */
+    color: black;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 5%;
+    font-weight: 400;
+    border-bottom: 5px solid #ffffff;
+    /* border: 5px solid red; */
+    border-radius: 10px;
+}
+.clsForm{
+    border-radius: 30px;
+    border: 1px solid #ffffff;
+}
+</style>

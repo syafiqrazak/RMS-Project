@@ -17,6 +17,7 @@
     "google-maps": "3.3.0",
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.2.13",
+    "numeral": "^2.0.6",
     "vue": "2.6.10",
     "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-clickaway": "2.2.2",

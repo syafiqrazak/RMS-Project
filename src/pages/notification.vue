@@ -7,9 +7,10 @@
         </md-card-header>
         <md-card-content>
           <b-tabs type="is-toggle" size="is-medium" expanded>
-                <b-tab-item label="Leave Application">
+
+                <b-tab-item :visible="true" label="PSR">
                   <md-card-content>
-                    <notify-leave></notify-leave>
+                    <notify-PSR></notify-PSR>
                   </md-card-content>
                 </b-tab-item>
 
@@ -18,10 +19,10 @@
                     <notify-PO></notify-PO>
                   </md-card-content>
                 </b-tab-item>
-
-                <b-tab-item :visible="true" label="PSR">
+                
+                <b-tab-item label="Leave Application">
                   <md-card-content>
-                    <notify-PSR></notify-PSR>
+                    <notify-leave></notify-leave>
                   </md-card-content>
                 </b-tab-item>
           </b-tabs> 

@@ -100,7 +100,7 @@ const routes = [
         component: displayPO
       },
       {
-        path: "/displayPSR/:id/:psr_no/:action",
+        path: "/displayPSR/:id/:psr_id/:action",
         name: "Display PSR",
         component: displayPSR
       },

@@ -5,8 +5,16 @@
         <h4 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h4>
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
-      <md-card-content>
-        <md-card-content>
+      <md-card-expand>
+        <md-card-actions md-alignment="space-between">
+          <md-card-expand-trigger>
+            <md-button>Filter</md-button>
+          </md-card-expand-trigger>
+        </md-card-actions>
+
+        <md-card-expand-content>
+          <md-card-content>
+            <md-card-content>
           <div class="alert alert-info" style="color: black; background-color:white;width:100%; display: inline-block;">
             <table cls="clsForm" width="80%:">
                     <col width="25%">
@@ -17,7 +25,7 @@
                             <h4>Purchase Order No.: </h4>
                         </td>
                         <td class="clsValue">
-                            <b-input style="width:98%"></b-input>
+                            <b-input v-model="poNo" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -25,42 +33,96 @@
                             <h4>Company Name: </h4>
                         </td>
                         <td class="clsValue">
-                            <b-input style="width:98%"></b-input>
+                            <b-input v-model="companyName" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Purchase Order No.: </h4>
+                            <h4>Date </h4>
                         </td>
                         <td class="clsValue">
-                            <b-input style="width:98%"></b-input>
+                            
+                          <b-field>
+                            <b-select v-model="date" style="width:10%">
+                                <option value= null> </option>
+                                <option value="1">1 </option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4 </option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7 </option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10 </option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13 </option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16 </option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19 </option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22 </option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25 </option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28 </option>
+                                <option value="28">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31 </option>
+                            </b-select>
+                            <b-select v-model="month">
+                                <option value= ''> </option>
+                                <option value="1">January </option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">Aptil</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </b-select>
+                            <b-input v-model="year" style="width:20%"></b-input>
+                        </b-field>
+                        {{month}}
                         </td>
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Purchase Order No.:: </h4>
+                            <h4>Is Approved </h4>
                         </td>
                         <td class="clsValue">
-                            <b-input style="width:98%"></b-input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="clsLabel">
-                            <h4>Purchase Order No.:: </h4>
-                        </td>
-                        <td class="clsValue">
-                            <b-input style="width:98%"></b-input>
+                          <b-checkbox v-model="isApproved">
+                            {{ isApproved }}
+                        </b-checkbox>
                         </td>
                     </tr>
 
             </table>
+            
+        <md-card-actions md-alignment="right">
+            <md-button @click="filter()">Submit</md-button>
+        </md-card-actions>
           </div>
         </md-card-content>
+          </md-card-content>
+        </md-card-expand-content>
+      </md-card-expand>
+      <md-card-content>
         <b-table
           :data="isEmpty ? [] : pos"
           :striped="true"
           :hoverable="true"
-          :default-sort-direction="asc"
         >
           <template slot-scope="props">
             <b-table-column field="po_no" label="PO Number" sortable>
@@ -129,6 +191,7 @@ export default {
   name: "notify-PO",
   data() {
     return {
+      isApproved: false,
       poObj: new poClass(),
       pos: [], //for po in pos {{po.[var name]}}
       page: 1,
@@ -141,7 +204,13 @@ export default {
       t2: null,
       t4: null,
       t3: null,
-      is_admin: null
+      is_admin: null,
+      poNo: null,
+      companyName: null,
+      date:null,
+      month: null,
+      year: null,
+      isEmpty: false
     };
   },
   async created() {
@@ -157,14 +226,16 @@ export default {
       // this.poObj.toJson();
       //testing ends
       this.poObj.in_page = 1;
+      // alert(new Date().getDate());
       const data = await po.po_search(this.poObj.toJson());
-
+      console.log(data);
       const pos1 = data.result[0];
       // this.total_page = data.result[1];
       this.total_page = data.totalrecords;
       this.pos = pos1.map(pos => ({
         ...pos
       }));
+      console.log(this.pos);
     } catch (err) {
       this.error = err.message;
     }
@@ -174,8 +245,38 @@ export default {
     detail(value) {
       console.log(value.po_no);
       this.$router.push({
-        path: `/displayPO/${this.id}/${value.po_no}/approval`
+        path: `/displayPO/${this.id}/${value.po_no}/audit`
       });
+    },
+    async filter(){
+      try {
+      //testing starts
+      this.poObj.in_param_1 = this.poNo;
+      this.poObj.in_param_2 = this.companyName;
+      this.poObj.in_param_3 = this.date;
+      this.poObj.in_param_4 = this.month;
+      this.poObj.in_param_5 = this.year;
+      this.poObj.in_param_6 = this.isApproved;
+      this.poObj.in_page = 1;
+      console.log(this.poObj);
+      // this.poObj.toJson();
+      //testing ends
+      this.poObj.in_page = 1;
+      // alert(new Date().getDate());
+      const data = await po.po_search(this.poObj.toJson());
+
+      const pos1 = data.result[0];
+      console.log(data);
+      // this.total_page = data.result[1];
+      this.total_page = data.totalrecords;
+      this.pos = pos1.map(pos => ({
+        ...pos
+      }));
+      console.log(this.pos);
+    } catch (err) {
+      this.error = err.message;
+      alert(err);
+    }
     },
     async get_pending() {
       try {

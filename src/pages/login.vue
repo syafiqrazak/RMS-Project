@@ -98,7 +98,7 @@ export default {
       try {
         this.isLoading = true;
         const login = await user.login(this.name, this.password);
-
+        console.log(login);
         if (await login.hasOwnProperty("err")) {
           this.isLoading = false;
           alert("wrong");
@@ -112,10 +112,12 @@ export default {
           localStorage.t4 = login.t4;
           localStorage.t3 = login.t3;
           localStorage.is_admin = login.is_admin;
-          localStorage.department = login.department;
+          localStorage.branch = login.branch.cd;
           localStorage.acct_t = login.acct_t;
           localStorage.staffName = login.firstname + " " + login.lastname;
-          // alert(localStorage.staffName);
+          
+          if(login.department)
+            localStorage.department = login.department.cd;
           this.isLoading = false;
           this.$router.push({ path: `/leaveApplication/${login.id}` });
         }

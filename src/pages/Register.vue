@@ -44,10 +44,44 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
+                            <h4>Role:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <!-- <b-field type="is-danger"> -->
+                            <div class="block" style="border: 1px solid #dbdbdb; border-radius:4px; padding-left:1em; height:8.5em; width:98%; verticle-align:middle;">
+                                    <!-- <label>Role</label><p>&nbsp</p> -->
+                                    <md-radio v-model="tier" value="usert1" class="md-primary">User Tier 1</md-radio>
+                                    <md-radio v-model="tier" value="usert2" class="md-primary">User Tier 2</md-radio>
+                                    <md-radio v-model="tier" value="usert3" class="md-primary">User Tier 3</md-radio>
+                                    <md-radio v-model="tier" value="usert4" class="md-primary">User Tier 4</md-radio>
+                                    <md-radio v-model="tier" value="acct_t" class="md-primary">Accountant Tier</md-radio>
+                                    <md-radio v-model="tier" value="is_admin" class="md-primary">Admin</md-radio>
+                            </div>
+                            <!-- </b-field> -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Branch:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-select v-model="branch" expanded="" style="width:98%;">
+                                <option value= "DJSB"> DJSB</option>
+                            </b-select>
+                        </td>
+                    </tr>
+                    <tr v-if="tier != 'usert4'">
+                        <td class="clsLabel">
                             <h4>Department:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.department" style="width:98%"></b-input>
+                            <b-select v-model="department" expanded="" style="width:98%;">
+                                <option value= "mar"> Marine</option>
+                                <option value="cct">Commercial and Contract </option>
+                                <option value="acct">Account</option>
+                                <option value="adm">Admin</option>
+                                <option value="tgd">Trading</option>
+                            </b-select>
                         </td>
                     </tr>
                     <tr>
@@ -112,25 +146,8 @@
                             </b-field>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="clsLabel">
-                            <h4>Role:</h4>
-                        </td>
-                        <td class="clsValue">
-                            <!-- <b-field type="is-danger"> -->
-                            <div class="block" style="border: 1px solid #dbdbdb; border-radius:4px; padding-left:1em; height:3.5em; width:98%; verticle-align:middle;">
-                                    <!-- <label>Role</label><p>&nbsp</p> -->
-                                    <md-radio v-model="tier" value="usert1" class="md-primary">User Tier 1</md-radio>
-                                    <md-radio v-model="tier" value="usert2" class="md-primary">User Tier 2</md-radio>
-                                    <md-radio v-model="tier" value="usert3" class="md-primary">User Tier 3</md-radio>
-                                    <md-radio v-model="tier" value="usert4" class="md-primary">User Tier 4</md-radio>
-                                    <md-radio v-model="tier" value="acct_t" class="md-primary">Accountant Tier</md-radio>
-                                    <md-radio v-model="tier" value="is_admin" class="md-primary">Admin</md-radio>
-                            </div>
-                            <!-- </b-field> -->
-                        </td>
-                    </tr>
                 </table>
+                            {{department}}
                 {{userObj.password}}
                 <br><br>
                 <md-button
@@ -155,11 +172,15 @@ export default {
     name: "edit-profile-form",
   data() {
     return {
+        userObj: new userClass(),
+        posted: false,
+        tier:'',
+        department:'',
+        branch:'',
     //     firstName: '',
     //     lastName:'',
     //     userName: '',
     //     email:'',
-        tier:'',
     //     home_address1:'',
     //     home_address2:'',
     //     home_address3:'',
@@ -175,8 +196,6 @@ export default {
     //     t4: false,
     //     is_admin: false,
         // posted: false,
-      userObj: new userClass(),
-      posted: false,
     };
   },
   methods: {
@@ -193,8 +212,10 @@ export default {
             this.userObj.acct_t = true;
         else
             this.userObj.is_admin = true;
-
-        alert(this.userObj.email);
+        
+        this.userObj.department = this.department;
+        this.userObj.branch = this.branch;
+        alert("Account Department: "+this.userObj.acct_t);
         alert(this.userObj.t1);
         console.log(this.userObj.toJson());
         // if(this.register.userName && this.register.password)

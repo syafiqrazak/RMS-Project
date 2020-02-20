@@ -216,22 +216,27 @@
             </b-table>
           </div>
           <br /><br />
-          <b-button type="is-success" @click.prevent="printPDF()"
-              >Generate</b-button
-            >
           <div
             v-if="action == 'approval'"
             style=" margin-left: 40%; margin-right: 40%;"
-          >
+          ><md-card-actions md-alignment="space-between">
             <b-button type="is-success" @click.prevent="approve()"
               >Approve</b-button
             >
             <b-button type="is-danger" @click.prevent="decline_po()"
               >Decline</b-button
             >
-            <!-- {{error}} -->
+            </md-card-actions>
           </div>
-          <!-- {{pos}} -->
+          <div
+            v-if="action == 'audit'"
+            style=" float:right;"
+          ><md-card-actions md-alignment="space-between">
+          <b-button type="is-success" @click.prevent="printPDF()"
+              >Generate PDF</b-button
+            >
+            </md-card-actions>
+          </div>
           
           <md-dialog :md-active.sync="showDialog" style="width:100%; overflow:auto;">
             <md-dialog-title>Purchase Order Details</md-dialog-title>
@@ -395,7 +400,7 @@ export default {
       this.poObj.po_no = this.po_no;
       const data = await po.find(this.poObj);
       this.pos = data;
-      this.po_id = this.pos.id;
+      
     } catch (err) {
       this.error = err.message;
     }
@@ -407,13 +412,6 @@ export default {
     },
     printPDF() {
       generatePO.printPDF(this.pos);
-      // var fileName = "PO/TRD-"+this.pos.po_no + ".pdf";
-      // alert("printPDF");
-      // var doc = new jsPDF()
- 
-      // doc.text('Hello world!', 10, 10)
-      // doc.save(fileName)
-
 		},
     async approve() {
       this.poObj.id = this.po_id;

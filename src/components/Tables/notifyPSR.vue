@@ -93,11 +93,14 @@ export default {
   },
   async created() {
     this.psrObj.in_page = 1;
+    this.psrObj.branch = localStorage.branch;
+    this.psrObj.department = localStorage.department;
     if (localStorage.t1) this.t1 = localStorage.t1;
     if (localStorage.t2) this.t2 = localStorage.t2;
     if (localStorage.t4) this.t4 = localStorage.t4;
     if (localStorage.t3) this.t3 = localStorage.t3;
     if (localStorage.is_admin) this.is_admin = localStorage.is_admin;
+    
 
     try {
       if (this.is_admin == "true") {
@@ -142,10 +145,10 @@ export default {
     }
   },
   methods: {
-    detail(value) {
+    async detail(value) {
       alert(value.id);
       this.$router.push({
-        path: `/displayPSR/${this.id}/${value.psr_no}/approval`
+        path: `/displayPSR/${this.id}/${value.id}/approval`
       });
     },
     async get_pending() {

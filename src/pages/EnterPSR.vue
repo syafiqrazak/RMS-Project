@@ -103,7 +103,9 @@ export default {
         try {
             this.isLoading = true;
             this.psrObj.in_page = 1;
-            const data = await psr.get_approved(this.psrObj);
+            this.psrObj.in_param_5 = true;
+            console.log(this.psrObj);
+            const data = await psr.psr_search(this.psrObj);
             console.log(data.result);
             this.psrs = data.result[0];
             // this.psrs = data.map(psr => ({

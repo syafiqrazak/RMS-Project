@@ -9,6 +9,7 @@
             <!-- {{users}}
             {{error}} -->
             <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
+            {{users}}
                 <b-table :data="isEmpty ? [] : users" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
                             aria-previous-label="Previous page"
                             aria-page-label="Page"
@@ -32,6 +33,7 @@
                             <span v-else-if="props.row.t3 == true">Level 3</span>
                             <span v-else-if="props.row.t4 == true">Level 4</span>
                             <span v-else-if="props.row.is_admin == true">Admin</span>
+                            <span v-else-if="props.row.acct_t == true">Account Department</span>
                             <span v-else>Invalid User</span>
                     </b-table-column>
                     
