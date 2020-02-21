@@ -160,7 +160,7 @@ const routes = [
         component: Dashboard
       },
       {
-        path: "/user/:id",
+        path: "/userProfile/:id/:user_id",
         name: "User Profile",
         component: UserProfile
       },

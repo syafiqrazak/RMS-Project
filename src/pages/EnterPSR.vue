@@ -26,21 +26,18 @@
                         <col width="10%">
                         <col width="70%">
                         <tr>
-                        <td class="clsLabel">
-                            <h4>PSR NO: </h4>
-                        </td>
-                        <td class="clsLabel">
-                            <h4>PSR/TRD  </h4>
-                        </td>
-                        <td class="clsValue" style="padding:0.6rem;">
-                            <b-input v-model="PSRNo" style="width:38%"></b-input>
-                        </td>
+                            <td class="clsLabel">
+                                <h4>PSR NO: </h4>
+                            </td>
+                            <td class="clsValue" style="padding:0.6rem;">
+                                <b-input v-model="PSRNo" style="width:38%"></b-input>
+                            </td>
                         </tr>
                     </table>
                     
                     <md-button
                         class="md-raised md-success"
-                        @click.once="matchPSR()"
+                        @click="matchPSR()"
                         style="float:right"
                         >GO</md-button ><br><br>
                     </md-card-content>
@@ -56,11 +53,11 @@
                     <template slot-scope="props">
                         <b-table-column field="po_no" label="PO Number" sortable>
                             <a @click="passPSR(props.row)">
-                                PO/TRD-{{ props.row.psr_no |numeral('000000') }}
+                                {{ props.row.psr_no }}
                             </a>
                         </b-table-column>
                         <b-table-column field="po_date" label="Date Created">
-                            {{ props.row.psr_date | moment("dddd, MMMM Do YYYY") }}
+                            {{ props.row.created_at | moment(" Do MMMM YYYY") }}
                         </b-table-column>
                         <b-table-column>
                             {{ props.row.status }}
@@ -127,15 +124,15 @@ export default {
         matchPSR(){
             if(this.psrs != null){
                 // alert(this.psrs.length);
-                this.PSRNo = parseInt(this.PSRNo);
+                // this.PSRNo = parseInt(this.PSRNo);
                 alert(this.PSRNo);
                 for(var i=0; i<this.psrs.length; i++){
                     alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
                     if(this.psrs[i].psr_no == this.PSRNo){
-                        // alert("Match");
+                        alert("Match");
                         try{
                             this.match = true;
-                            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.PSRNo}` });
+                            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.psrs[i].id}` });
                             break;
                         }
                         catch(error){

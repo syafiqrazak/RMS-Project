@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{pos}}
     <b-table
       :data="isEmpty ? [] : pos"
       :striped="true"
@@ -107,7 +108,6 @@ export default {
       } else if (this.t4 == "true") {
         try {
           const data = await po.get_pending(this.poObj);
-          alert("REquest T4 approval");
           const pos1 = data.result[0];
           this.total_page = data.result[1];
           this.pos = pos1.map(pos => ({
@@ -139,7 +139,7 @@ export default {
     detail(value) {
       console.log(value.po_no);
       this.$router.push({
-        path: `/displayPO/${this.id}/${value.po_no}/approval`
+        path: `/displayPO/${this.id}/${value.id}/approval`
       });
     },
     async get_pending() {

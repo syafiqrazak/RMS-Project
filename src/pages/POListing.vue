@@ -119,6 +119,7 @@
         </md-card-expand-content>
       </md-card-expand>
       <md-card-content>
+        {{pos}}
         <b-table
           :data="isEmpty ? [] : pos"
           :striped="true"
@@ -127,7 +128,7 @@
           <template slot-scope="props">
             <b-table-column field="po_no" label="PO Number" sortable>
               <a @click="detail(props.row)">
-                PO/TRD-{{ props.row.po_no | numeral("000000") }}
+                {{ props.row.po_no }}
               </a>
             </b-table-column>
             <b-table-column field="create_user" label="Create By">
@@ -221,13 +222,15 @@ export default {
       this.poObj.in_param_3 = null;
       this.poObj.in_param_4 = null;
       this.poObj.in_param_5 = null;
+      this.poObj.in_param_6 = null;
+      this.poObj.in_param_7 = null;
       this.poObj.in_page = 1;
       console.log(this.poObj);
       // this.poObj.toJson();
       //testing ends
       this.poObj.in_page = 1;
-      // alert(new Date().getDate());
       const data = await po.po_search(this.poObj.toJson());
+      console.log("data: ");
       console.log(data);
       const pos1 = data.result[0];
       // this.total_page = data.result[1];
@@ -235,9 +238,9 @@ export default {
       this.pos = pos1.map(pos => ({
         ...pos
       }));
-      console.log(this.pos);
     } catch (err) {
       this.error = err.message;
+      alert(err);
     }
   },
 
@@ -245,7 +248,7 @@ export default {
     detail(value) {
       console.log(value.po_no);
       this.$router.push({
-        path: `/displayPO/${this.id}/${value.po_no}/audit`
+        path: `/displayPO/${this.id}/${value.id}/audit`
       });
     },
     async filter(){
@@ -257,6 +260,8 @@ export default {
       this.poObj.in_param_4 = this.month;
       this.poObj.in_param_5 = this.year;
       this.poObj.in_param_6 = this.isApproved;
+      this.poObj.in_param_6 = this.isApproved;
+      this.poObj.in_param_6 = this.isApproved;
       this.poObj.in_page = 1;
       console.log(this.poObj);
       // this.poObj.toJson();
@@ -264,14 +269,15 @@ export default {
       this.poObj.in_page = 1;
       // alert(new Date().getDate());
       const data = await po.po_search(this.poObj.toJson());
-
-      const pos1 = data.result[0];
       console.log(data);
-      // this.total_page = data.result[1];
-      this.total_page = data.totalrecords;
-      this.pos = pos1.map(pos => ({
-        ...pos
-      }));
+
+      // const pos1 = data.result[0];
+      // console.log(data);
+      // // this.total_page = data.result[1];
+      // this.total_page = data.totalrecords;
+      // this.pos = pos1.map(pos => ({
+      //   ...pos
+      // }));
       console.log(this.pos);
     } catch (err) {
       this.error = err.message;

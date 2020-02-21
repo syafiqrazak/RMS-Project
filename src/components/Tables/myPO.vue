@@ -6,8 +6,8 @@
       :can-cancel="true"
     ></b-loading>
     <h5>
-      <!-- {{pos}}
-          {{error}} -->
+      {{pos}}
+      {{error}}
     </h5>
     <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true">
       <template slot-scope="props">
@@ -62,7 +62,6 @@ export default {
       id: localStorage.id,
       page: 1,
       pos: [],
-      error: "",
       total_page: ""
     };
   },
@@ -70,6 +69,9 @@ export default {
     try {
       this.isLoading = true;
       this.poObj.in_page = 1;
+      this.poObj.branch = localStorage.branch;
+      this.poObj.department = localStorage.department;
+      
       const data = await purchaseOrder.show_own_po_page(this.poObj);
       const pos1 = data.result[0];
       this.total_page = data.result[1];
@@ -87,7 +89,7 @@ export default {
     detail(value) {
       console.log(value.po_no);
       this.$router.push({
-        path: `/displayPO/${this.id}/${value.po_no}/status`
+        path: `/displayPO/${this.id}/${value.id}/status`
       });
     }
   }

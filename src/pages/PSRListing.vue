@@ -25,18 +25,34 @@
 
                     <tr>
                         <td class="clsLabel">
-                            <h4>Purchase Order No.: </h4>
+                            <h4>PSR No: </h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="poNo" style="width:98%"></b-input>
+                            <b-input v-model="psr_no" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Company Name: </h4>
+                            <h4>Branch: </h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="companyName" style="width:98%"></b-input>
+                            <b-select v-model="branch" expanded="" style="width:98%;">
+                                <option value= "DJSB"> DJSB</option>
+                            </b-select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            <h4>Department: </h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-select v-model="department" expanded="" style="width:98%;">
+                                <option value= "mar"> Marine</option>
+                                <option value="cct">Commercial and Contract </option>
+                                <option value="acct">Account</option>
+                                <option value="adm">Admin</option>
+                                <option value="tgd">Trading</option>
+                            </b-select>
                         </td>
                     </tr>
                     <tr>
@@ -46,7 +62,7 @@
                         <td class="clsValue">
                             
                           <b-field>
-                            <b-select v-model="date" style="width:10%">
+                            <b-select v-model="date" style="width:15%">
                                 <option value= null> </option>
                                 <option value="1">1 </option>
                                 <option value="2">2</option>
@@ -97,7 +113,6 @@
                             </b-select>
                             <b-input v-model="year" style="width:20%"></b-input>
                         </b-field>
-                        {{month}}
                         </td>
                     </tr>
                     <tr>
@@ -201,9 +216,13 @@ export default {
   name: "notify-PSR",
   data() {
     return {
-      date: '',
-      month: '',
-      year: '',
+      companyName: null,
+      psr_no: null,
+      date: null,
+      month: null,
+      year: null,
+      branch: null,
+      department: null,
       isApproved: false,
       psrObj: new psrClass(),
       psrs: [], //for psr in psrs {{psr.[var name]}}
@@ -227,7 +246,9 @@ export default {
       this.psrObj.in_param_2 = null;
       this.psrObj.in_param_3 = null;
       this.psrObj.in_param_4 = null;
-      this.psrObj.in_param_5 = null;
+      this.psrObj.in_param_5 = false;
+      this.psrObj.in_param_6 = null;
+      this.psrObj.in_param_7 = null;
       this.psrObj.in_page = 1;
       console.log(this.psrObj);
       // this.psrObj.toJson();
@@ -247,12 +268,40 @@ export default {
     detail(value) {
       alert(value.id);
       this.$router.push({
-        path: `/displayPSR/${this.id}/${value.psr_no}/audit`
+        path: `/displayPSR/${this.id}/${value.id}/audit`
       });
+    },
+    async filter(){
+      try {
+      //testing starts
+      this.psrObj.in_param_1 = this.psr_no;
+      this.psrObj.in_param_2 = this.date;
+      this.psrObj.in_param_3 = this.month;
+      this.psrObj.in_param_4 = this.year;
+      this.psrObj.in_param_5 = this.isApproved;
+      this.psrObj.in_param_6 = this.department;
+      this.psrObj.in_param_7 = this.branch;
+      this.psrObj.in_page = 1;
+      console.log(this.psrObj);
+      // this.psrObj.toJson();
+      //testing ends
+      this.psrObj.in_page = 1;
+      const data = await psr.psr_search(this.psrObj.toJson());
+      const psrs1 = data.result[0];
+      this.total_page = data.result[1];
+      this.psrs = psrs1.map(psrs => ({
+        ...psrs
+      }));
+      alert("Filtering");
+      console.log(this.psrs);
+    } catch (err) {
+      this.error = err.message;
+      alert(err);
+    }
     },
     async search() {
       try {
-        const data = await psr.psr_search(this.poObj);
+        const data = await psr.psr_search(this.psrObj);
         this.pos = data;
         this.po_id = this.pos.id;
       } catch (err) {

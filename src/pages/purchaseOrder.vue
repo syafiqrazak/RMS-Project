@@ -285,6 +285,8 @@ export default {
           this.poObj.address_3 = this.details.address3;
           this.poObj.address_4 = this.details.address4;
           this.poObj.po_desc = this.desc;
+          this.poObj.branch = localStorage.branch;
+          this.poObj.department = localStorage.department;
     },
     prev() {
       this.step--;

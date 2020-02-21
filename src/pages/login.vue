@@ -41,7 +41,6 @@
 </template>
 
 <script>
-// import router from "@/routes/routes.js"
 import user from "@/js/user.js"; //directory to user.js
 
 export default {
@@ -89,11 +88,6 @@ export default {
     }
   },
   methods: {
-    // navigate() {
-    //     console.log(this.data.name);
-    //     // this.$router.router.push({ path: `/leaveApplication/${this.nama}` });
-    //     this.$router.push({path: `/leaveApplication/${this.nama}`});
-    // }
     async login() {
       try {
         this.isLoading = true;
@@ -112,12 +106,13 @@ export default {
           localStorage.t4 = login.t4;
           localStorage.t3 = login.t3;
           localStorage.is_admin = login.is_admin;
-          localStorage.branch = login.branch.cd;
           localStorage.acct_t = login.acct_t;
           localStorage.staffName = login.firstname + " " + login.lastname;
           
-          if(login.department)
-            localStorage.department = login.department.cd;
+          if (login.department) localStorage.department = login.department.cd;
+          else localStorage.department = null;
+          if (login.branch) localStorage.branch = login.branch.cd;
+          
           this.isLoading = false;
           this.$router.push({ path: `/leaveApplication/${login.id}` });
         }

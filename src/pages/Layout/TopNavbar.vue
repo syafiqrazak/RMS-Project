@@ -134,6 +134,7 @@ export default {
                 }
                 if(logout){
                   console.log("Logout success");
+                  localStorage.clear();
                   this.$router.push({ path: '/login' })    //add redirect to other page here
                 }
                 else

@@ -135,7 +135,7 @@ class generatePSR {
       });
     doc.setFontSize(10);
     doc.setFontType("normal");
-    doc.save("Test.pdf");
+    doc.save(psrObj.psr_no + ".pdf");
   }
 }
 

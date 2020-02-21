@@ -100,48 +100,48 @@ export default {
     if (localStorage.t4) this.t4 = localStorage.t4;
     if (localStorage.t3) this.t3 = localStorage.t3;
     if (localStorage.is_admin) this.is_admin = localStorage.is_admin;
-    
+    if(this.t2)
 
-    try {
-      if (this.is_admin == "true") {
+    if (this.is_admin == "true") {
+      alert("Admin");
+      try {
         const data = await psr.show_psr_page(this.psrObj);
+        const psrs1 = data.result[0];
+        this.total_page = data.result[1];
+        this.psrs = psrs1.map(psrs => ({
+          ...psrs
+        }));
+      } catch (err) {
+        this.error = err.message;
+      }
+    } else if (this.t2 =="true" || this.t3 =="true") {
+      try {
+        const data = await psr.get_submits(this.psrObj);
+        const limit = 8;
 
         const psrs1 = data.result[0];
         this.total_page = data.result[1];
         this.psrs = psrs1.map(psrs => ({
           ...psrs
         }));
-      } else if (this.t2 || this.t3) {
-        try {
-          const data = await psr.get_submits(this.psrObj);
-          const limit = 8;
-
-          const psrs1 = data.result[0];
-          this.total_page = data.result[1];
-          this.psrs = psrs1.map(psrs => ({
-            ...psrs
-          }));
-        } catch (err) {
-          this.error = err.message;
-        }
-      } else if (this.t4 == "true") {
-        try {
-          const data = await psr.get_pending(this.psrObj);
-          const limit = 8;
-
-          const psrs1 = data.result[0];
-          this.total_page = data.result[1];
-          this.psrs = psrs1.map(psrs => ({
-            ...psrs
-          }));
-        } catch (err) {
-          this.error = err.message;
-        }
-      } else {
-        alert("Invalid user! Please contact your system admin.");
+      } catch (err) {
+        this.error = err.message;
       }
-    } catch (err) {
-      this.error = err.message;
+    } else if (this.t4 == "true") {
+      try {
+        const data = await psr.get_pending(this.psrObj);
+        const limit = 8;
+
+        const psrs1 = data.result[0];
+        this.total_page = data.result[1];
+        this.psrs = psrs1.map(psrs => ({
+          ...psrs
+        }));
+      } catch (err) {
+        this.error = err.message;
+      }
+    } else {
+      alert("Invalid user! Please contact your system admin.");
     }
   },
   methods: {

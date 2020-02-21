@@ -58,7 +58,7 @@
                   <p><b>Purchase Order Number:</b></p>
                 </td>
                 <td>
-                  <p>PO/TRD-{{ pos.po_no | numeral("0000") }}</p>
+                  <p>{{ pos.po_no }}</p>
                 </td>
               </tr>
               <tr>
@@ -383,7 +383,7 @@ export default {
       id: this.$route.params.id,
       action: this.$route.params.action,
       po_no: this.$route.params.po_no,
-      po_id: "",
+      po_id: this.$route.params.po_no,
       status_t1: "",
       showDialog: false
       // status_t1: ""
@@ -398,7 +398,8 @@ export default {
     try {
       this.poObj.in_page = 1;
       this.poObj.po_no = this.po_no;
-      const data = await po.find(this.poObj);
+      this.poObj.id = this.po_no;
+      const data = await po.report(this.poObj);
       this.pos = data;
       
     } catch (err) {
