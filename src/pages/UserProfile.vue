@@ -13,7 +13,7 @@
           :active.sync="isLoading"
           :can-cancel="true"
         ></b-loading>
-        <md-table md-card>
+        <md-table md-card striped>
       <!-- <md-table-toolbar>
         <h1 class="md-title"></h1>
       </md-table-toolbar> -->
@@ -60,7 +60,7 @@
       
       <md-table-row>
         <md-table-head width="15%">Contact Number</md-table-head>
-        <md-table-head width="70%"  style="background-color:#8af4ff">{{users.lastname}}</md-table-head>
+        <md-table-head width="70%"  style="background-color:#8af4ff">{{users.contact_no}}</md-table-head>
       </md-table-row>
       
       <md-table-row>
@@ -85,7 +85,8 @@
 
     </md-table>
     <md-card-actions md-alignment="right">
-          <b-button style="float:left;" type="is-success"  @click.prevent="isEdit = true" >Edit</b-button>
+          <b-button  type="is-danger"  @click.prevent="deleteUser()" style="margin-right:1em" >Delete</b-button>
+          <b-button  type="is-warning"  @click.prevent="isEdit = true">Edit</b-button>
       </md-card-actions>
         
       </md-card-content>
@@ -99,7 +100,7 @@
                             <h4>First Name:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.firstname" style="width:98%"></b-input>
+                            <b-input v-model="users.firstname" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -107,7 +108,7 @@
                             <h4>Last Name:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.lastname" style="width:98%"></b-input>
+                            <b-input v-model="users.lastname" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -115,7 +116,7 @@
                             <h4>Email Address:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.email" style="width:98%"></b-input>
+                            <b-input v-model="users.email" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -123,7 +124,7 @@
                             <h4>Username:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.username" style="width:98%"></b-input>
+                            <b-input v-model="users.username" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -160,11 +161,11 @@
                         </td>
                         <td class="clsValue">
                             <b-select v-model="department" expanded="" style="width:98%;">
-                                <option value= "mar"> Marine</option>
-                                <option value="cct">Commercial and Contract </option>
-                                <option value="acct">Account</option>
-                                <option value="adm">Admin</option>
-                                <option value="tgd">Trading</option>
+                                <option value= "MAR"> Marine</option>
+                                <option value="CCT">Commercial and Contract </option>
+                                <option value="ACCT">Account</option>
+                                <option value="ADM">Admin</option>
+                                <option value="TGD">Trading</option>
                             </b-select>
                         </td>
                     </tr>
@@ -173,7 +174,7 @@
                             <h4>Home Address:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_1" style="width:98%"></b-input>
+                            <b-input v-model="users.address_1" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -181,7 +182,7 @@
                             <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_2" style="width:98%"></b-input>
+                            <b-input v-model="users.address_2" style="width:98%"></b-input>
                         </td>
                     </tr>
                      <tr>
@@ -189,7 +190,7 @@
                             <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_3" style="width:98%"></b-input>
+                            <b-input v-model="users.address_3" style="width:98%"></b-input>
                         </td>
                     </tr>
                      <tr>
@@ -197,7 +198,7 @@
                             <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_4" style="width:98%"></b-input>
+                            <b-input v-model="users.address_4" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -206,38 +207,22 @@
                         </td>
                         <td class="clsValue">
                             <b-field>
-                                <b-input type="password" v-model="userObj.contact_no" style="width:98%"  password-reveal></b-input>
-                            </b-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="clsLabel">
-                            <h4>Password:</h4>
-                        </td>
-                        <td class="clsValue">
-                            <b-field>
-                                <b-input type="password" v-model="userObj.password" style="width:98%"  password-reveal></b-input>
-                            </b-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="clsLabel">
-                            <h4>Confirm Password:</h4>
-                        </td>
-                        <td class="clsValue">
-                            <b-field>
-                                <b-input type="password" v-model="userObj.confirmPassword" style="width:98%"  password-reveal></b-input>
+                                <b-input v-model="users.contact_no" style="width:98%" ></b-input>
                             </b-field>
                         </td>
                     </tr>
                 </table>
-                            {{department}}
-                {{userObj.password}}
                 <br><br>
-                <md-button
-                    class="md-raised md-success"
-                    @click="new_user()" style=" margin:auto; display:block;"
-                    >Submit</md-button  >
+                <md-card-actions md-alignment="center">
+                            <md-button
+                                class="md-raised md-success"
+                                @click="update()" style=" margin-left:40%; "
+                                >Update</md-button  >
+                            <md-button
+                                class="md-raised md-accent"
+                                @click="isEdit = false" style=" margin-right:40%; "
+                                >Back</md-button  >
+                  </md-card-actions>
             </md-card-content>
     </md-card>
   </div>
@@ -250,6 +235,9 @@ export default {
   name: "notify-leave",
   data() {
     return {
+      tier:'',
+      department: '',
+      branch: '',
       isEdit: false,
       userObj: new userClass(),
       users: [],
@@ -265,7 +253,7 @@ export default {
       this.isLoading = true;
       this.userObj.id = this.$route.params.user_id;
       // alert(this.userObj.id);
-      const data = await admin.get_user(this.userObj);
+      const data = await admin.get_user(this.userObj.toJson());
       console.log("Users:");
       this.users = data;
       // this.users = data.map(users => ({
@@ -285,6 +273,79 @@ export default {
         path: `/userProfile/${this.id}`
       });
     },
+    async deleteUser(){
+      try {
+      this.isLoading = true;
+      this.userObj.id = this.$route.params.user_id;
+      // alert(this.userObj.id);
+      const data = await admin.del_user(this.userObj.toJson());
+      console.log("Deleting User:");
+      localStorage.message = "User Profile Deleted";
+      this.isLoading =  false;
+      this.$router.push({ path: `/message/${this.id}` });
+      this.isLoading = false;
+    } catch (err) {
+      this.isLoading = false;
+      this.error = err.message;
+      alert(err);
+    }
+    },
+    mapObj(){
+      this.userObj.id = this.$route.params.user_id;
+      this.userObj.firstname = this.users.firstname;
+      this.userObj.lastname = this.users.lastname;
+      this.userObj.username = this.users.username;
+      this.userObj.email = this.users.email;
+      this.userObj.contact_no = this.users.contact_no;
+      this.userObj.address_1 = this.users.address_1;
+      this.userObj.address_2 = this.users.address_2;
+      this.userObj.address_3 = this.users.address_3;
+      this.userObj.address_4 = this.users.address_4;
+      this.userObj.department = this.department;
+      this.userObj.branch = this.branch;
+      // reset designation values to false
+      this.userObj.t1 = false;
+      this.userObj.t2 = false;
+      this.userObj.t3 = false;
+      this.userObj.t4 = false;
+      this.userObj.acct_t = false;
+      this.userObj.is_admin = false;
+      
+        if(this.tier == "usert1")
+            this.userObj.t1 = true;
+        else if(this.tier == "usert2")
+            this.userObj.t2 = true;
+        else if(this.tier == "usert4")
+            this.userObj.t4 = true;
+        else if(this.tier == "usert3")
+            this.userObj.t3 = true;
+        else if(this.tier == "acct_t")
+            this.userObj.acct_t = true;
+        else
+            this.userObj.is_admin = true;
+    },
+    async update() {
+      alert("Updating");
+      this.userObj.id = this.$route.params.user_id;
+      this.mapObj();
+      // this.userObj = this.users;
+        console.log(this.userObj);
+        try {
+            this.isLoading =  true;
+            // const users = await admin.user_upd(this.userObj.toJson());
+            const users = await admin.admin_upd(this.userObj.toJson());
+            console.log(users); //can be ignored
+            this.posted = true;
+            localStorage.message = "User Profile Updated";
+            this.isLoading =  false;
+            this.$router.push({ path: `/message/${this.id}` });
+            //add redirect to other page here
+        } catch (err) {
+            this.isLoading =  false;
+            alert(err);
+            this.error = err.message;
+        }
+    },
     openLoading() {
       this.isLoading = true;
       setTimeout(() => {
@@ -294,3 +355,7 @@ export default {
   }
 };
 </script>
+
+<style scoped src="@/assets/style/style.css">
+
+</style>

@@ -1,86 +1,121 @@
 <template>
-    <div class="container" border="3px" height="5000px">  
-        <md-card>
-            <md-card-header :data-background-color="dataBackgroundColor">
-          <h4 class="title">Leave Application Details</h4>
-          <!-- <p class="category">Complete your profile</p> -->
-        </md-card-header>
-        <md-card-content>
-            {{data}} <br>
-            {{leave_id}} <br> {{error}}
-            {{data.id}}
-            <div class="alert alert-info" style="background-color:white; color:black;" centered>
-                <h4><strong> Start Date:</strong> {{date_from}}</h4>
-            </div>
-            <div class="alert alert-info" style="background-color:white; color:black;" centered>
-                <h4><strong> End Date:</strong> {{date_to}}</h4>
-            </div>
-            <div class="alert alert-info" style="background-color:white; color:black;" centered>
-                <h4>Reasons:</h4>
-                <h4>{{reason}}</h4>
-            </div>
-            <div v-if="action=='approval'" style=" margin-left: 42%; margin-right: 42%;">
-                <b-button style="float:left;" type="is-success" @click.prevent="approve_leave()">Approve</b-button>
-                <b-button style="float:right;" type="is-danger" @click.prevent="decline_leave()">Decline</b-button>
-                {{error}}
-             </div>
-             <br><br>
-        </md-card-content>
-        </md-card>
-    </div>
+  <div class="container" border="3px" height="5000px">
+    <md-card>
+      <md-card-header :data-background-color="dataBackgroundColor">
+        <h4 class="title">Leave Application Details</h4>
+        <!-- <p class="category">Complete your profile</p> -->
+      </md-card-header>
+      <md-card-content>
+        {{ data }} <br />
+        {{ leave_id }} <br />
+        {{ error }}
+        {{ data.id }}
+        <div
+          class="alert alert-info"
+          style="background-color:white; color:black;"
+          centered
+        >
+          <h4><strong> Start Date:</strong> {{ date_from }}</h4>
+        </div>
+        <div
+          class="alert alert-info"
+          style="background-color:white; color:black;"
+          centered
+        >
+          <h4><strong> End Date:</strong> {{ date_to }}</h4>
+        </div>
+        <div
+          class="alert alert-info"
+          style="background-color:white; color:black;"
+          centered
+        >
+          <h4>Reasons:</h4>
+          <h4>{{ reason }}</h4>
+        </div>
+        <div
+          v-if="action == 'approval'"
+          style=" margin-left: 42%; margin-right: 42%;"
+        >
+          <b-button
+            style="float:left;"
+            type="is-success"
+            @click.prevent="approve_leave()"
+            >Approve</b-button
+          >
+          <b-button
+            style="float:right;"
+            type="is-danger"
+            @click.prevent="decline_leave()"
+            >Decline</b-button
+          >
+          {{ error }}
+        </div>
+        <br /><br />
+      </md-card-content>
+    </md-card>
+  </div>
 </template>
 
 <script>
 import leaves from "@/js/leave.js"; //directory to leave.js
+import leaveClass from "@/js/class/leave_class.js"; //directory to leave_class.js
 export default {
-    data(){
-        return{
-            id: localStorage.id,
-            leave_id: this.$route.params.leave_id,  //vue-router - to get leave_id
-            po_no: this.$route.params.po_no,
-            action: this.$route.params.action,
-            date_from: '',
-            date_to: '',
-            reason: '',
-            status: '',
-            error: '',
-            data:[],
-        };
-    },
-    async created() {
-        try {
-            const leave = await leaves.report(this.leave_id);
-            this.data = leave;
-            this.date_from = leave.date_from;
-            this.date_to = leave.date_to;
-            this.reason = leave.reason;
-
-        } catch (err) {
-            this.error = err.message;
-        }
-    },
-    methods: {
-        async approve_leave() {
-            try {
-                const leave = await leaves.approve_leave(this.leave_id);
-                this.status = leave.status;
-                alert(this.status);
-                localStorage.message = "Leave Application Approved";
-                this.$router.push({ path: `/message/${this.id}` });
-            } catch (err) {
-                this.error = err.message;
-            }
-        },
-        async decline_leave() {
-            try {
-                const data = await leaves.decline_leave(this.leave_id);
-                console.log(data); //can be ignored
-                localStorage.message = "Leave Application Declined";
-                this.$router.push({ path: `/message/${this.id}` });
-            } catch (err) {
-                this.error = err.message;
-            }
-        },
+  data() {
+    return {
+      id: localStorage.id,
+      leaveObj: new leaveClass(),
+      leave_id: this.$route.params.leave_id, //vue-router - to get leave_id
+      po_no: this.$route.params.po_no,
+      action: this.$route.params.action,
+      date_from: "",
+      date_to: "",
+      reason: "",
+      status: "",
+      error: "",
+      data: []
+    };
+  },
+  async created() {
+    try {
+      this.leaveObj.id = this.leave_id;
+      this.leaveObj.in_page = 1;
+      const leave = await leaves.report(this.leaveObj);
+      this.data = leave;
+      console.log("Data");
+      console.log(this.data);
+      this.date_from = leave.date_from;
+      this.date_to = leave.date_to;
+      this.reason = leave.reason;
+    } catch (err) {
+      this.error = err.message;
     }
-}
+  },
+  methods: {
+    async approve_leave() {
+      try {
+        this.leaveObj.id = this.leave_id;
+        this.leaveObj.in_page = 1;
+        const leave = await leaves.approve_leave(this.leaveObj);
+        this.status = leave.status;
+        alert(this.status);
+        localStorage.message = "Leave Application Approved";
+        this.$router.push({ path: `/message/${this.id}` });
+      } catch (err) {
+        this.error = err.message;
+      }
+    },
+    async decline_leave() {
+      try {
+        this.leaveObj.id = this.leave_id;
+        this.leaveObj.in_page = 1;
+        const leave = await leaves.decline_leave(this.leaveObj);
+        // console.log(data); //can be ignored
+        localStorage.message = "Leave Application Declined";
+        this.$router.push({ path: `/message/${this.id}` });
+      } catch (err) {
+        this.error = err.message;
+      }
+    }
+  }
+};
 </script>

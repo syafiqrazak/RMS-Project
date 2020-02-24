@@ -1,18 +1,16 @@
 import axios from "axios";
-import { CONST } from "./const";
+import { CONST } from './const';
 const url = CONST.CONST_URL;
 
 class user {
+
   static login(username, password) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}login`,
-          {
-            username,
-            password
-          },
-          {
+          `${url}login`, {
+            username, password
+          }, {
             withCredentials: true
           }
         );
@@ -53,11 +51,12 @@ class user {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${id}/reset_password`,
+          `${url}${userObj._id}/reset_password`,
           {
-            ori_password,
-            new_password,
-            repeat_password
+            userObj
+            // ori_password - in_param_1
+            // new_password - in_param_2
+            // repeat_password - in_param_3
           },
           { withCredentials: true }
         );
@@ -68,5 +67,6 @@ class user {
     });
   }
 }
+
 
 export default user;

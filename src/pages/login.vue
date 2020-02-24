@@ -99,7 +99,6 @@ export default {
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
           this.isLoading = false;
-          // this.error = "Work";
           localStorage.id = login.id;
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
@@ -123,8 +122,9 @@ export default {
         // var x = document.getElementsByClassName("alert alert-danger");
         // x[0].style.visibility = 'visible';
         this.isLoading = false;
-        // alert("Enter error" + err);
+        alert("Enter error" + err);
         this.isShow = true;
+        console.log("error:");
         console.log(err);
       }
     },

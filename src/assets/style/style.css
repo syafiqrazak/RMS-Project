@@ -83,3 +83,7 @@ td.clsValueDetails{
     margin-left: 3%;
     padding-left: 3%;
 }
+
+.error{
+    color: red;
+}

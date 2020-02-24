@@ -1,6 +1,8 @@
 import axios from "axios";
-import { CONST } from "./const";
-const url = CONST.CONST_URL.concat("admin/");
+import {
+  CONST
+} from './const';
+const url = CONST.CONST_URL.concat('admin/');
 
 class admin {
   static get_all_user() {
@@ -17,15 +19,12 @@ class admin {
   }
 
   static new_user(userObj) {
-    alert("new_user");
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}new_user`,
-          {
+          `${url}new_user`, {
             userObj
-          },
-          {
+          }, {
             withCredentials: true
           }
         );
@@ -40,11 +39,9 @@ class admin {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}admin_add`,
-          {
+          `${url}admin_add`, {
             userObj
-          },
-          {
+          }, {
             withCredentials: true
           }
         );
@@ -81,15 +78,30 @@ class admin {
     });
   }
 
-  static upd_tier(userObj) {
+  static admin_upd(userObj) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${userObj._id}/upd_tier`,
-          {
+          `${url}${userObj._id}/adm_upd`, {
             userObj
-          },
-          {
+          }, {
+            withCredentials: true
+          }
+        );
+        resolve(res.data);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  static user_upd(userObj) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await axios.post(
+          `${url}${userObj._id}/edit`, {
+            userObj
+          }, {
             withCredentials: true
           }
         );
@@ -103,9 +115,11 @@ class admin {
   static random_password(userObj) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}${userObj}/rndpass`, {
-          withCredentials: true
-        });
+        const res = await axios.post(
+          `${url}${userObj}/rndpass`, {
+            withCredentials: true
+          }
+        );
         resolve(res.data);
       } catch (err) {
         reject(err);

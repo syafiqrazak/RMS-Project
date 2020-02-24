@@ -15,7 +15,8 @@
                             <h4>First Name:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.firstname" style="width:98%"></b-input>
+                            <b-input v-model="firstname" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.firstname.required && isPosted">Firstname is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -23,7 +24,8 @@
                             <h4>Last Name:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.lastname" style="width:98%"></b-input>
+                            <b-input v-model="lastname" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.lastname.required && isPosted">Lastname is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -31,7 +33,8 @@
                             <h4>Email Address:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.email" style="width:98%"></b-input>
+                            <b-input v-model="email" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.email.required && isPosted">Email Address is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -39,12 +42,13 @@
                             <h4>Username:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.username" style="width:98%"></b-input>
+                            <b-input v-model="username" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.username.required && isPosted">Username is required</div>
                         </td>
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Role:</h4>
+                            <h4>Designation:</h4>
                         </td>
                         <td class="clsValue">
                             <!-- <b-field type="is-danger"> -->
@@ -57,6 +61,7 @@
                                     <md-radio v-model="tier" value="acct_t" class="md-primary">Accountant Tier</md-radio>
                                     <md-radio v-model="tier" value="is_admin" class="md-primary">Admin</md-radio>
                             </div>
+                            <div class="error" v-if="!$v.tier.required && isPosted">Designation is required</div>
                             <!-- </b-field> -->
                         </td>
                     </tr>
@@ -68,6 +73,7 @@
                             <b-select v-model="branch" expanded="" style="width:98%;">
                                 <option value= "DJSB"> DJSB</option>
                             </b-select>
+                            <div class="error" v-if="!$v.branch.required && isPosted">Branch is required</div>
                         </td>
                     </tr>
                     <tr v-if="tier != 'usert4'">
@@ -82,6 +88,7 @@
                                 <option value="adm">Admin</option>
                                 <option value="tgd">Trading</option>
                             </b-select>
+                            <div class="error" v-if="!$v.department.required && isPosted">Department is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -89,7 +96,8 @@
                             <h4>Home Address:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_1" style="width:98%"></b-input>
+                            <b-input v-model="address_1" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.address_1.required && isPosted">Field is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -97,7 +105,8 @@
                             <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_2" style="width:98%"></b-input>
+                            <b-input v-model="address_2" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.address_2.required && isPosted">Field is required</div>
                         </td>
                     </tr>
                      <tr>
@@ -105,7 +114,7 @@
                             <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_3" style="width:98%"></b-input>
+                            <b-input v-model="address_3" style="width:98%"></b-input>
                         </td>
                     </tr>
                      <tr>
@@ -113,7 +122,7 @@
                             <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="userObj.address_4" style="width:98%"></b-input>
+                            <b-input v-model="address_4" style="width:98%"></b-input>
                         </td>
                     </tr>
                     <tr>
@@ -122,8 +131,9 @@
                         </td>
                         <td class="clsValue">
                             <b-field>
-                                <b-input type="password" v-model="userObj.contact_no" style="width:98%"  password-reveal></b-input>
+                                <b-input type="number" v-model="contact_no" style="width:98%" ></b-input>
                             </b-field>
+                            <div class="error" v-if="!$v.contact_no.required && isPosted">Contact Number is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -132,8 +142,10 @@
                         </td>
                         <td class="clsValue">
                             <b-field>
-                                <b-input type="password" v-model="userObj.password" style="width:98%"  password-reveal></b-input>
+                                <b-input type="password" v-model="password" style="width:98%"  password-reveal></b-input>
                             </b-field>
+                            <div class="error" v-if="!$v.password.required && isPosted">Password is required</div>
+                            <div class="error" v-if="!$v.password.minLength && isPosted">Password must at least 5 characters</div>
                         </td>
                     </tr>
                     <tr>
@@ -142,13 +154,13 @@
                         </td>
                         <td class="clsValue">
                             <b-field>
-                                <b-input type="password" v-model="userObj.confirmPassword" style="width:98%"  password-reveal></b-input>
+                                <b-input type="password" v-model="confirmPassword" style="width:98%"  password-reveal></b-input>
                             </b-field>
+                            <div class="error" v-if="!$v.confirmPassword.required && isPosted">Password is required</div>
+                            <div class="error" v-if="!$v.confirmPassword.sameAsPassword">Passwords must be identical.</div>
                         </td>
                     </tr>
                 </table>
-                            {{department}}
-                {{userObj.password}}
                 <br><br>
                 <md-button
                     class="md-raised md-success"
@@ -168,6 +180,7 @@
 <script>
 import admin from "@/js/admin.js"; //directory to admin.js
 import userClass from "@/js/class/user_class.js"; //directory to admin.js
+import { required, minLength, between, sameAs } from 'vuelidate/lib/validators'
 export default {
     name: "edit-profile-form",
   data() {
@@ -177,29 +190,103 @@ export default {
         tier:'',
         department:'',
         branch:'',
-    //     firstName: '',
-    //     lastName:'',
-    //     userName: '',
-    //     email:'',
-    //     home_address1:'',
-    //     home_address2:'',
-    //     home_address3:'',
-    //     home_address4:'',
-    //     department:'',
-    //     contact_number:'',
-    //     password:'',
-    //     confirmPassword:'',
-    //     role:'',
-    //     t1: false,
-    //     t2: false,
-    //     t3: false,
-    //     t4: false,
-    //     is_admin: false,
-        // posted: false,
+        firstname: '',
+        lastname:'',
+        username: '',
+        email:'',
+        address_1:'',
+        address_2:'',
+        address_3:'',
+        address_4:'',
+        contact_no:'',
+        password:'',
+        confirmPassword:'',
+        role:'',
+        t1: false,
+        t2: false,
+        t3: false,
+        t4: false,
+        is_admin: false,
+        isPosted : false
     };
+  },
+  validations: {
+    password: {
+      required,
+      minLength: minLength(8)
+    },confirmPassword: {
+      required,
+      connfirmPassword: minLength(8),
+      sameAsPassword: sameAs('password')
+    },department: {
+      required
+    },branch: {
+      required
+    },firstname: {
+      required
+    },lastname: {
+      required
+    },username: {
+      required
+    },email: {
+      required
+    },tier: {
+      required
+    },address_1: {
+      required
+    },address_2: {
+      required
+    },contact_no: {
+      required
+    },
   },
   methods: {
     async new_user() {
+        this.mapObj();
+        console.log(this.userObj.toJson());
+        // if(this.register.username && this.register.password)
+        this.isPosted = true;
+        if (!this.$v.$invalid){
+            try {
+                // this.userObj.
+                // var temp = this.register.toJson();
+                // temp = toJson(this.register);
+                const users = await admin.new_user(this.userObj.toJson());
+                console.log(users); //can be ignored
+                this.posted = true;
+                localStorage.message = "New User Created";
+                this.$router.push({ path: `/message/${this.id}` });
+                //add redirect to other page here
+            } catch (err) {
+                alert(err);
+                this.error = err.message;
+            }
+        }
+        else
+            alert("Fill all the required fields");
+        
+    },
+    mapObj(){
+      this.userObj.firstname = this.firstname;
+      this.userObj.lastname = this.lastname;
+      this.userObj.username = this.username;
+      this.userObj.email = this.email;
+      this.userObj.contact_no = this.contact_no;
+      this.userObj.address_1 = this.address_1;
+      this.userObj.address_2 = this.address_2;
+      this.userObj.address_3 = this.address_3;
+      this.userObj.address_4 = this.address_4;
+      this.userObj.department = this.department;
+      this.userObj.branch = this.branch;
+      this.userObj.password = this.password;
+      // reset designation values to false
+      this.userObj.t1 = false;
+      this.userObj.t2 = false;
+      this.userObj.t3 = false;
+      this.userObj.t4 = false;
+      this.userObj.acct_t = false;
+      this.userObj.is_admin = false;
+      
         if(this.tier == "usert1")
             this.userObj.t1 = true;
         else if(this.tier == "usert2")
@@ -212,27 +299,6 @@ export default {
             this.userObj.acct_t = true;
         else
             this.userObj.is_admin = true;
-        
-        this.userObj.department = this.department;
-        this.userObj.branch = this.branch;
-        alert("Account Department: "+this.userObj.acct_t);
-        alert(this.userObj.t1);
-        console.log(this.userObj.toJson());
-        // if(this.register.userName && this.register.password)
-        try {
-            // this.userObj.
-            // var temp = this.register.toJson();
-            // temp = toJson(this.register);
-            const users = await admin.new_user(this.userObj.toJson());
-            console.log(users); //can be ignored
-            this.posted = true;
-            localStorage.message = "New User Created";
-            this.$router.push({ path: `/message/${this.id}` });
-            //add redirect to other page here
-        } catch (err) {
-            alert(err);
-            this.error = err.message;
-        }
     }
   }
     
@@ -242,5 +308,7 @@ export default {
 
 
 <style scoped src="@/assets/style/style.css">
-
+.error{
+    color: red;
+}
 </style>
