@@ -1,354 +1,337 @@
 <template>
   <div id="app">
     <!-- <div class="container"> -->
-      <form action="https://postman-echo.com/post" method="post">
-        <md-card>
-          <md-card-header :data-background-color="dataBackgroundColor">
-            <h4 class="title">Purchase, Service and Requisition Application</h4>
-            <!-- <p class="category">Complete your profile</p> -->
-          </md-card-header>
+    <form action="https://postman-echo.com/post" method="post">
+      <md-card>
+        <md-card-header :data-background-color="dataBackgroundColor">
+          <h4 class="title">Purchase, Service and Requisition Application</h4>
+          <!-- <p class="category">Complete your profile</p> -->
+        </md-card-header>
 
-          <md-card-content>
-            <div v-show="step === 1">
-              <md-card-content>
+        <md-card-content>
+          <div v-show="step === 1">
+            <md-card-content>
+              <div
+                class="alert alert-info"
+                style="border:1px; background-color:white; color:black;"
+              >
+                <section>
+                  <p><strong>Purchase Classifiaction: </strong></p>
+                  {{ date_req }}
+                  <md-radio v-model="pur_class" value="OPEX" class="md-primary"
+                    >OPEX</md-radio
+                  >
+                  <md-radio v-model="pur_class" value="CAPEX" class="md-primary"
+                    >CAPEX</md-radio
+                  >
+                </section>
+              </div>
+              <div
+                class="alert alert-info"
+                style="border:1px; background-color:white; color:black;"
+              >
+                <section>
+                  <div class="inline" style="border:1px">
+                    <p><strong>Purchase Type: </strong></p>
+                    <md-radio
+                      v-model="pur_typ"
+                      value="PROJECT MATERIALS"
+                      class="md-primary"
+                      >PROJECT MATERIALS</md-radio
+                    >
+                    <md-radio
+                      v-model="pur_typ"
+                      value="PROJECT CONSUMABLES"
+                      class="md-primary"
+                      >PROJECT CONSUMABLES</md-radio
+                    >
+                    <md-radio
+                      v-model="pur_typ"
+                      value="TOOLS AND EQUIPMENT"
+                      class="md-primary"
+                      >TOOLS AND EQUIPMENT</md-radio
+                    >
+                    <md-radio
+                      v-model="pur_typ"
+                      value="TOOLS(CONSUMERABLES)"
+                      class="md-primary"
+                      >TOOLS(CONSUMERABLES)</md-radio
+                    >
+                    <md-radio
+                      v-model="pur_typ"
+                      value="SERVICES"
+                      class="md-primary"
+                      >SERVICES</md-radio
+                    >
+                  </div>
+                </section>
+              </div>
+              <div
+                class="alert alert-info"
+                style="border:1px; background-color:white; color:black;"
+              >
+                <section>
+                  <p><strong>Justification of Purchase: </strong></p>
+                  <md-radio
+                    v-model="pur_just"
+                    value="PROJECT USE(CONSUMERABLES)"
+                    class="md-primary"
+                    >PROJECT USE(CONSUMERABLES)</md-radio
+                  >
+                  <md-radio
+                    v-model="pur_just"
+                    value="OPERATION"
+                    class="md-primary"
+                    >OPERATION</md-radio
+                  >
+                  <md-radio
+                    v-model="pur_just"
+                    value="CONTINUE RENTALS"
+                    class="md-primary"
+                    >CONTINUE RENTALS</md-radio
+                  >
+                  <md-radio
+                    v-model="pur_just"
+                    value="CLIENT MATERIALS"
+                    class="md-primary"
+                    >CLIENT MATERIALS</md-radio
+                  >
+                  <md-radio
+                    v-model="pur_just"
+                    value="SINGLE SOURCE"
+                    class="md-primary"
+                    >SINGLE SOURCE</md-radio
+                  >
+                  <md-radio v-model="pur_just" value="OTHERS" class="md-primary"
+                    >OTHERS</md-radio
+                  >
+                </section>
+              </div>
+              <div style="width:100%;">
                 <div
                   class="alert alert-info"
-                  style="border:1px; background-color:white; color:black;"
+                  style="background-color:white;width:49%; display: inline-block;"
                 >
-                  <section>
-                    <p><strong>Purchase Classifiaction: </strong></p>
-                    {{ date_req }}
-                    <md-radio
-                      v-model="pur_class"
-                      value="OPEX"
-                      class="md-primary"
-                      >OPEX</md-radio
-                    >
-                    <md-radio
-                      v-model="pur_class"
-                      value="CAPEX"
-                      class="md-primary"
-                      >CAPEX</md-radio
-                    >
-                  </section>
+                  <md-datepicker v-model="date_req" md-immediately>
+                    <label>Required Date</label>
+                  </md-datepicker>
                 </div>
                 <div
                   class="alert alert-info"
-                  style="border:1px; background-color:white; color:black;"
+                  style="background-color:white;width:49%; height:120px; display: inline-block; float:right"
                 >
                   <section>
-                    <div class="inline" style="border:1px">
-                      <p><strong>Purchase Type: </strong></p>
-                      <md-radio
-                        v-model="pur_typ"
-                        value="PROJECT MATERIALS"
-                        class="md-primary"
-                        >PROJECT MATERIALS</md-radio
-                      >
-                      <md-radio
-                        v-model="pur_typ"
-                        value="PROJECT CONSUMABLES"
-                        class="md-primary"
-                        >PROJECT CONSUMABLES</md-radio
-                      >
-                      <md-radio
-                        v-model="pur_typ"
-                        value="TOOLS AND EQUIPMENT"
-                        class="md-primary"
-                        >TOOLS AND EQUIPMENT</md-radio
-                      >
-                      <md-radio
-                        v-model="pur_typ"
-                        value="TOOLS(CONSUMERABLES)"
-                        class="md-primary"
-                        >TOOLS(CONSUMERABLES)</md-radio
-                      >
-                      <md-radio
-                        v-model="pur_typ"
-                        value="SERVICES"
-                        class="md-primary"
-                        >SERVICES</md-radio
-                      >
-                    </div>
-                  </section>
-                </div>
-                <div
-                  class="alert alert-info"
-                  style="border:1px; background-color:white; color:black;"
-                >
-                  <section>
-                    <p><strong>Justification of Purchase: </strong></p>
-                    <md-radio
-                      v-model="pur_just"
-                      value="PROJECT USE(CONSUMERABLES)"
-                      class="md-primary"
-                      >PROJECT USE(CONSUMERABLES)</md-radio
-                    >
-                    <md-radio
-                      v-model="pur_just"
-                      value="OPERTATIONS"
-                      class="md-primary"
-                      >OPERTATIONS</md-radio
-                    >
-                    <md-radio
-                      v-model="pur_just"
-                      value="CONTINUE RENTALS"
-                      class="md-primary"
-                      >CONTINUE RENTALS</md-radio
-                    >
-                    <md-radio
-                      v-model="pur_just"
-                      value="CLIENT MATERIALS"
-                      class="md-primary"
-                      >CLIENT MATERIALS</md-radio
-                    >
-                    <md-radio
-                      v-model="pur_just"
-                      value="SINGLE SOURCE"
-                      class="md-primary"
-                      >SINGLE SOURCE</md-radio
-                    >
-                    <md-radio
-                      v-model="pur_just"
-                      value="OTHERS"
-                      class="md-primary"
-                      >OTHERS</md-radio
-                    >
-                  </section>
-                </div>
-                <div style="width:100%;">
-                  <div
-                    class="alert alert-info"
-                    style="background-color:white;width:49%; display: inline-block;"
-                  >
-                      <md-datepicker v-model="date_req" md-immediately>
-                        <label>Required Date</label>
-                      </md-datepicker>
-                  </div>
-                  <div
-                    class="alert alert-info"
-                    style="background-color:white;width:49%; height:120px; display: inline-block; float:right"
-                  >
-                    <section>
-                      <b-field label="Delivery">
-                        <b-input v-model="delv"></b-input>
-                      </b-field>
-                    </section>
-                  </div>
-                </div>
-                <!-- </div> -->
-                <div style="width:100%; ">
-                  <div
-                    class="alert alert-info"
-                    style="color: black; background-color:white;width:49%; display: inline-block; float:left"
-                  >
-                    <section>
-                      <p><strong>Cost Type: </strong></p>
-                      <md-radio
-                        v-model="costType"
-                        value="UNIT RATE"
-                        class="md-primary"
-                        >UNIT RATE</md-radio
-                      >
-                      <md-radio
-                        v-model="costType"
-                        value="AT COST"
-                        class="md-primary"
-                        >AT COST</md-radio
-                      >
-                      <md-radio
-                        v-model="costType"
-                        value="OVERHEAD"
-                        class="md-primary"
-                        >OVERHEAD</md-radio
-                      >
-                      <md-radio
-                        v-model="costType"
-                        value="COST PLUS"
-                        class="md-primary"
-                        >COST PLUS</md-radio
-                      >
-                    </section>
-                  </div>
-                  <div
-                    class="alert alert-info"
-                    style="color: black; background-color:white;width:49%; display: inline-block; float:right"
-                  >
-                    <section>
-                      <p><strong>IS APPLICABLE:</strong></p>
-                      <md-radio
-                        v-model="isApplicable"
-                        value="1"
-                        class="md-primary"
-                        >APPLICABLE</md-radio
-                      >
-                      <md-radio
-                        v-model="isApplicable"
-                        value="2"
-                        class="md-primary"
-                        >NOT APPLICABLE</md-radio
-                      >
-                    </section>
-                  </div>
-                </div>
-
-                <div
-                  class="md-layout"
-                  v-show="isApplicable === '1'"
-                  style="float:right;"
-                >
-                  <md-button
-                    class="md-raised md-success"
-                    @click.prevent="next()"
-                    style="float:right"
-                    >Next</md-button
-                  >
-                </div>
-                <div
-                  class="md-layout"
-                  v-show="isApplicable === '2'"
-                  style="float:right;"
-                >
-                  <md-button
-                    class="md-raised md-success"
-                    @click.once="psr_adds()"
-                    style="float:right"
-                    >Submit</md-button
-                  >
-                </div>
-              </md-card-content>
-              {{ costType }}
-            </div>
-            <div v-show="step === 2">
-              <!-- <h1>Step Two</h1> -->
-              <md-card-content>
-                <div class="alert alert-info" style="background-color:white;">
-                  <section>
-                    <b-field label="Project Title:">
-                      <b-input v-model="p_title"></b-input>
+                    <b-field label="Delivery">
+                      <b-input v-model="delv"></b-input>
                     </b-field>
                   </section>
-                  <!-- </div>
+                </div>
+              </div>
+              <!-- </div> -->
+              <div style="width:100%; ">
+                <div
+                  class="alert alert-info"
+                  style="color: black; background-color:white;width:49%; display: inline-block; float:left"
+                >
+                  <section>
+                    <p><strong>Cost Type: </strong></p>
+                    <md-radio
+                      v-model="costType"
+                      value="UNIT RATE"
+                      class="md-primary"
+                      >UNIT RATE</md-radio
+                    >
+                    <md-radio
+                      v-model="costType"
+                      value="AT COST"
+                      class="md-primary"
+                      >AT COST</md-radio
+                    >
+                    <md-radio
+                      v-model="costType"
+                      value="OVERHEAD"
+                      class="md-primary"
+                      >OVERHEAD</md-radio
+                    >
+                    <md-radio
+                      v-model="costType"
+                      value="COST PLUS"
+                      class="md-primary"
+                      >COST PLUS</md-radio
+                    >
+                  </section>
+                </div>
+                <div
+                  class="alert alert-info"
+                  style="color: black; background-color:white;width:49%; display: inline-block; float:right"
+                >
+                  <section>
+                    <p><strong>IS APPLICABLE:</strong></p>
+                    <md-radio
+                      v-model="isApplicable"
+                      value="1"
+                      class="md-primary"
+                      >APPLICABLE</md-radio
+                    >
+                    <md-radio
+                      v-model="isApplicable"
+                      value="2"
+                      class="md-primary"
+                      >NOT APPLICABLE</md-radio
+                    >
+                  </section>
+                </div>
+              </div>
+
+              <div
+                class="md-layout"
+                v-show="isApplicable === '1'"
+                style="float:right;"
+              >
+                <md-button
+                  class="md-raised md-success"
+                  @click.prevent="next()"
+                  style="float:right"
+                  >Next</md-button
+                >
+              </div>
+              <div
+                class="md-layout"
+                v-show="isApplicable === '2'"
+                style="float:right;"
+              >
+                <md-button
+                  class="md-raised md-success"
+                  @click.once="psr_adds()"
+                  style="float:right"
+                  >Submit</md-button
+                >
+              </div>
+            </md-card-content>
+            {{ costType }}
+          </div>
+          <div v-show="step === 2">
+            <!-- <h1>Step Two</h1> -->
+            <md-card-content>
+              <div class="alert alert-info" style="background-color:white;">
+                <section>
+                  <b-field label="Project Title:">
+                    <b-input v-model="p_title"></b-input>
+                  </b-field>
+                </section>
+                <!-- </div>
                 <div class="alert alert-info" style="background-color:white;"> -->
-                  <section>
-                    <b-field label="Vessel Code">
-                      <b-input v-model="vessel_cd"></b-input>
-                    </b-field>
-                  </section>
-                </div>
+                <section>
+                  <b-field label="Vessel Code">
+                    <b-input v-model="vessel_cd"></b-input>
+                  </b-field>
+                </section>
+              </div>
 
-                <div
-                  class="alert alert-info"
-                  style="background-color:#bdfffc; color: black; overflow:yes;"
-                >
-                  <md-card-content class="md-scrollbar">
-                    <md-button
-                      class="md-raised md-danger"
-                      @click="remove()"
-                      style="float:right"
-                      >Remove</md-button
-                    >
-                    <md-button
-                      class="md-raised md-success"
-                      @click="clone()"
-                      style="float:right"
-                      >Add</md-button
-                    >
-                    <br /><br /><br />
-                  </md-card-content>
-                  <table>
-                    <tr>
-                      <th>No.</th>
-                      <th style="width:1600px">Item Description</th>
-                      <th style="width:250px">Unit Price(RM)</th>
-                      <th style="width:250px">Quantity</th>
-                      <th style="width:250px">Cost Code</th>
-                      <th style="width:250px">Remarks</th>
-                      <th>Total</th>
-                    </tr>
-                    <tr v-for="items in desc" :key="items">
-                      <td>{{ items.index }}.</td>
-                      <td>
-                        <b-field>
-                          <b-input v-model="items.description" placeholder="">
-                          </b-input>
-                        </b-field>
-                      </td>
-                      <td>
-                        <b-field>
-                          <b-input
-                            v-model="items.unitPrice"
-                            placeholder=""
-                            type="number"
-                          >
-                          </b-input>
-                        </b-field>
-                      </td>
-                      <td>
-                        <b-field>
-                          <b-input
-                            v-model="items.quantity"
-                            placeholder=""
-                            type="number"
-                          >
-                          </b-input>
-                        </b-field>
-                      </td>
-                      <td>
-                        <b-field>
-                          <b-input
-                            v-model="items.costCode"
-                            placeholder=""
-                          >
-                          </b-input>
-                        </b-field>
-                      </td>
-                      <td>
-                        <b-field>
-                          <b-input
-                            v-model="items.remarks"
-                            placeholder=""
-                          >
-                          </b-input>
-                        </b-field>
-                      </td>
-                      <td>
-                        <b-field>
-                          <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
+              <div
+                class="alert alert-info"
+                style="background-color:#bdfffc; color: black; overflow:yes;"
+              >
+                <md-card-content class="md-scrollbar">
+                  <md-button
+                    class="md-raised md-danger"
+                    @click="remove()"
+                    style="float:right"
+                    >Remove</md-button
+                  >
+                  <md-button
+                    class="md-raised md-success"
+                    @click="clone()"
+                    style="float:right"
+                    >Add</md-button
+                  >
+                  <br /><br /><br />
+                </md-card-content>
+                <table>
+                  <tr>
+                    <th>No.</th>
+                    <th style="width:1600px">Item Description</th>
+                    <th style="width:250px">Unit Price(RM)</th>
+                    <th style="width:250px">Quantity</th>
+                    <th style="width:250px">Cost Code</th>
+                    <th style="width:250px">Remarks</th>
+                    <th>Total(RM)</th>
+                  </tr>
+                  <tr v-for="items in desc" :key="items">
+                    <td>{{ items.index }}.</td>
+                    <td>
+                      <b-field>
+                        <b-input v-model="items.description" placeholder="">
+                        </b-input>
+                      </b-field>
+                    </td>
+                    <td>
+                      <b-field>
+                        <b-input
+                          v-model="items.unitPrice"
+                          placeholder=""
+                          type="number"
+                        >
+                        </b-input>
+                      </b-field>
+                    </td>
+                    <td>
+                      <b-field>
+                        <b-input
+                          v-model="items.quantity"
+                          placeholder=""
+                          type="number"
+                        >
+                        </b-input>
+                      </b-field>
+                    </td>
+                    <td>
+                      <b-field>
+                        <b-input v-model="items.costCode" placeholder="">
+                        </b-input>
+                      </b-field>
+                    </td>
+                    <td>
+                      <b-field>
+                        <b-input v-model="items.remarks" placeholder="">
+                        </b-input>
+                      </b-field>
+                    </td>
+                    <td>
+                      <b-field>
+                        <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
                             </b-input> --> </b-field
-                        >RM
-                        {{
-                          (items.unitPrice * items.quantity) | numeral("0.00")
-                        }}
-                      </td>
-                      <!-- <td>
+                      >
+                      {{ (items.unitPrice * items.quantity) | numeral("0.00") }}
+                    </td>
+                    <!-- <td>
                         <div @click="remove()">
                           <md-icon>cancel</md-icon>
                         </div>
                       </td> -->
-                    </tr>
-                  </table>
-                </div>
-              </md-card-content>
-              {{ item }}
-              <md-button
-                class="md-raised"
-                @click.prevent="psr_adds()"
-                style="float:right"
-                >Submit</md-button
-              >
-              <md-button
-                class="md-raised"
-                @click.prevent="prev()"
-                style="float:right"
-                >Previous</md-button
-              >
-              {{ error }}
-              <!-- <input type="submit" value="Save"> -->
-            </div>
-          </md-card-content>
-        </md-card>
-      </form>
+                  </tr>
+                </table>
+              </div>
+            </md-card-content>
+            {{ item }}
+            <md-button
+              class="md-raised"
+              @click.prevent="psr_adds()"
+              style="float:right"
+              >Submit</md-button
+            >
+            <md-button
+              class="md-raised"
+              @click.prevent="prev()"
+              style="float:right"
+              >Previous</md-button
+            >
+            {{ error }}
+            <!-- <input type="submit" value="Save"> -->
+          </div>
+        </md-card-content>
+      </md-card>
+    </form>
     <!-- </div> -->
   </div>
 </template>

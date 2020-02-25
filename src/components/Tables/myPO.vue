@@ -6,8 +6,6 @@
       :can-cancel="true"
     ></b-loading>
     <h5>
-      {{pos}}
-      {{error}}
     </h5>
     <b-table :data="isEmpty ? [] : pos" :striped="true" :hoverable="true">
       <template slot-scope="props">

@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{pos}}
     <b-table
       :data="isEmpty ? [] : pos"
       :striped="true"
@@ -45,7 +44,6 @@
           <md-icon>navigate_before</md-icon>
         </b-button>
       </b-tooltip>
-      <!-- &nbsp; -->
       <b-tooltip label="Next" type="is-light" position="is-bottom">
         <b-button
           @click="nextPage"
@@ -59,8 +57,6 @@
         &nbsp;&nbsp;
       </b-tooltip>
     </div>
-    {{ error }}
-    <!-- {{pos}} -->
   </div>
 </template>
 

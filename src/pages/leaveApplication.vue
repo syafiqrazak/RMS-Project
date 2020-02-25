@@ -21,12 +21,15 @@
               <!-- {{isDateDisabled2}} -->
               <md-field>
                 <md-datepicker
-                  v-model="leave.startDate"
+                  v-model="startDate"
                   md-immediately
                   :md-disabled-dates="disabled"
                 />
-                <!-- <md-input v-model="leave.startDate" type="date" ></md-input> -->
+                <!-- <md-input v-model="startDate" type="date" ></md-input> -->
               </md-field>
+              <div class="error" v-if="!$v.startDate.required && isPosted">  Start Date is required </div>
+              <div class="error" v-else-if="!$v.startDate.minValue && isPosted">  Start Date must after today date </div>
+              <!-- <div class="error" v-else>  </div> -->
             </b-field>
             <!-- <b-field></b-field> -->
             <b-field
@@ -34,23 +37,27 @@
               style="display:inline-block; float:right; width:47%"
             >
               <md-field>
-                <md-datepicker v-model="leave.endDate" md-immediately />
+                <md-datepicker v-model="endDate" md-immediately />
               </md-field>
+              <div class="error" v-if="!$v.endDate.required && isPosted">  End Date is required </div>
+              <!-- <div class="error" v-else-if="!$v.endDate.minValue && isPosted">  End Date must after start date </div> -->
             </b-field>
           </div>
           <b-field label="Reasons:">
             <md-field>
-              <md-textarea v-model="leave.reason" type="textbox"></md-textarea>
+              <md-textarea v-model="reason" type="textbox"></md-textarea>
             </md-field>
           </b-field>
+              <div class="error" v-if="!$v.reason.required && isPosted" style="margin-top:-2em">  Reason is required </div>
           <b-field label="Emergency Contact Number:">
             <md-field>
-              <md-input v-model="leave.emergency_contact" type="number"></md-input>
+              <md-input v-model="emergency_contact" type="number"></md-input>
             </md-field>
           </b-field>
+              <div class="error" v-if="!$v.emergency_contact.required && isPosted" style="margin-top:-2em">  Emergency Contact is required </div>
           <b-field label="Replacement:">
             <md-field>
-              <md-input v-model="leave.replacement"></md-input>
+              <md-input v-model="replacement"></md-input>
             </md-field>
           </b-field>
           {{ user }}
@@ -60,7 +67,7 @@
             style="float:right"
             >Apply</md-button
           >
-          {{ leave.endDate }}
+          {{ endDate }}
           {{ t4 }}
           {{ error }}
         </md-card-content>
@@ -72,6 +79,7 @@
 <script>
 import leave from "@/js/leave.js"; //directory to leave.js
 import leaveClass from "@/js/class/leave_class.js"; //directory to leave_class.js
+import { required, minLength, sameAs, minValue } from "vuelidate/lib/validators";
 export default {
   name: "edit-profile-form",
   data() {
@@ -81,13 +89,12 @@ export default {
       error: "",
       is_admin: null,
       name: "null",
-      leave: {
-        startDate: null,
-        endDate: null,
-        reason: null,
-        emergency_contact: null,
-        replacement: null
-      },
+      startDate: new Date(),
+      endDate: null,
+      reason: null,
+      emergency_contact: null,
+      replacement: null,
+      isPosted: false,
       disabled: {
         from: new Date()
       },
@@ -97,6 +104,22 @@ export default {
         return new Date() > today;
       }
     };
+  },
+  validations: {
+    startDate: {
+      required,
+      minValue: value => value > new Date()
+    },
+    endDate: {
+      required,
+      minValue: value => value > this.startDate
+    },
+    reason: {
+      required
+    },
+    emergency_contact: {
+      required
+    }
   },
   mounted() {
     if (localStorage.is_admin) {
@@ -112,19 +135,21 @@ export default {
     },
 
     async add_leave() {
-      try {
+      this.isPosted = true;
+        if (!this.$v.$invalid){
+          try {
         this.isLoading = true;
         // To calculate the time difference of two dates
         var Difference_In_Time =
-          this.leave.endDate.getTime() - this.leave.startDate.getTime();
+          this.endDate.getTime() - this.startDate.getTime();
 
         // To calculate the no. of days between two dates
         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-        if (this.leave.startDate >= new Date()) {
+        if (this.startDate >= new Date()) {
           if (
-            this.leave.startDate &&
-            this.leave.endDate &&
-            this.leave.reason &&
+            this.startDate &&
+            this.endDate &&
+            this.reason &&
             Difference_In_Days > 0
           ) {
             this.mapObj();
@@ -152,13 +177,15 @@ export default {
         this.error = err.message;
         alert("Fail");
       }
+        }
+      
     },
     mapObj() {
-      this.leaveObj.date_from = this.leave.startDate;
-      this.leaveObj.date_to = this.leave.endDate;
-      this.leaveObj.reason = this.leave.reason;
-      this.leaveObj.emergency_contact = this.leave.emergency_contact;
-      this.leaveObj.replace_id = this.leave.replacement;
+      this.leaveObj.date_from = this.startDate;
+      this.leaveObj.date_to = this.endDate;
+      this.leaveObj.reason = this.reason;
+      this.leaveObj.emergency_contact = this.emergency_contact;
+      this.leaveObj.replace_id = this.replacement;
     }
   }
 };
@@ -181,5 +208,12 @@ export default {
 .md-textarea {
   border: 1px solid #ccc !important;
   border-radius: 16px;
+}
+.error {
+  color: red;
+  margin-top: -2em;
+  font-weight: 600;
+  align-content: center;
+  margin-left: 1em;
 }
 </style>

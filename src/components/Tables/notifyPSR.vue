@@ -1,17 +1,11 @@
 <template>
   <div>
-    <!-- <div>{{ new Date() | dateFormat('YYYY.MM.DD') }}</div> -->
-    <!-- <div>Date: {{psrs.psr_date[0]}}</div> -->
-    {{ psrs }}
     <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
       <template slot-scope="props">
         <b-table-column field="po_no" label="PO Number" width="400" sortable>
           <a @click="detail(props.row)">
             PSR/TRD-{{ props.row.psr_no | numeral("000000") }}
           </a>
-          <!-- <a @click="detail(props.row)">
-                        PSR/TRD-{{ props.row.id  }}
-                    </a> -->
         </b-table-column>
         <b-table-column field="createdBy" label="Create By" width="500">
           {{ props.row.create_user_psr.firstname }}
@@ -20,9 +14,6 @@
         <b-table-column field="po_date" label="Date Created">
           {{ props.row.createdAt | moment("Do MMMM YYYY") }}
         </b-table-column>
-        <!-- <b-table-column>
-                    {{ props.row.status }}
-                </b-table-column> -->
       </template>
     </b-table>
     <br /><br />
@@ -48,7 +39,6 @@
           <md-icon>navigate_before</md-icon>
         </b-button>
       </b-tooltip>
-      <!-- &nbsp; -->
       <b-tooltip label="Next" type="is-light" position="is-bottom">
         <b-button
           @click="nextPage"
@@ -62,9 +52,6 @@
         &nbsp;&nbsp;
       </b-tooltip>
     </div>
-    <!-- {{psrs[0]}} -->
-    <!-- {{page}} -->
-    {{ error }}
   </div>
 </template>
 

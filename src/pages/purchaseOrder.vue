@@ -1,6 +1,6 @@
 <template>
   <div v-if="PSRAvailable" id="app">
-    <div class="container">
+    <!-- <div class="container"> -->
       <form action="https://postman-echo.com/post" method="post">
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
@@ -129,83 +129,104 @@
               </md-card-content>
             </div>
 
-            <div v-show="step === 2" style="width:150%;">
-             <md-card-content style="width:100%;">
-                
-                <div class="alert alert-info" style="background-color:#bdfffc; color: black;">
-                  <md-card-content>
-                    <md-button
-                      class="md-raised md-danger"
-                      @click="remove()"
-                      style="float:right"
-                      >Remove</md-button>
-                    <md-button
-                      class="md-raised md-success"
-                      @click="clone()"
-                      style="float:right"
-                      >Add</md-button>
-                <br /><br /><br />
-              </md-card-content>
-                  <table>
-                    <tr>
-                      <th>No.</th>
-                      <th style="width:50%">Item Description</th>
-                      <th style="width:150px">Unit Price(RM)</th>
-                      <th style="width:150px">Quantity</th>
-                      <th>Total</th>
-                    </tr>
-                    <tr v-for="items in desc" :key="items">
-                      <td>{{ items.index }}.</td>
-                      <td>
-                          <b-field>
-                            <b-input v-model="items.description" placeholder="">
-                            </b-input>
-                        </b-field>
-                      </td>
-                      <td>
-                        <b-field>
-                            <b-input v-model="items.unitPrice" placeholder="" type="number">
-                            </b-input>
-                        </b-field>
-                      </td>
-                      <td>
-                        <b-field>
-                            <b-input v-model="items.quantity" placeholder="" type="number">
-                            </b-input>
-                        </b-field>
-                      </td>
-                      <td><b-field>
-                            <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
-                            </b-input> -->
-                        </b-field>RM {{ items.unitPrice * items.quantity |numeral('0.00')}}</td>
-                      <!-- <td>
+            
+          <div v-show="step === 2">
+            <!-- <h1>Step Two</h1> -->
+            <md-card-content>
+
+              <div
+                class="alert alert-info"
+                style="background-color:#bdfffc; color: black; overflow:yes;"
+              >
+                <md-card-content class="md-scrollbar">
+                  <md-button
+                    class="md-raised md-danger"
+                    @click="remove()"
+                    style="float:right"
+                    >Remove</md-button
+                  >
+                  <md-button
+                    class="md-raised md-success"
+                    @click="clone()"
+                    style="float:right"
+                    >Add</md-button
+                  >
+                  <br /><br /><br />
+                </md-card-content>
+                <table>
+                  <tr>
+                    <th style="width:3%">No.</th>
+                    <th style="width:40%">Item Description</th>
+                    <th style="width:20%">Unit Price(RM)</th>
+                    <th style="width:15%">Quantity</th>
+                    <th style="width:10%">Total(RM)</th>
+                  </tr>
+                  <tr v-for="items in desc" :key="items">
+                    <td>{{ items.index }}.</td>
+                    <td>
+                      <b-field>
+                        <b-input v-model="items.description" placeholder="">
+                        </b-input>
+                      </b-field>
+                    </td>
+                    <td>
+                      <b-field>
+                        <b-input
+                          v-model="items.unitPrice"
+                          placeholder=""
+                          type="number"
+                        >
+                        </b-input>
+                      </b-field>
+                    </td>
+                    <td>
+                      <b-field>
+                        <b-input
+                          v-model="items.quantity"
+                          placeholder=""
+                          type="number"
+                        >
+                        </b-input>
+                      </b-field>
+                    </td>
+                    
+                    <td>
+                      <b-field>
+                        <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
+                            </b-input> --> </b-field
+                      >
+                      {{ (items.unitPrice * items.quantity) | numeral("0.00") }}
+                    </td>
+                    <!-- <td>
                         <div @click="remove()">
                           <md-icon>cancel</md-icon>
                         </div>
                       </td> -->
-                    </tr>
-                  </table>
-                </div>
-              </md-card-content>
-              {{ desc }}
-              <md-button class="md-raised"
-                @click.prevent="po_addpo()"
-                style="float:right"
-                >Submit</md-button
-              >
-              <md-button
-                class="md-raised"
-                @click.prevent="prev()"
-                style="float:right"
-                >Previous</md-button
-              >
-              {{error}}
-              <!-- <input type="submit" value="Save"> -->
-            </div>
+                  </tr>
+                  <br>
+                </table>
+              </div>
+            </md-card-content>
+            {{ item }}
+            <md-button
+              class="md-raised"
+              @click.prevent="psr_adds()"
+              style="float:right"
+              >Submit</md-button
+            >
+            <md-button
+              class="md-raised"
+              @click.prevent="prev()"
+              style="float:right"
+              >Previous</md-button
+            >
+            {{ error }}
+            <!-- <input type="submit" value="Save"> -->
+          </div>
           </md-card-content>
         </md-card>
       </form>
-    </div>
+    <!-- </div> -->
   </div>
   <div v-else>
     
@@ -216,6 +237,7 @@
 import purchaseOrder from "@/js/po.js"; //directory to po.js
 import { SimpleTable, notifyLeave, notifyPO, notifyPSR, psrSearch } from "@/components";
 import poClass from "@/js/class/po_class.js"; //directory to po_class.js
+import { required, minLength, sameAs, minValue } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
@@ -307,16 +329,16 @@ export default {
       this.inputs.splice(index, 1);
     },
     clone() {
-      this.item.push({
+      this.desc.push({
         index: this.index,
         description: null,
-        quantity: 0,
-        unitPrice: 0
+        quantity: null,
+        unitPrice: null
       });
       this.index++;
     },
     remove() {
-      this.item.pop({
+      this.desc.pop({
         description: this.index,
         quantity: 0,
         unitPrice: 0

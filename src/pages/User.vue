@@ -1,19 +1,15 @@
 <template>
-  <div class="container">
+  <!-- <div class="container"> -->
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
         <h4 class="title">Users</h4>
-        <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content>
-        <!-- {{users}}
-            {{error}} -->
         <b-loading
           :is-full-page="false"
           :active.sync="isLoading"
           :can-cancel="true"
         ></b-loading>
-        {{ users }}
         <b-table
           :data="isEmpty ? [] : users"
           :striped="true"
@@ -52,7 +48,7 @@
         </b-table>
       </md-card-content>
     </md-card>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>

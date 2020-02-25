@@ -180,7 +180,7 @@
 <script>
 import admin from "@/js/admin.js"; //directory to admin.js
 import userClass from "@/js/class/user_class.js"; //directory to admin.js
-import { required, minLength, between, sameAs } from 'vuelidate/lib/validators'
+import { required, minLength, sameAs } from 'vuelidate/lib/validators'
 export default {
     name: "edit-profile-form",
   data() {

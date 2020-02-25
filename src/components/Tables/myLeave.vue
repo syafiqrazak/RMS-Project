@@ -13,7 +13,7 @@
               {{ props.row.user_leave.firstname }}
           </a> -->
           <a @click="detail(props.row)">
-            {{ props.row.id }}
+            {{ props.row.user_leave.username }}
           </a>
         </b-table-column>
         <b-table-column field="date_from" label="Start">
