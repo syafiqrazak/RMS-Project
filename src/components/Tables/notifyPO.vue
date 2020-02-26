@@ -222,7 +222,7 @@ try {
       } else if (this.page < 1) {
         this.page = 1;
         this.isPrevious = false;
-      } else this.page = this.page;
+      } else this.page = 1;
             
       this.poObj.in_page = this.page;
       this.getPO();

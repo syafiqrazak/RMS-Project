@@ -527,7 +527,7 @@ export default {
       } else if (this.page < 1) {
         this.page = 1;
         this.isPrevious = false;
-      } else this.page = this.page;
+      } else this.page = 1;
       try {
         const data = await po.show_po_page(this.page);
 
