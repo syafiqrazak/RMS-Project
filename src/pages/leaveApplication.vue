@@ -68,8 +68,6 @@
             >Apply</md-button
           >
           {{ endDate }}
-          {{ t4 }}
-          {{ error }}
         </md-card-content>
       </md-card>
     </form>
@@ -111,8 +109,8 @@ export default {
       minValue: value => value > new Date()
     },
     endDate: {
-      required,
-      minValue: value => value > this.startDate
+      required
+      // minValue: value => value > this.startDate
     },
     reason: {
       required
@@ -153,6 +151,7 @@ export default {
             Difference_In_Days > 0
           ) {
             this.mapObj();
+            console.log(this.leaveObj);
             const leave_data = await leave.add_leave(this.leaveObj);
             // alert(leave_data); //can be ignored
             console.log(this.admin);

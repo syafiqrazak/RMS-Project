@@ -42,8 +42,8 @@
         </div>
         <br />
         <table cls="clsForm" width="80%:">
-                <col width="35%">
-                <col width="60%">
+                <col width="25%">
+                <col width="70%">
                 <tr>
                     <td class="clsLabel">
                         <h4>Purchase Classification:</h4>
@@ -57,58 +57,100 @@
                         <h4>Purchase Type:</h4>
                     </td>
                     <td class="clsValue">
-                       <h4> {{ psrs.purchase_typ }} </h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="clsLabel">
-                        <h4>JUSTIFICATION OF PURCHASE:</h4>
-                    </td>
-                    <td class="clsValue">
-                       <h4> {{ psrs.purchase_just }} </h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="clsLabel">
-                        <h4>REQUIRED DATE:</h4>
-                    </td>
-                    <td class="clsValue">
-                       <h4> {{ psrs.date_req | moment("Do MMMM YYYY")}} </h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="clsLabel">
-                        <h4>Delivery:</h4>
-                    </td>
-                    <td class="clsValue">
-                       <h4> {{ psrs.delv }} </h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="clsLabel">
-                        <h4> COST TYPE:</h4>
-                    </td>
-                    <td class="clsValue">
-                       <h4> {{ psrs.cost_typ }} </h4>
-                    </td>
-                </tr>
-                <tr v-if="psrs.project_title">
-                    <td class="clsLabel">
-                        <h4> Project Title:</h4>
-                    </td>
-                    <td class="clsValue">
-                       <h4> {{ psrs.project_title }} </h4>
-                    </td>
-                </tr>
-                <tr v-if="psrs.vessel_code">
-                    <td class="clsLabel">
-                        <h4> Vessel Code:</h4>
-                    </td>
-                    <td class="clsValue">
-                       <h4> {{ psrs.vessel_code }} </h4>
+                       <h4> {{ psrs.purchase_class }} </h4>
                     </td>
                 </tr>
             </table>
+        <div
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong> PURCHASE CLASSIFICATION:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.purchase_class }}</h5>
+          </div>
+        </div>
+        <div
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong> PURCHASE TYPE:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.purchase_typ }}</h5>
+          </div>
+        </div>
+        <div
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong>JUSTIFICATION OF PURCHASE:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.purchase_just }}</h5>
+          </div>
+        </div>
+        <div
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong> REQUIRED DATE:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.date_req }}</h5>
+          </div>
+        </div>
+        <div
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong> DELIVERY:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.delv }}</h5>
+          </div>
+        </div>
+        <div
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong> COST TYPE:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.cost_typ }}</h5>
+          </div>
+        </div>
+        <div
+          v-show="psrs.project_title"
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong> PROJECT TITLE:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.project_title }}</h5>
+          </div>
+        </div>
+        <div
+          v-show="psrs.vessel_code"
+          class="alert alert-info"
+          style="background-color:white;width:100%; display: inline-block; height:80px"
+        >
+          <div style="width:40%; display: inline-block;">
+            <h5><strong> VESSEL CODE:</strong></h5>
+          </div>
+          <div style="width:49%; display: inline-block; color:black; ">
+            <h5>{{ psrs.vessel_code }}</h5>
+          </div>
+        </div>
 
         <!-- <div>Passed: {{psrs}}</div> -->
         <div
@@ -121,43 +163,36 @@
             :hoverable="true"
           >
             <template slot-scope="props">
-              <b-table-column field="index" label="No" width="3%" >
+              <b-table-column field="index" label="No" width="5%" centered>
                 {{ props.row.index }}
               </b-table-column>
               <b-table-column
                 field="description"
                 label="Description"
-                width="20%"
-                
+                width="25%"
+                centered
               >
                 {{ props.row.description }}
               </b-table-column>
-              <b-table-column field="unitPrice" label="Price" width="7%" centered>
-                RM {{ props.row.unitPrice | numeral("0,0.00") }}
+              <b-table-column field="unitPrice" label="Price" centered>
+                RM {{ props.row.unitPrice | numeral("0.00") }}
               </b-table-column>
-              <b-table-column field="quantity" width="5%" label="Quantity" centered>
+              <b-table-column field="quantity" label="Quantity" centered>
                 {{ props.row.quantity }}
-              </b-table-column>
-              <b-table-column field="costCode" label="Cost Code" width="5%" centered="" >
-                {{ props.row.costCode }}
-              </b-table-column>
-              <b-table-column field="remarks" label="Remark" width="10%" >
-                {{ props.row.remarks }}
               </b-table-column>
               <b-table-column
                 field="total"
                 label="Total Price"
                 align="right"
-                width="5%"
+                width="10px"
                 margin-left="0px"
-                numeric
               >
-                <!-- <div style="float:left;">RM</div> -->
-                <!-- <div style="float=right;"> -->
-                  RM {{
-                    (props.row.quantity * props.row.unitPrice) | numeral("0,0.00")
+                <div style="float:left;">RM</div>
+                <div style="float=right;">
+                  {{
+                    (props.row.quantity * props.row.unitPrice) | numeral("0.00")
                   }}
-                <!-- </div> -->
+                </div>
               </b-table-column>
             </template>
           </b-table>

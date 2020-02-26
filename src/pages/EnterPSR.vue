@@ -12,8 +12,6 @@
                 <section>
                     <div class="block" style="border:1px">
                         <h3><strong>PSR INPUT METHOD: </strong></h3>
-        <!-- {{psrs}} -->
-        {{error}}
                         <md-radio v-model="inputMethod" value="1" class="md-primary">Enter PSR</md-radio>
                         <md-radio v-model="inputMethod" value="2" class="md-primary">SEARH PSR</md-radio>
 
@@ -43,15 +41,10 @@
                     </md-card-content>
                 </div>
             <div v-else-if="inputMethod == '2'">
-                {{psrs}}
                <md-card-content>
-                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" :paginated="true" :per-page="10" aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        aria-page-label="Page"
-                        aria-current-label="Current page"
-                        :pagination-simple="true"> 
+                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true"> 
                     <template slot-scope="props">
-                        <b-table-column field="po_no" label="PO Number" sortable>
+                        <b-table-column field="po_no" label="PSR Number" sortable>
                             <a @click="passPSR(props.row)">
                                 {{ props.row.psr_no }}
                             </a>
@@ -59,14 +52,52 @@
                         <b-table-column field="po_date" label="Date Created">
                             {{ props.row.created_at | moment(" Do MMMM YYYY") }}
                         </b-table-column>
-                        <b-table-column>
+                        <!-- <b-table-column>
                             {{ props.row.status }}
                         </b-table-column>
                         <b-table-column field="id" label="ID" width="300" >
                             {{ props.row.id }}
-                        </b-table-column>
+                        </b-table-column> -->
                     </template> 
                 </b-table>
+    <br>
+    <br><br><br>
+    <div style=" width:20%; float:right; ">
+      <form v-on:submit="pagination">
+        <md-input
+          style="width:60px; float: left; height:28px;text-align: right; "
+          type="number"
+          v-model="page"
+          :disabled="false"
+        />
+      </form>
+      &nbsp;<b>/{{ total_page }}</b>
+      &nbsp;&nbsp;
+      <b-tooltip label="Previous" type="is-light" position="is-bottom">
+        <b-button
+          @click="previousPage"
+          :disabled="isPrevious"
+          size="is-small"
+          float="right"
+          type="is-light" 
+          display="inline"
+        >
+          <md-icon>navigate_before</md-icon>
+        </b-button>
+      </b-tooltip>
+      <b-tooltip label="Next" type="is-light" position="is-bottom">
+        <b-button
+          @click="nextPage"
+          :disabled="isNext"
+          size="is-small"
+          float="right"
+          type="is-light"
+        >
+          <md-icon>navigate_next</md-icon>
+        </b-button>
+        &nbsp;&nbsp;
+      </b-tooltip>
+    </div>
                 </md-card-content>
             </div>
             </div>
@@ -94,20 +125,32 @@ export default {
             i: 0,
             isLoading: false,
             psrObj: new psrClass(),
+            page: 1,
+            total_page:0,
         }
     },
     async created() {
-        try {
-            this.isLoading = true;
             this.psrObj.in_page = 1;
+            this.psrObj.in_param_5 = true;
+            this.getPSR();
+    },
+    methods: {
+        passPSR(value){
+            console.log(value.id);
+            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.id}` });
+        },
+        async getPSR(){
+            try {
+            this.isLoading = true;
             this.psrObj.in_param_5 = true;
             console.log(this.psrObj);
             const data = await psr.psr_search(this.psrObj);
             console.log(data.result);
             this.psrs = data.result[0];
-            // this.psrs = data.map(psr => ({
-            //     ...psr
-            // }))
+            this.total_page =data.result[1];
+            this.psrs = data.map[0](psr => ({
+                ...psr
+            }))
             this.isLoading = false;
         } catch (err) {
             console.log(err);
@@ -115,12 +158,41 @@ export default {
             this.isLoading = false;
             // alert(err);
         }
-    },
-    methods: {
-        passPSR(value){
-            console.log(value.id);
-            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.id}` });
         },
+    async nextPage() {
+      this.isPrevious = false;
+      if (this.page >= this.total_page - 1) {
+        this.page = this.total_page;
+      } else this.page += 1;
+      if (this.page == this.total_page) 
+        this.isNext = true;
+      this.psrObj.in_page = this.page;
+      this.getPSR();
+    },
+    async previousPage() {
+      this.isNext = false;
+      if (this.page <= 1) {
+        this.page = 1;
+        this.isPrevious = true;
+      } else this.page -= 1;
+      if (this.page == 1) 
+        this.isPrevious = true;
+      
+      this.psrObj.in_page = this.page;
+      this.getPSR();
+    },
+    async pagination() {
+      if (this.page >= this.total_page) {
+        this.page = this.total_page;
+        this.isNext = false;
+      } else if (this.page < 1) {
+        this.page = 1;
+        this.isPrevious = false;
+      } else this.page = this.page;
+
+      this.psrObj.in_page = this.page;
+      this.getPSR();
+    },
         matchPSR(){
             if(this.psrs != null){
                 // alert(this.psrs.length);

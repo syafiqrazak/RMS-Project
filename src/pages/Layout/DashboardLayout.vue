@@ -36,13 +36,13 @@
         <md-icon>thumb_up</md-icon>
         <p>Approval</p>
       </sidebar-link>
-      <sidebar-link :to="{ name: 'Reset Password', params: { id: this.id } }">
-        <md-icon>bubble_chart</md-icon>
-        <p>Reset Password</p>
-      </sidebar-link>
       <sidebar-link :to="{ name: 'My Applications', params: { id: this.id } }">
         <md-icon>bubble_chart</md-icon>
         <p>My Applications</p>
+      </sidebar-link>
+      <sidebar-link :to="{ name: 'Reset Password', params: { id: this.id } }">
+        <md-icon>bubble_chart</md-icon>
+        <p>Reset Password</p>
       </sidebar-link>
       <!-- <sidebar-link :to="{ name: 'Enter PSR', params: { id: this.id } }">
         <md-icon>bubble_chart</md-icon>
@@ -72,10 +72,10 @@
         <md-icon>library_books</md-icon>
         <p>Typography</p>
       </sidebar-link> -->
-      <sidebar-link :to="{ name: 'Icons', params: { id: this.id } }">
+      <!-- <sidebar-link :to="{ name: 'Icons', params: { id: this.id } }">
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <!-- <sidebar-link to="/maps">
         <md-icon>location_on</md-icon>
         <p>Maps</p>

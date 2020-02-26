@@ -2,6 +2,7 @@
   <div class="container" border="3px" height="5000px" style="display:block">
     <form>
       <md-card>
+        
         <md-card-header :data-background-color="dataBackgroundColor">
           <h4 class="title">Purchase Order Details</h4>
         </md-card-header>
@@ -52,7 +53,7 @@
               </tr>
               <tr>
                 <td style="width:50%">
-                  <b>{{ company }}</b>
+                  <b>{{ pos.cl_company }}</b>
                 </td>
                 <td>
                   <p><b>Purchase Order Number:</b></p>
@@ -93,7 +94,7 @@
                   <p><b>Your Quotation:</b></p>
                 </td>
                 <td>
-                  <p>{{ pos.quot }}</p>
+                  <p>{{ pos.quotation }}</p>
                 </td>
               </tr>
               <tr>
@@ -119,7 +120,7 @@
                   <p><b>PSR No.:</b></p>
                 </td>
                 <td>
-                  <p>{{ pos.po_no }}</p>
+                  <p>{{ pos.psr.no }}</p>
                   <!-- <p>
                     PO/TRD-000004
                   </p> -->
@@ -135,7 +136,7 @@
               </tr>
               <tr>
                 <td>
-                  <p><b>To: </b> {{ to }}</p>
+                  <p><b>To: </b> {{ pos.cl_name }}</p>
                 </td>
                 <td>
                   <p><b>Mode of Payment:</b></p>
@@ -186,13 +187,13 @@
                 <b-table-column
                   field="description"
                   label="Description"
-                  width="25%"
+                  width="45%"
                   centered
                 >
                   {{ props.row.description }}
                 </b-table-column>
                 <b-table-column field="unitPrice" label="Price" centered>
-                  RM {{ props.row.unitPrice | numeral("0.00") }}
+                  RM {{ props.row.unitPrice | numeral("0,0.00") }}
                 </b-table-column>
                 <b-table-column field="quantity" label="Quantity" centered>
                   {{ props.row.quantity }}
@@ -201,14 +202,14 @@
                   field="total"
                   label="Total Price"
                   align="right"
-                  width="10px"
+                  width="15%"
                   margin-left="0px"
                 >
                   <div style="float:left;">RM</div>
                   <div style="float=right;">
                     {{
                       (props.row.quantity * props.row.unitPrice)
-                        | numeral("0.00")
+                        | numeral("0,0.00")
                     }}
                   </div>
                 </b-table-column>

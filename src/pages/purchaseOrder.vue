@@ -86,6 +86,22 @@
                         </b-field>  
                         </td>
                     </tr>
+                  <tr>
+                        <td class="clsLabel">
+                            <h4>To:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.client_name" style="width:98%"></b-input>
+                        </td>
+                    </tr>
+                  <tr>
+                        <td class="clsLabel">
+                            <h4>Company:</h4>
+                        </td>
+                        <td class="clsValue">
+                            <b-input v-model="details.company" style="width:98%"></b-input>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="clsLabel">
                             <h4>Address:</h4>
@@ -136,7 +152,7 @@
 
               <div
                 class="alert alert-info"
-                style="background-color:#bdfffc; color: black; overflow:yes;"
+                style="background-color:#ffffff; color: black; overflow:yes;"
               >
                 <md-card-content class="md-scrollbar">
                   <md-button
@@ -210,7 +226,7 @@
             {{ item }}
             <md-button
               class="md-raised"
-              @click.prevent="psr_adds()"
+              @click.prevent="po_addpo()"
               style="float:right"
               >Submit</md-button
             >
@@ -265,6 +281,8 @@ export default {
         address2: null,
         address3: null,
         address4: null,
+        client_name: null,
+        company: null
       },
       desc: [
         {
@@ -283,6 +301,8 @@ export default {
       try {
         alert(this.psr_id)
         this.mapObj();
+        console.log(this.poObj);
+        alert(this.poObj.psr_id);
         const po = await purchaseOrder.po_add(this.poObj);
         // const po = await po.po_add("123", "date", "po_ref", "due", "ship", "psr", "cca", "pay", "address", {});
         console.log(po); //can be ignored
@@ -297,11 +317,14 @@ export default {
     },
     mapObj(){
           this.poObj.po_ref = this.details.reference;
+          this.poObj.quotation = this.details.quotation;
           this.poObj.delv_due = this.details.dueDate;
           this.poObj.ship_mode = this.details.modeOfShipment;
-          this.poObj.psr_id = this.details.psr_id;
+          this.poObj.psr_id = this.psr_id;
           this.poObj.cca_no = this.details.CCANo;
           this.poObj.pay_mode = this.details.paymentMode;
+          this.poObj.cl_name = this.details.client_name;
+          this.poObj.cl_company = this.details.company;
           this.poObj.address_1 = this.details.address1;
           this.poObj.address_2 = this.details.address2;
           this.poObj.address_3 = this.details.address3;

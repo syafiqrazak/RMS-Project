@@ -230,7 +230,7 @@
 
               <div
                 class="alert alert-info"
-                style="background-color:#bdfffc; color: black; overflow:yes;"
+                style="background-color:#ffffff; color: black; overflow:yes;"
               >
                 <md-card-content class="md-scrollbar">
                   <md-button

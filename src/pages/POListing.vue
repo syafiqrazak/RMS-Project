@@ -119,7 +119,6 @@
         </md-card-expand-content>
       </md-card-expand>
       <md-card-content>
-        {{pos}}
         <b-table
           :data="isEmpty ? [] : pos"
           :striped="true"
@@ -229,7 +228,8 @@ export default {
       // this.poObj.toJson();
       //testing ends
       this.poObj.in_page = 1;
-      const data = await po.po_search(this.poObj.toJson());
+      // const data = await po.po_search(this.poObj.toJson());
+        const data = await po.show_po_page(this.poObj);
       console.log("data: ");
       console.log(data);
       const pos1 = data.result[0];

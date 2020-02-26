@@ -7,7 +7,7 @@
       <!-- <div  v-show="isShow" class="alert alert-danger"  style="display:inline-block; margin-left: 15%; top: 50px;  width: 70%; opacity: 30%;">
         <span><b>Warning: </b>{{ error }}</span>
       </div> -->
-      <form>
+      <form v-on:submit="login">
         <!-- <b-modal :active.sync="isImageModalActive">
             <p class="image is-4by3"> -->
         <div id="clsImage">

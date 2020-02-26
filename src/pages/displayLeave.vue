@@ -5,12 +5,96 @@
         <h4 class="title">Leave Application Details</h4>
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
-      <md-card-content>
-        {{ data }} <br />
-        {{ leave_id }} <br />
-        {{ error }}
-        {{ data.id }}
-        <div
+    <md-card-content>
+        <div v-if="action == 'status' || action == 'audit'" style="width:80%; margin-left:10%;">
+          <div
+            v-if="leaves.approver_id == null && leaves.decline_id == null"
+            @click="showDialog = true"
+            class="alert alert-warning"
+            style="border-radius:30px;"
+          >
+            <h4>
+              <center><strong> Status: Pending </strong></center>
+            </h4>
+          </div>
+          <div
+            v-else-if="leaves.decline_status == true"
+            @click="showDialog = true"
+            class="alert alert-danger"
+            style="border-radius:30px;"
+          >
+            <h4>
+              <center><strong> Status: Declined </strong></center>
+            </h4>
+          </div>
+          <div
+            v-else
+            class="alert alert-success"
+            style="border-radius:30px;"
+            @click="showDialog = true"
+          >
+            <h4>
+              <center><strong> Status: Approved </strong></center>
+            </h4>
+          </div>
+        </div>
+        <!-- <div class="alert alert-info" style="background-color:white; color:black;" centered> -->
+            <!-- <br><br> -->
+            <table cls="clsForm" width="80%:">
+                <col width="25%">
+                <col width="70%">
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Created By:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.user_leave.firstname}} {{leaves.user_leave.lastname}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Start Date:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.date_from}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>End Date:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.date_to}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Reason:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.reason}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Emergency Contact:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.emergency_contact}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Replacement:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.replace_id}} </h4>
+                    </td>
+                </tr>
+            </table>
+
+        <!-- </div> -->
+        <!-- <div
           class="alert alert-info"
           style="background-color:white; color:black;"
           centered
@@ -31,7 +115,7 @@
         >
           <h4>Reasons:</h4>
           <h4>{{ reason }}</h4>
-        </div>
+        </div> -->
         <div
           v-if="action == 'approval'"
           style=" margin-left: 42%; margin-right: 42%;"
@@ -72,7 +156,7 @@ export default {
       reason: "",
       status: "",
       error: "",
-      data: []
+      leaves: [],
     };
   },
   async created() {
@@ -80,7 +164,7 @@ export default {
       this.leaveObj.id = this.leave_id;
       this.leaveObj.in_page = 1;
       const leave = await leaves.report(this.leaveObj);
-      this.data = leave;
+      this.leaves = leave;
       console.log("Data");
       console.log(this.data);
       this.date_from = leave.date_from;
@@ -119,3 +203,7 @@ export default {
   }
 };
 </script>
+
+<style scoped src="@/assets/style/style.css">
+
+</style>

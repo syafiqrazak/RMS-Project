@@ -1,5 +1,10 @@
 <template>
   <div>
+    <b-loading
+      :is-full-page="false"
+      :active.sync="isLoading"
+      :can-cancel="true"
+    ></b-loading>
     <b-table
       :data="isEmpty ? [] : pos"
       :striped="true"
@@ -21,11 +26,11 @@
         </b-table-column>
       </template>
     </b-table>
-    <br /><br />
-    <div style=" width:15%; float:right; ">
+    <br><br><br>
+    <div style=" width:20%; float:right; ">
       <form v-on:submit="pagination">
         <md-input
-          style="width:30px; float: left; height:28px;text-align: right; "
+          style="width:60px; float: left; height:28px;text-align: right; "
           type="number"
           v-model="page"
           :disabled="false"
@@ -82,7 +87,8 @@ export default {
       t2: null,
       t4: null,
       t3: null,
-      is_admin: null
+      is_admin: null,
+      isLoading: false
     };
   },
   async created() {
@@ -92,7 +98,19 @@ export default {
     if (localStorage.t3) this.t3 = localStorage.t3;
     if (localStorage.t3) this.t4 = localStorage.t4;
     if (localStorage.is_admin) this.is_admin = localStorage.is_admin;
-    try {
+    this.getPO();
+  },
+
+  methods: {
+    detail(value) {
+      console.log(value.po_no);
+      this.$router.push({
+        path: `/displayPO/${this.id}/${value.id}/approval`
+      });
+    },
+    async getPO(){
+try {
+      this.isLoading = true;
       if (this.is_admin == "true") {
         const data = await po.show_po_page(this.poObj);
 
@@ -126,17 +144,12 @@ export default {
       } else {
         alert("Invalid user! Please contact your system admin.");
       }
+      
+      this.isLoading = false;
     } catch (err) {
+      this.isLoading = false;
       this.error = err.message;
     }
-  },
-
-  methods: {
-    detail(value) {
-      console.log(value.po_no);
-      this.$router.push({
-        path: `/displayPO/${this.id}/${value.id}/approval`
-      });
     },
     async get_pending() {
       try {
@@ -185,18 +198,11 @@ export default {
       if (this.page >= this.total_page - 1) {
         this.page = this.total_page;
       } else this.page += 1;
-      if (this.page == this.total_page) this.isNext = true;
-      try {
-        const data = await po.show_po_page(this.page);
-
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+      if (this.page == this.total_page) 
+        this.isNext = true;
+      
+      this.poObj.in_page = this.page;
+      this.getPO();
     },
     async previousPage() {
       this.isNext = false;
@@ -205,17 +211,9 @@ export default {
         this.isPrevious = true;
       } else this.page -= 1;
       if (this.page == 1) this.isPrevious = true;
-      try {
-        const data = await po.show_po_page(this.page);
-
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+            
+      this.poObj.in_page = this.page;
+      this.getPO();
     },
     async pagination() {
       if (this.page >= this.total_page) {
@@ -225,17 +223,9 @@ export default {
         this.page = 1;
         this.isPrevious = false;
       } else this.page = this.page;
-      try {
-        const data = await po.show_po_page(this.page);
-
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+            
+      this.poObj.in_page = this.page;
+      this.getPO();
     }
   }
 };

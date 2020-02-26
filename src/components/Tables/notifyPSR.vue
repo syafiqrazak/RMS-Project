@@ -1,5 +1,10 @@
 <template>
   <div>
+    <b-loading
+      :is-full-page="false"
+      :active.sync="isLoading"
+      :can-cancel="true"
+    ></b-loading>
     <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
       <template slot-scope="props">
         <b-table-column field="po_no" label="PO Number" width="400" sortable>
@@ -16,17 +21,17 @@
         </b-table-column>
       </template>
     </b-table>
-    <br /><br />
-    <div style=" width:15%; float:right; display:block-inline; ">
+    <br><br><br>
+    <div style=" width:20%; float:right; ">
       <form v-on:submit="pagination">
         <md-input
-          style="width:30px; float: left; height:28px; text-align: right; "
+          style="width:60px; float: left; height:28px;text-align: right; "
           type="number"
           v-model="page"
           :disabled="false"
         />
       </form>
-      &nbsp; <b>/{{ total_page }}</b>
+      &nbsp;<b>/{{ total_page }}</b>
       &nbsp;&nbsp;
       <b-tooltip label="Previous" type="is-light" position="is-bottom">
         <b-button
@@ -75,7 +80,8 @@ export default {
       t2: null,
       t4: null,
       t3: null,
-      is_admin: null
+      is_admin: null,
+      isLoading: false
     };
   },
   async created() {
@@ -87,56 +93,58 @@ export default {
     if (localStorage.t4) this.t4 = localStorage.t4;
     if (localStorage.t3) this.t3 = localStorage.t3;
     if (localStorage.is_admin) this.is_admin = localStorage.is_admin;
-    if(this.t2)
-
-    if (this.is_admin == "true") {
-      alert("Admin");
-      try {
-        const data = await psr.show_psr_page(this.psrObj);
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
-    } else if (this.t2 =="true" || this.t3 =="true") {
-      try {
-        const data = await psr.get_submits(this.psrObj);
-        const limit = 8;
-
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
-    } else if (this.t4 == "true") {
-      try {
-        const data = await psr.get_pending(this.psrObj);
-        const limit = 8;
-
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
-    } else {
-      alert("Invalid user! Please contact your system admin.");
-    }
+    // if(this.t2)
+    this.getPSR();
   },
   methods: {
     async detail(value) {
-      alert(value.id);
       this.$router.push({
         path: `/displayPSR/${this.id}/${value.id}/approval`
       });
+    },
+    async getPSR() {
+      this.isLoading = true;
+      if (this.is_admin == "true") {
+        try {
+          const data = await psr.show_psr_page(this.psrObj);
+          const psrs1 = data.result[0];
+          this.total_page = data.result[1];
+          this.psrs = psrs1.map(psrs => ({
+            ...psrs
+          }));
+        } catch (err) {
+          this.error = err.message;
+        }
+      } else if (this.t2 == "true" || this.t3 == "true") {
+        try {
+          const data = await psr.get_submits(this.psrObj);
+          const limit = 8;
+
+          const psrs1 = data.result[0];
+          this.total_page = data.result[1];
+          this.psrs = psrs1.map(psrs => ({
+            ...psrs
+          }));
+        } catch (err) {
+          this.error = err.message;
+        }
+      } else if (this.t4 == "true") {
+        try {
+          const data = await psr.get_pending(this.psrObj);
+          const limit = 8;
+
+          const psrs1 = data.result[0];
+          this.total_page = data.result[1];
+          this.psrs = psrs1.map(psrs => ({
+            ...psrs
+          }));
+        } catch (err) {
+          this.error = err.message;
+        }
+      } else {
+        alert("Invalid user! Please contact your system admin.");
+      }
+      this.isLoading = false;
     },
     async get_pending() {
       try {
@@ -177,18 +185,9 @@ export default {
         this.page = this.total_page;
       } else this.page += 1;
       if (this.page == this.total_page) this.isNext = true;
-      try {
-        // alert(this.page);
-        const data = await psr.show_psr_page(this.page);
-
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+      
+      this.psrObj.in_page = this.page;
+      this.getPSR();
     },
     async previousPage() {
       this.isNext = false;
@@ -197,17 +196,9 @@ export default {
         this.isPrevious = true;
       } else this.page -= 1;
       if (this.page == 1) this.isPrevious = true;
-      try {
-        const data = await psr.show_psr_page(this.page);
-
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+      
+      this.psrObj.in_page = this.page;
+      this.getPSR();
     },
     async pagination() {
       if (this.page >= this.total_page) {
@@ -217,17 +208,9 @@ export default {
         this.page = 1;
         this.isPrevious = false;
       } else this.page = this.page;
-      try {
-        const data = await psr.show_psr_page(this.page);
 
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+      this.psrObj.in_page = this.page;
+      this.getPSR();
     }
   }
 };

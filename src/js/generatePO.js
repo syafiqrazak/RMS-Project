@@ -113,7 +113,7 @@ class generatePO {
     if(poObj.address_4) 
         doc.text(13, 97, poObj.address_4);
     if(poObj.cl_name) 
-        doc.text(13, 129, poObj.cl_name);
+        doc.text(13, 129, "ATTN: "+poObj.cl_name);
     
     doc.text(108, 65, "Purchase Order");
     doc.text(108, 73, "Date");
@@ -130,10 +130,10 @@ class generatePO {
     doc.text(158, 73, dateFormat(poObj.createdAt, "d mmm, yyyy"));
     doc.text(158, 81, doc.internal.getNumberOfPages().toString());
     doc.text(158, 89, poObj.po_ref);
-    doc.text(158, 97, poObj.po_ref);
+    doc.text(158, 97, poObj.quotation);
     doc.text(158, 105, dateFormat(poObj.delv_due, "d mmm, yyyy"));
     doc.text(158, 113, poObj.ship_mode);
-    // doc.text(158, 121, poObj.psr_id);
+    doc.text(158, 121, poObj.psr.no);
     doc.text(158, 129, poObj.cca_no);
     doc.text(158, 137, poObj.pay_mode);
 
@@ -157,7 +157,7 @@ class generatePO {
 
     // doc.autoTable(col3, rows3, { startY: 40 });
     // doc.autoTable(col1, rows1);
-    doc.save("Test.pdf");
+    doc.save(poObj.po_no + ".pdf");
   }
 }
 
