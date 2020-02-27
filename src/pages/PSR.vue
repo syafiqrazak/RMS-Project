@@ -261,7 +261,7 @@
                     <td>{{ items.index }}.</td>
                     <td>
                       <b-field>
-                        <b-input v-model="items.description" placeholder="">
+                        <b-input v-model="items.description" placeholder="" >
                         </b-input>
                       </b-field>
                     </td>
@@ -302,7 +302,7 @@
                         <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
                             </b-input> --> </b-field
                       >
-                      {{ (items.unitPrice * items.quantity) | numeral("0.00") }}
+                      {{ (items.unitPrice * items.quantity) | numeral("0,0.00")  }}
                     </td>
                     <!-- <td>
                         <div @click="remove()">

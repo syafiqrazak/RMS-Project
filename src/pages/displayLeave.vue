@@ -88,7 +88,7 @@
                         <h4>Replacement:</h4>
                     </td>
                     <td class="clsValue">
-                       <h4> {{leaves.replace_id}} </h4>
+                       <h4> {{leaves.replace_user.username}} </h4>
                     </td>
                 </tr>
             </table>

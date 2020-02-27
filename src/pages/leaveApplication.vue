@@ -27,8 +27,12 @@
                 />
                 <!-- <md-input v-model="startDate" type="date" ></md-input> -->
               </md-field>
-              <div class="error" v-if="!$v.startDate.required && isPosted">  Start Date is required </div>
-              <div class="error" v-else-if="!$v.startDate.minValue && isPosted">  Start Date must after today date </div>
+              <div class="error" v-if="!$v.startDate.required && isPosted">
+                Start Date is required
+              </div>
+              <div class="error" v-else-if="!$v.startDate.minValue && isPosted">
+                Start Date must after today date
+              </div>
               <!-- <div class="error" v-else>  </div> -->
             </b-field>
             <!-- <b-field></b-field> -->
@@ -39,7 +43,9 @@
               <md-field>
                 <md-datepicker v-model="endDate" md-immediately />
               </md-field>
-              <div class="error" v-if="!$v.endDate.required && isPosted">  End Date is required </div>
+              <div class="error" v-if="!$v.endDate.required && isPosted">
+                End Date is required
+              </div>
               <!-- <div class="error" v-else-if="!$v.endDate.minValue && isPosted">  End Date must after start date </div> -->
             </b-field>
           </div>
@@ -48,19 +54,33 @@
               <md-textarea v-model="reason" type="textbox"></md-textarea>
             </md-field>
           </b-field>
-              <div class="error" v-if="!$v.reason.required && isPosted" style="margin-top:-2em">  Reason is required </div>
+          <div
+            class="error"
+            v-if="!$v.reason.required && isPosted"
+            style="margin-top:-2em"
+          >
+            Reason is required
+          </div>
           <b-field label="Emergency Contact Number:">
             <md-field>
               <md-input v-model="emergency_contact" type="number"></md-input>
             </md-field>
           </b-field>
-              <div class="error" v-if="!$v.emergency_contact.required && isPosted" style="margin-top:-2em">  Emergency Contact is required </div>
-          <b-field label="Replacement:">
+          <div
+            class="error"
+            v-if="!$v.emergency_contact.required && isPosted"
+            style="margin-top:-2em"
+          >
+            Emergency Contact is required
+          </div>
+          <b-field label="Replacement Username:">
             <md-field>
-              <md-input v-model="replacement"></md-input>
+              <!-- <md-input v-model="replacement"></md-input> -->
+              <md-autocomplete v-model="replacement" :md-options="username" :md-open-on-focus="false" >
+              </md-autocomplete>
             </md-field>
           </b-field>
-          {{ user }}
+          {{ replacement }}
           <md-button
             class="md-raised md-success"
             @click="add_leave()"
@@ -76,17 +96,27 @@
 
 <script>
 import leave from "@/js/leave.js"; //directory to leave.js
+import user from "@/js/user.js"; //directory to user.js
 import leaveClass from "@/js/class/leave_class.js"; //directory to leave_class.js
-import { required, minLength, sameAs, minValue } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  sameAs,
+  minValue
+} from "vuelidate/lib/validators";
 export default {
   name: "edit-profile-form",
   data() {
     return {
+      users: [],
+      username: [],
+      user_id: [],
+      passUserId: '' ,
       leaveObj: new leaveClass(),
       isLoading: false,
       error: "",
       is_admin: null,
-      name: "null",
+      name: "",
       startDate: new Date(),
       endDate: null,
       reason: null,
@@ -102,6 +132,27 @@ export default {
         return new Date() > today;
       }
     };
+  },
+  async created() {
+    try {
+      const data = await user.get_all_user();
+      console.log("All users");
+      console.log(data);
+      // this.users = data.map(users => ({
+      //   ...users
+      // }));
+      this.users = data;
+      for(var i = 0; i < this.users.length; i++){
+          this.username.push(this.users[i].username);
+      }
+      for(var i = 0; i < this.users.length; i++){
+          this.user_id.push(this.users[i].id);
+      }
+      console.log(this.user_id);
+    } catch (err) {
+      this.error = err.message;
+      alert(err);
+    }
   },
   validations: {
     startDate: {
@@ -134,57 +185,62 @@ export default {
 
     async add_leave() {
       this.isPosted = true;
-        if (!this.$v.$invalid){
-          try {
-        this.isLoading = true;
-        // To calculate the time difference of two dates
-        var Difference_In_Time =
-          this.endDate.getTime() - this.startDate.getTime();
+      if (!this.$v.$invalid) {
+        try {
+          this.isLoading = true;
+          // To calculate the time difference of two dates
+          var Difference_In_Time =
+            this.endDate.getTime() - this.startDate.getTime();
 
-        // To calculate the no. of days between two dates
-        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-        if (this.startDate >= new Date()) {
-          if (
-            this.startDate &&
-            this.endDate &&
-            this.reason &&
-            Difference_In_Days > 0
-          ) {
-            this.mapObj();
-            console.log(this.leaveObj);
-            const leave_data = await leave.add_leave(this.leaveObj);
-            // alert(leave_data); //can be ignored
-            console.log(this.admin);
-            this.isLoading = false;
-            localStorage.message = "Leave Application Submitted";
-            this.$router.push({ path: `/message/${this.id}` });
-          } else if (Difference_In_Days < 0) {
-            alert("End Date must after Start Date");
-            this.isLoading = false;
+          // To calculate the no. of days between two dates
+          var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          if (this.startDate >= new Date()) {
+            if (
+              this.startDate &&
+              this.endDate &&
+              this.reason &&
+              Difference_In_Days > 0
+            ) {
+              this.passUserId = this.user_id[
+                this.username.indexOf(this.replacement)
+              ];
+              alert(this.username.indexOf(this.replacement));
+              this.mapObj();
+              console.log("Leave Object");
+              console.log(this.leaveObj);
+              const leave_data = await leave.add_leave(this.leaveObj);
+              // alert(leave_data); //can be ignored
+              console.log(this.admin);
+              this.isLoading = false;
+              localStorage.message = "Leave Application Submitted";
+              this.$router.push({ path: `/message/${this.id}` });
+            } else if (Difference_In_Days < 0) {
+              alert("End Date must after Start Date");
+              this.isLoading = false;
+            } else {
+              alert("All fields are Mandatory");
+              this.isLoading = false;
+            }
           } else {
-            alert("All fields are Mandatory");
+            alert("Start date must be later than today");
             this.isLoading = false;
           }
-        } else {
-          alert("Start date must be later than today");
+
+          //add redirect to other page here
+          // alert("Success");
+        } catch (err) {
+          this.error = err.message;
+          alert(err);
           this.isLoading = false;
         }
-
-        //add redirect to other page here
-        // alert("Success");
-      } catch (err) {
-        this.error = err.message;
-        alert("Fail");
       }
-        }
-      
     },
     mapObj() {
       this.leaveObj.date_from = this.startDate;
       this.leaveObj.date_to = this.endDate;
       this.leaveObj.reason = this.reason;
       this.leaveObj.emergency_contact = this.emergency_contact;
-      this.leaveObj.replace_id = this.replacement;
+      this.leaveObj.replace_id = this.passUserId;
     }
   }
 };

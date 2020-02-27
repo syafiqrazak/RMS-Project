@@ -1,5 +1,5 @@
 <template>
-    <div v-if="match">
+    <div>
         <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
@@ -20,15 +20,24 @@
                 <div v-if="inputMethod =='1'">
                     <md-card-content>
                     <table  cls="clsForm" width="90%:">
-                        <col width="8%">
-                        <col width="10%">
+                        <col width="20%">
                         <col width="70%">
                         <tr>
                             <td class="clsLabel">
                                 <h4>PSR NO: </h4>
                             </td>
                             <td class="clsValue" style="padding:0.6rem;">
-                                <b-input v-model="PSRNo" style="width:38%"></b-input>
+                                <md-autocomplete v-model="PSRNo" :md-options="psr_no" md-layout="box" md-dense>
+                                  <!-- <label>PSR Number</label> -->
+                                  
+                                  <template slot="md-autocomplete-item" slot-scope="{ item, term }">
+                                    <md-highlight-text :md-term="term">{{ item }}</md-highlight-text>
+                                  </template>
+
+                                  <template slot="md-autocomplete-empty" slot-scope="{ term }">
+                                    No employees matching found
+                                  </template>
+                                </md-autocomplete>
                             </td>
                         </tr>
                     </table>
@@ -42,15 +51,24 @@
                 </div>
             <div v-else-if="inputMethod == '2'">
                <md-card-content>
-                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true"> 
+                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" :paginated="true"
+                    :per-page="10"
+                    :current-page.sync="page"
+                    :pagination-simple="false"
+                    aria-next-label="Next page"
+                    aria-previous-label="Previous page"
+                    aria-page-label="Page"
+                    icon-pack="fas"
+                    show-detail-icon="true"
+                    aria-current-label="Current page"> 
                     <template slot-scope="props">
                         <b-table-column field="po_no" label="PSR Number" sortable>
                             <a @click="passPSR(props.row)">
                                 {{ props.row.psr_no }}
                             </a>
                         </b-table-column>
-                        <b-table-column field="po_date" label="Date Created">
-                            {{ props.row.created_at | moment(" Do MMMM YYYY") }}
+                        <b-table-column field="po_date" label="Date Created" sortable>
+                            {{ props.row.createdAt | moment(" Do MMMM YYYY") }}
                         </b-table-column>
                         <!-- <b-table-column>
                             {{ props.row.status }}
@@ -61,7 +79,7 @@
                     </template> 
                 </b-table>
     <br>
-    <br><br><br>
+    <!-- <br><br><br>
     <div style=" width:20%; float:right; ">
       <form v-on:submit="pagination">
         <md-input
@@ -73,7 +91,7 @@
       </form>
       &nbsp;<b>/{{ total_page }}</b>
       &nbsp;&nbsp;
-      <b-tooltip label="Previous" type="is-light" position="is-bottom">
+      <b-tooltip label="Previous" type="is-light" position="is-bottom" display="inline">
         <b-button
           @click="previousPage"
           :disabled="isPrevious"
@@ -97,7 +115,7 @@
         </b-button>
         &nbsp;&nbsp;
       </b-tooltip>
-    </div>
+    </div> -->
                 </md-card-content>
             </div>
             </div>
@@ -113,10 +131,13 @@
 <script>
 import psr from "@/js/psr.js"; //directory to psr.js
 import psrClass from "@/js/class/psr_class.js"; //directory to psr_class.js
+// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 export default {
     data(){
         return {
-            match: true,
+           isEmpty:false,
+            match: false,
             inputMethod: '0',
             PSRNo: '',
             PSR_id:'',
@@ -127,36 +148,41 @@ export default {
             psrObj: new psrClass(),
             page: 1,
             total_page:0,
+            psr_no: [],
+            dataBackgroundColor: "blue",
         }
     },
     async created() {
             this.psrObj.in_page = 1;
             this.psrObj.in_param_5 = true;
             this.getPSR();
+
     },
     methods: {
         passPSR(value){
-            console.log(value.id);
             this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.id}` });
         },
         async getPSR(){
             try {
             this.isLoading = true;
             this.psrObj.in_param_5 = true;
-            console.log(this.psrObj);
-            const data = await psr.psr_search(this.psrObj);
-            console.log(data.result);
-            this.psrs = data.result[0];
-            this.total_page =data.result[1];
-            this.psrs = data.map[0](psr => ({
-                ...psr
-            }))
+            const data = await psr.approved_np();
+            // this.psrs = data.result[0];
+            this.psrs = data;
+            // this.total_page =data.result[1];
+            for(var j = 0; j<this.psrs.length; j++){
+              this.psr_no.push(this.psrs[j].psr_no);
+            }
+
+            for(var i=1; i< this.total_page; i++){
+
+            }
             this.isLoading = false;
         } catch (err) {
-            console.log(err);
+            alert(err);
             this.error = err.message;
             this.isLoading = false;
-            // alert(err);
+            
         }
         },
     async nextPage() {
@@ -197,9 +223,7 @@ export default {
             if(this.psrs != null){
                 // alert(this.psrs.length);
                 // this.PSRNo = parseInt(this.PSRNo);
-                alert(this.PSRNo);
                 for(var i=0; i<this.psrs.length; i++){
-                    alert("Enter Matching 123: "+i+" Compare with: "+ this.PSRNo);
                     if(this.psrs[i].psr_no == this.PSRNo){
                         alert("Match");
                         try{

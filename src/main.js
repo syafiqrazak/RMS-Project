@@ -27,6 +27,9 @@ import GlobalDirectives from "./globalDirectives";
 import Notifications from "./components/NotificationPlugin";
 
 import Buefy from "buefy";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import vueNumeralFilterInstaller from "vue-numeral-filter";
 import "buefy/dist/buefy.css";
 
@@ -47,7 +50,10 @@ const router = new VueRouter({
 });
 
 Vue.prototype.$Chartist = Chartist;
-Vue.use(Buefy);
+Vue.use(Buefy, {
+  defaultIconComponent: 'vue-fontawesome',
+  defaultIconPack: 'fas',
+});
 Vue.use(VueRouter);
 Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
@@ -57,6 +63,10 @@ Vue.use(require("vue-moment"));
 Vue.use(vueNumeralFilterInstaller);
 Vue.use(Vuelidate);
 Vue.use(datePicker);
+
+library.add(fas)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 
 /* eslint-disable no-new */
 new Vue({
