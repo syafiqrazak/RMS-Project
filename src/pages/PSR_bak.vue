@@ -214,6 +214,8 @@ import psr from "@/js/psr.js"; //directory to psr.js
 export default {
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       error: "",
       step: 1,
       index: 2,

@@ -34,7 +34,7 @@
             <b-table-column field="id" label="Lastname" width="300" sortable="">
               {{ props.row.lastname }}
             </b-table-column>
-            <b-table-column field="id" label="Role" width="300" sortable="">
+            <b-table-column field="id" label="Designation" width="300" sortable="">
               <span v-if="props.row.t1 == true">Level 1</span>
               <span v-else-if="props.row.t2 == true">Level 2</span>
               <span v-else-if="props.row.t3 == true">Level 3</span>
@@ -57,12 +57,12 @@ export default {
   name: "notify-leave",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       users: [],
       error: "",
       isLoading: false,
       id: localStorage.id,
-      isEmpty: false,
-    //   dataBackgroundColor: "blue",
     };
   },
   async created() {
@@ -81,6 +81,9 @@ export default {
     }
   },
   methods: {
+    async getUser(){
+
+    },
     detail(value) {
       console.log(value.id);
       this.$router.push({
@@ -92,6 +95,40 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
       }, 10 * 1000);
+    },
+    async nextPage() {
+      this.isPrevious = false;
+      if (this.page >= this.total_page - 1) {
+        this.page = this.total_page;
+      } else this.page += 1;
+      if (this.page == this.total_page) 
+        this.isNext = true;
+      
+      this.poObj.in_page = this.page;
+      this.getUser();
+    },
+    async previousPage() {
+      this.isNext = false;
+      if (this.page <= 1) {
+        this.page = 1;
+        this.isPrevious = true;
+      } else this.page -= 1;
+      if (this.page == 1) this.isPrevious = true;
+            
+      this.poObj.in_page = this.page;
+      this.getUser();
+    },
+    async pagination() {
+      if (this.page >= this.total_page) {
+        this.page = this.total_page;
+        this.isNext = false;
+      } else if (this.page < 1) {
+        this.page = 1;
+        this.isPrevious = false;
+      } else this.page = 1;
+            
+      this.poObj.in_page = this.page;
+      this.getUser();
     }
   }
 };

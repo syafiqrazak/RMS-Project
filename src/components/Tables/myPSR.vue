@@ -94,6 +94,8 @@ export default {
   name: "my-PSR",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       psrObj: new psrClass(),
       leaves: [], //do for leave in leaves
       error: "",

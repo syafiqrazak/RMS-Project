@@ -191,6 +191,8 @@ import user from "@/js/po.js"; //directory to po.js
 export default {
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       step: 1,
       index: 2,
       details: {

@@ -238,7 +238,8 @@
                             <h4>Status </h4>
                         </td>
                         <td class="clsValueDetails">
-                            <h4>{{psrs.status_t1_1}}</h4>
+                            <h4 v-if="psrs.status_t1_1">Approved</h4>
+                            <h4 v-else>Declined</h4>
                         </td>
                         <td class="clsLabelDetails">
                             <h4>Date Approved </h4>
@@ -266,7 +267,8 @@
                             <h4>Status </h4>
                         </td>
                         <td class="clsValueDetails">
-                            <h4>{{psrs.status_t1_2}}</h4>
+                            <h4 v-if="psrs.status_t1_2">Approved</h4>
+                            <h4 v-else>Declined</h4>
                         </td>
                         <td class="clsLabelDetails">
                             <h4>Date Approved </h4>
@@ -294,7 +296,8 @@
                             <h4>Status </h4>
                         </td>
                         <td class="clsValueDetails">
-                            <h4>{{psrs.status_t2 }}</h4>
+                            <h4 v-if="psrs.status_t2">Approved</h4>
+                            <h4 v-else>Declined</h4>
                         </td>
                         <td class="clsLabelDetails">
                             <h4>Date Approved </h4>
@@ -339,7 +342,9 @@ export default {
       totalPrice: 0,
       i: 0,
       t4: localStorage.t4,
-      t3: localStorage.t3
+      t3: localStorage.t3,
+      dataBackgroundColor: "blue",
+      isEmpty: false,
     };
   },
   async created() {
@@ -509,7 +514,7 @@ export default {
 };
 </script>
 
-<style scoped src="@/assets/style/style.css">
+<style src="@/assets/style/style.css">
 /* strong{
   color: white;
 } */

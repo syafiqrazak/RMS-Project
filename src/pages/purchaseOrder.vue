@@ -19,7 +19,7 @@
                             <h4>Date:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="details.date" style="width:98%"></b-input>
+                            <b-input v-model="date" style="width:98%"></b-input>
                         </td>
                     </tr>-->
                      <tr>
@@ -27,7 +27,8 @@
                             <h4>Our Reference: </h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="details.reference" style="width:98%"></b-input>
+                            <b-input v-model="reference" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.reference.required && isPosted">Reference is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -35,7 +36,8 @@
                             <h4>Your Quotation:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="details.quotation" style="width:98%"></b-input>
+                            <b-input v-model="quotation" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.quotation.required && isPosted">Quotation is required</div>
                         </td>
                     </tr>
                      <tr>
@@ -45,7 +47,8 @@
                         <td class="clsValue">
                           <div class="block" style="border: 1px solid #dbdbdb; border-radius:4px; padding-left:1em; height:3.5em; width:98%; verticle-align:middle;">
                             <!-- <b-field label="Select datetime"> -->
-                              <md-datepicker v-model="details.dueDate" style="padding-top: 0px;" md-immediately />
+                              <md-datepicker v-model="dueDate" style="padding-top: 0px;" md-immediately />
+                            <div class="error" v-if="!$v.dueDate.required && isPosted">Due Date is required</div>
                           </div>
                         </td>
                     </tr>
@@ -56,12 +59,13 @@
                         </td>
                         <td class="clsValue">
                           <b-field>
-                            <b-select v-model="details.modeOfShipment" expanded style="width:98%;">
+                            <b-select v-model="modeOfShipment" expanded style="width:98%;">
                                 <option value="Land">Land </option>
                                 <option value="Ship">Ship</option>\
                                 <option value="Air">Air</option>
                             </b-select>
                         </b-field>
+                            <div class="error" v-if="!$v.modeOfShipment.required && isPosted">Mode of Shipment is required</div>
                         </td>
                     </tr>
                   <tr>
@@ -69,7 +73,8 @@
                             <h4>CCA No.:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="details.CCANo" style="width:98%"></b-input>
+                            <b-input v-model="CCANo" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.CCANo.required && isPosted">CCA Number is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -78,12 +83,13 @@
                         </td>
                         <td class="clsValue">
                           <b-field>
-                            <b-select v-model="details.paymentMode" expanded style="width:98%;">
+                            <b-select v-model="paymentMode" expanded style="width:98%;">
                                 <option value="Debit">Debit </option>
                                 <option value="Credit">Credit</option>
                                 <option value="As per Invoice">As per Invoice</option>
                             </b-select>
                         </b-field>  
+                            <div class="error" v-if="!$v.paymentMode.required && isPosted">Payment Mode is required</div>
                         </td>
                     </tr>
                   <tr>
@@ -91,7 +97,8 @@
                             <h4>To:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="details.client_name" style="width:98%"></b-input>
+                            <b-input v-model="client_name" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.client_name.required && isPosted">Client Name is required</div>
                         </td>
                     </tr>
                   <tr>
@@ -99,7 +106,8 @@
                             <h4>Company:</h4>
                         </td>
                         <td class="clsValue">
-                            <b-input v-model="details.company" style="width:98%"></b-input>
+                            <b-input v-model="company" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.company.required && isPosted">Client Company is required</div>
                         </td>
                     </tr>
                     <tr>
@@ -108,26 +116,28 @@
                         </td>
                         <td class="clsValue">
                           <b-field>
-                            <b-input v-model="details.address1" style="width:98%"></b-input>
-                        </b-field>  
+                              <b-input v-model="address1" style="width:98%"></b-input>
+                          </b-field>  
+                          <div class="error" v-if="!$v.address1.required && isPosted">Field is required</div>
                         </td>
                     </tr>
                      <tr>
                         <td class="clsLabel"></td>
                         <td class="clsValue">
-                            <b-input v-model="details.address2" style="width:98%"></b-input>
+                            <b-input v-model="address2" style="width:98%"></b-input>
+                            <div class="error" v-if="!$v.address2.required && isPosted">Field is required</div>
                         </td>
                     </tr>
                      <tr>
                         <td class="clsLabel"> </td>
                         <td class="clsValue">
-                            <b-input v-model="details.address3" style="width:98%"></b-input>
+                            <b-input v-model="address3" style="width:98%"></b-input>
                         </td>
                     </tr>
                      <tr>
                         <td class="clsLabel"> </td>
                         <td class="clsValue">
-                            <b-input v-model="details.address4" style="width:98%"></b-input>
+                            <b-input v-model="address4" style="width:98%"></b-input>
                         </td>
                     </tr>
                 
@@ -140,7 +150,6 @@
                 style="float:right"
                 >Next</md-button
               >
-              {{ details }}
               <!-- </div> -->
               </md-card-content>
             </div>
@@ -257,6 +266,9 @@ import { required, minLength, sameAs, minValue } from "vuelidate/lib/validators"
 export default {
   data() {
     return {
+      isPosted: false,
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       
       poObj: new poClass(),
       psr_id: this.$route.params.psr_id,
@@ -267,23 +279,23 @@ export default {
       error: "",
       step: 1,
       index: 2,
-      details: {
-        date: new Date(),
-        reference: null,
-        quotation: null,
-        dueDate: null,
-        modeOfShipment: null,
-        PSRNo: null,
-        paymentMode: null,
-        CCANo: null,
-        po_no: null,
-        address1: null,
-        address2: null,
-        address3: null,
-        address4: null,
-        client_name: null,
-        company: null
-      },
+      // details: {
+      date: new Date(),
+      reference: null,
+      quotation: null,
+      dueDate: null,
+      modeOfShipment: null,
+      PSRNo: null,
+      paymentMode: null,
+      CCANo: null,
+      po_no: null,
+      address1: null,
+      address2: null,
+      address3: null,
+      address4: null,
+      client_name: null,
+      company: null,
+      // },
       desc: [
         {
           index: 1,
@@ -295,40 +307,79 @@ export default {
       ]
     };
   },
+  validations: {
+    reference: {
+      required,
+    },
+    quotation: {
+      required,
+    },
+    dueDate: {
+      required,
+    },
+    modeOfShipment: {
+      required,
+    },
+    psr_id: {
+      required,
+    },
+    CCANo: {
+      required,
+    },
+    paymentMode: {
+      required,
+    },
+    client_name: {
+      required,
+    },
+    company: {
+      required,
+    },
+    address1: {
+      required,
+    },
+    address2: {
+      required,
+    }
+  },
   // async created() {},
   methods: {
     async po_addpo() {
-      try {
         alert(this.psr_id)
         this.mapObj();
         console.log(this.poObj);
         alert(this.poObj.psr_id);
-        const po = await purchaseOrder.po_add(this.poObj);
-        // const po = await po.po_add("123", "date", "po_ref", "due", "ship", "psr", "cca", "pay", "address", {});
-        console.log(po); //can be ignored
-        // alert("Success");
-          localStorage.message = "Purchase Order Application Submitted";
-          this.$router.push({ path: `/message/${this.id}` });
-      } catch (err) {
-        alert("Fail");
-        this.error = err.message;
-        console.log(this.error);
-      }
+        this.isPosted = true;
+        if (!this.$v.$invalid){
+          try {
+            const po = await purchaseOrder.po_add(this.poObj);
+            console.log(po); //can be ignored
+              localStorage.message = "Purchase Order Application Submitted";
+              this.$router.push({ path: `/message/${this.id}` });
+          } catch (err) {
+            alert("Fail");
+            this.error = err.message;
+            console.log(this.error);
+          }
+        }
+        else
+            alert("Fill all the required fields");
+      
     },
     mapObj(){
-          this.poObj.po_ref = this.details.reference;
-          this.poObj.quotation = this.details.quotation;
-          this.poObj.delv_due = this.details.dueDate;
-          this.poObj.ship_mode = this.details.modeOfShipment;
+          this.poObj.po_ref = this.reference;
+          this.poObj.quotation = this.quotation;
+          this.poObj.delv_due = this.dueDate;
+          this.poObj.ship_mode = this.modeOfShipment;
           this.poObj.psr_id = this.psr_id;
-          this.poObj.cca_no = this.details.CCANo;
-          this.poObj.pay_mode = this.details.paymentMode;
-          this.poObj.cl_name = this.details.client_name;
-          this.poObj.cl_company = this.details.company;
-          this.poObj.address_1 = this.details.address1;
-          this.poObj.address_2 = this.details.address2;
-          this.poObj.address_3 = this.details.address3;
-          this.poObj.address_4 = this.details.address4;
+          this.poObj.cca_no = this.CCANo;
+          this.poObj.pay_mode = this.paymentMode;
+          this.poObj.cl_name = this.client_name;
+          this.poObj.cl_company = this.company;
+          this.poObj.address_1 = this.address1;
+          this.poObj.address_2 = this.address2;
+          this.poObj.address_3 = this.address3;
+          this.poObj.address_4 = this.address4;
           this.poObj.po_desc = this.desc;
           this.poObj.branch = localStorage.branch;
           this.poObj.department = localStorage.department;
@@ -337,7 +388,12 @@ export default {
       this.step--;
     },
     next() {
-      this.step++;
+      this.isPosted = true;
+      if (!this.$v.$invalid){
+        this.step++;
+      }
+        else
+            alert("Fill all the required fields");
     },
     submit() {
       alert("Submit to blah and show blah and etc.");

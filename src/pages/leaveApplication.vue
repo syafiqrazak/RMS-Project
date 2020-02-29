@@ -80,14 +80,12 @@
               </md-autocomplete>
             </md-field>
           </b-field>
-          {{ replacement }}
           <md-button
             class="md-raised md-success"
             @click="add_leave()"
             style="float:right"
             >Apply</md-button
           >
-          {{ endDate }}
         </md-card-content>
       </md-card>
     </form>
@@ -108,6 +106,8 @@ export default {
   name: "edit-profile-form",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       users: [],
       username: [],
       user_id: [],

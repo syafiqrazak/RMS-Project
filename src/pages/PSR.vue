@@ -344,6 +344,8 @@ export default {
   data() {
     let dateFormat = this.$material.locale.dateFormat || "yyyy-MM-dd";
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       costType: "",
       radio: "",
       radio2: "",

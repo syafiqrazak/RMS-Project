@@ -45,6 +45,8 @@ export default {
   name: "edit-profile-form",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       messages: ["hello", "vue", "js"],
       users: [
         {

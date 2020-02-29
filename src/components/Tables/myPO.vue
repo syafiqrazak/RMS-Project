@@ -90,6 +90,8 @@ export default {
   name: "my-PO",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       poObj: new poClass(),
       error: "",
       isLoading: false,

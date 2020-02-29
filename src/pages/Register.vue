@@ -76,7 +76,7 @@
                             <div class="error" v-if="!$v.branch.required && isPosted">Branch is required</div>
                         </td>
                     </tr>
-                    <tr v-if="tier != 'usert4'">
+                    <tr v-if="tier != 'usert4' && tier != 'is_admin' && tier != 'acct_t'">
                         <td class="clsLabel">
                             <h4>Department:</h4>
                         </td>
@@ -185,6 +185,8 @@ export default {
     name: "edit-profile-form",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
         userObj: new userClass(),
         posted: false,
         tier:'',
@@ -201,13 +203,14 @@ export default {
         contact_no:'',
         password:'',
         confirmPassword:'',
-        role:'',
         t1: false,
         t2: false,
         t3: false,
         t4: false,
         is_admin: false,
-        isPosted : false
+        isPosted : false,
+        dataBackgroundColor : 'blue',
+        validateDepartment: true
     };
   },
   validations: {
@@ -267,6 +270,10 @@ export default {
         
     },
     mapObj(){
+      if(this.tier == "acct_t")
+        this.department = "acct";
+      if(this.tier == "is_admin")
+        this.department = "adm";
       this.userObj.firstname = this.firstname;
       this.userObj.lastname = this.lastname;
       this.userObj.username = this.username;

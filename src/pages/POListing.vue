@@ -191,6 +191,8 @@ export default {
   name: "notify-PO",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       isApproved: false,
       poObj: new poClass(),
       pos: [], //for po in pos {{po.[var name]}}

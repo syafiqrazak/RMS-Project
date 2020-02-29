@@ -68,6 +68,8 @@ export default {
   name: "notify-PSR",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       psrObj: new psrClass(),
       psrs: [], //for psr in psrs {{psr.[var name]}}
       page: 1,

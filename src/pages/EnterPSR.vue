@@ -136,6 +136,8 @@ import psrClass from "@/js/class/psr_class.js"; //directory to psr_class.js
 export default {
     data(){
         return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
            isEmpty:false,
             match: false,
             inputMethod: '0',

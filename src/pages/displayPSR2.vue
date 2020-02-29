@@ -362,6 +362,8 @@ export default {
   name: "display-PSR",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       psrObj: new psrClass(),
       psrs: [],
       id: this.$route.params.id,

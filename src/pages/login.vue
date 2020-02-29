@@ -113,7 +113,10 @@ export default {
           if (login.branch) localStorage.branch = login.branch.cd;
           
           this.isLoading = false;
-          this.$router.push({ path: `/leaveApplication/${login.id}` });
+          if(localStorage.acct_t == "true")
+            this.$router.push({ path: `/poListing/${login.id}` });
+          else
+            this.$router.push({ path: `/leaveApplication/${login.id}` });
         }
         this.isLoading = false;
         console.log(login); //can be ignored

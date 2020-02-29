@@ -146,6 +146,8 @@ import leaveClass from "@/js/class/leave_class.js"; //directory to leave_class.j
 export default {
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       id: localStorage.id,
       leaveObj: new leaveClass(),
       leave_id: this.$route.params.leave_id, //vue-router - to get leave_id

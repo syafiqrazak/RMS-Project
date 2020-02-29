@@ -90,6 +90,8 @@ export default {
   name: "notify-leave",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       leaveObj: new leaveClass(),
       leaves: [], //do for leave in leaves
       error: "",

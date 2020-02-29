@@ -73,6 +73,8 @@ export default {
   data() {
     const data = this.leaves
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
        headers: [
         {
           text: 'Employee ID',

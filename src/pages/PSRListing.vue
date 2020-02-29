@@ -136,7 +136,6 @@
           </md-card-content>
         </md-card-expand-content>
       </md-card-expand>
-        {{ psrs }}
         <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
           <template slot-scope="props">
             <b-table-column
@@ -200,8 +199,6 @@
             &nbsp;&nbsp;
           </b-tooltip>
         </div>
-        <!-- {{psrs[0]}} -->
-        <!-- {{page}} -->
         {{ error }}
       </md-card-content>
     </md-card>
@@ -216,6 +213,8 @@ export default {
   name: "notify-PSR",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       companyName: null,
       psr_no: null,
       date: null,

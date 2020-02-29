@@ -188,7 +188,6 @@
                   field="description"
                   label="Description"
                   width="45%"
-                  centered
                 >
                   {{ props.row.description }}
                 </b-table-column>
@@ -374,6 +373,8 @@ export default {
   name: "display-PO",
   data() {
     return {
+      dataBackgroundColor: "blue",
+      isEmpty: false,
       poObj: new poClass(),
       pos: [], //for po in pos {{po.[var name]}}
       page: 1,

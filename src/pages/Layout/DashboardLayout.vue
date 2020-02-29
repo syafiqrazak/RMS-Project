@@ -1,93 +1,48 @@
 <template>
   <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
-    <!-- <notifications></notifications> -->
 
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
       <sidebar-link v-if="is_admin == 'true'" :to="{ name: 'Staff Registration', params: { id: this.id } }">
-        <md-icon>dashboard</md-icon>
+        <!-- <md-icon>dashboard</md-icon> -->
         <p>Register</p>
       </sidebar-link>
       <sidebar-link v-if="is_admin == 'true'" :to="{ name: 'User', params: { id: this.id } }">
-        <md-icon>dashboard</md-icon>
+        <!-- <md-icon>dashboard</md-icon> -->
         <p>User</p>
       </sidebar-link>
       <sidebar-link v-if="is_acct == 'true'" :to="{ name: 'Purchase Order Listing', params: { id: this.id } }">
-        <md-icon>dashboard</md-icon>
+        <!-- <md-icon>dashboard</md-icon> -->
         <p>Purchase Order List</p>
       </sidebar-link>
       <sidebar-link v-if="is_acct == 'true'" :to="{ name: 'PSR Listing', params: { id: this.id } }">
-        <md-icon>dashboard</md-icon>
+        <!-- <md-icon>dashboard</md-icon> -->
         <p>PSR List</p>
       </sidebar-link>
-      <sidebar-link :to="{ name: 'Leave Application', params: { id: this.id } }" >
-        <md-icon>thumb_up</md-icon>
+      <sidebar-link v-if="is_acct != 'true'" :to="{ name: 'Leave Application', params: { id: this.id } }" >
+        <!-- <md-icon>thumb_up</md-icon> -->
         <p>Leave Application</p>
       </sidebar-link>
-      <sidebar-link :to="{ name: 'Enter PSR', params: { id: this.id } }">
-        <md-icon>dashboard</md-icon>
+      <sidebar-link  v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true'" :to="{ name: 'Enter PSR', params: { id: this.id } }">
+        <!-- <md-icon>dashboard</md-icon> -->
         <p>Purchase Order</p>
       </sidebar-link>
-      <sidebar-link :to="{ name: 'PSR', params: { id: this.id } }">
-        <md-icon>thumb_up</md-icon>
+      <sidebar-link  v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true'" :to="{ name: 'PSR', params: { id: this.id } }">
+        <!-- <md-icon>thumb_up</md-icon> -->
         <p>PSR</p>
       </sidebar-link>
-      <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t4 == 'true' || is_admin == 'true'" :to="{ name: 'Notification', params: { id: this.id } }">
-        <md-icon>thumb_up</md-icon>
+      <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t4 == 'true' " :to="{ name: 'Notification', params: { id: this.id } }">
+        <!-- <md-icon>thumb_up</md-icon> -->
         <p>Approval</p>
       </sidebar-link>
-      <sidebar-link :to="{ name: 'My Applications', params: { id: this.id } }">
-        <md-icon>bubble_chart</md-icon>
+      <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true' " :to="{ name: 'My Applications', params: { id: this.id } }">
+        <!-- <md-icon>bubble_chart</md-icon> -->
         <p>My Applications</p>
       </sidebar-link>
       <sidebar-link :to="{ name: 'Reset Password', params: { id: this.id } }">
-        <md-icon>bubble_chart</md-icon>
+        <!-- <md-icon>bubble_chart</md-icon> -->
         <p>Reset Password</p>
       </sidebar-link>
-      <!-- <sidebar-link :to="{ name: 'Enter PSR', params: { id: this.id } }">
-        <md-icon>bubble_chart</md-icon>
-        <p>Enter PSR</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/stepForm">
-        <md-icon>dashboard</md-icon>
-        <p>2 Steps Form</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/dynamicForm">
-        <md-icon>dashboard</md-icon>
-        <p>Dynamic Form</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link :to="{ name: 'Dashboard', params: { id: this.id } }">
-        <md-icon>dashboard</md-icon>
-        <p>Dashboard</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/user">
-        <md-icon>person</md-icon>
-        <p>User Profile</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/table">
-        <md-icon>content_paste</md-icon>
-        <p>Table list</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/typography">
-        <md-icon>library_books</md-icon>
-        <p>Typography</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link :to="{ name: 'Icons', params: { id: this.id } }">
-        <md-icon>bubble_chart</md-icon>
-        <p>Icons</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/maps">
-        <md-icon>location_on</md-icon>
-        <p>Maps</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/notifications">
-        <md-icon>notifications</md-icon>
-        <p>Notifications</p>
-      </sidebar-link> -->
-      <!-- <sidebar-link to="/upgrade" class="active-pro">
-        <md-icon>unarchive</md-icon>
-        <p>Upgrade to PRO</p>
-      </sidebar-link> -->
     </side-bar>
 
     <div class="main-panel">
@@ -110,6 +65,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
+      t1: localStorage.t1,
       t2: localStorage.t2,
       t3: localStorage.t3,
       t4: localStorage.t4,
