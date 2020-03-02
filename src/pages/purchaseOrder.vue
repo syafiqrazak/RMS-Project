@@ -1,6 +1,6 @@
 <template>
   <div v-if="PSRAvailable" id="app">
-    <!-- <div class="container"> -->
+    <!-- <div class="content"> -->
       <form action="https://postman-echo.com/post" method="post">
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">

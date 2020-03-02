@@ -62,7 +62,7 @@
                 </tr>
                 <tr>
                     <td class="clsLabel">
-                        <h4>JUSTIFICATION OF PURCHASE:</h4>
+                        <h4>Justification of Purchase:</h4>
                     </td>
                     <td class="clsValue">
                        <h4> {{ psrs.purchase_just }} </h4>
@@ -70,7 +70,7 @@
                 </tr>
                 <tr>
                     <td class="clsLabel">
-                        <h4>REQUIRED DATE:</h4>
+                        <h4>Required Date:</h4>
                     </td>
                     <td class="clsValue">
                        <h4> {{ psrs.date_req | moment("Do MMMM YYYY")}} </h4>

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!posted"  id="container">
+    <div v-if="!posted"  class="container">
         <md-card style="padding-left:10px">
             <md-card-header :data-background-color="dataBackgroundColor">
                 <h4 class="title">Register</h4>

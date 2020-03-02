@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <!-- <div class="container"> -->
+  <!-- <div id="app"> -->
+    <div class="content">
     <form action="https://postman-echo.com/post" method="post">
       <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
@@ -17,7 +17,6 @@
               >
                 <section>
                   <p><strong>Purchase Classifiaction: </strong></p>
-                  {{ date_req }}
                   <md-radio v-model="pur_class" value="OPEX" class="md-primary"
                     >OPEX</md-radio
                   >
@@ -332,8 +331,8 @@
         </md-card-content>
       </md-card>
     </form>
-    <!-- </div> -->
-  </div>
+    </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -463,7 +462,7 @@ export default {
 
 <style scoped>
 .md-card {
-  width: 1200px;
+  width: 100%;
 }
 select {
   width: 100%;

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!posted" id="container">
+    <div v-if="!posted" id="content">
         <md-card style="padding-left:10px">
             <md-card-header :data-background-color="dataBackgroundColor">
                 <h4 class="title">Reset Password</h4>
@@ -56,6 +56,7 @@ export default {
         password: '',
         confirmPassword: '',
         posted:false,
+        dataBackgroundColor: "blue"
         };
     },
     methods: {

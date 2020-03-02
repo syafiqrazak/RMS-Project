@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="content">
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
         <h4 class="title">Users Profile</h4>

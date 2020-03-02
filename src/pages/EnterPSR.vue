@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
+    <div class="content">
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
             <h4 class="title">Purchase Order Application</h4>
@@ -27,7 +26,7 @@
                                 <h4>PSR NO: </h4>
                             </td>
                             <td class="clsValue" style="padding:0.6rem;">
-                                <md-autocomplete v-model="PSRNo" :md-options="psr_no" md-layout="box" md-dense>
+                                <md-autocomplete v-model="passPSRNo" :md-options="psr_no" md-layout="box" md-dense>
                                   <!-- <label>PSR Number</label> -->
                                   
                                   <template slot="md-autocomplete-item" slot-scope="{ item, term }">
@@ -35,7 +34,7 @@
                                   </template>
 
                                   <template slot="md-autocomplete-empty" slot-scope="{ term }">
-                                    No employees matching found
+                                    No PSR Number matching found
                                   </template>
                                 </md-autocomplete>
                             </td>
@@ -79,7 +78,7 @@
                                     </template>
 
                                     <template slot="md-autocomplete-empty" slot-scope="{ term }">
-                                      No employees matching found
+                                      No PSR Number matching found
                                     </template>
                                   </md-autocomplete>
                                 </td>
@@ -90,6 +89,7 @@
                                 </td>
                                 <td class="clsValue">
                                     <b-select v-model="branch" expanded="" style="width:98%;">
+                                        <option value= ""> </option>
                                         <option value= "DJSB"> DJSB</option>
                                     </b-select>
                                 </td>
@@ -100,6 +100,7 @@
                                 </td>
                                 <td class="clsValue">
                                     <b-select v-model="department" expanded="" style="width:98%;">
+                                        <option value= ""> </option>
                                         <option value= "mar"> Marine</option>
                                         <option value="cct">Commercial and Contract </option>
                                         <option value="acct">Account</option>
@@ -168,7 +169,7 @@
                                 </b-field>
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td class="clsLabel">
                                     <h4>Is Approved </h4>
                                 </td>
@@ -177,7 +178,7 @@
                                     {{ isApproved }}
                                 </b-checkbox>
                                 </td>
-                            </tr>
+                            </tr> -->
 
                     </table>
                     
@@ -189,36 +190,31 @@
                   </md-card-content>
                 </md-card-expand-content>
               </md-card-expand>
-                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" :paginated="true"
-                    :per-page="10"
-                    :current-page.sync="page"
-                    :pagination-simple="false"
-                    aria-next-label="Next page"
-                    aria-previous-label="Previous page"
-                    aria-page-label="Page"
-                    icon-pack="fas"
-                    show-detail-icon="true"
-                    aria-current-label="Current page"> 
+                <b-loading
+                  :is-full-page="false"
+                  :active.sync="isLoading"
+                  :can-cancel="false"
+                ></b-loading>
+                  <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
                     <template slot-scope="props">
                         <b-table-column field="po_no" label="PSR Number" sortable>
                             <a @click="passPSR(props.row)">
                                 {{ props.row.psr_no }}
                             </a>
                         </b-table-column>
-                        <b-table-column field="po_date" label="Date Created" sortable>
-                            {{ props.row.createdAt | moment(" Do MMMM YYYY") }}
+                        <b-table-column field="created_at" label="Date Created" sortable>
+                            {{ props.row.created_at | moment(" Do MMMM YYYY") }}
                         </b-table-column>
-                        <!-- <b-table-column>
-                            {{ props.row.status }}
+                        <b-table-column field="detail" label="" width="15%" sortable>
+                            <a @click="detail(props.row)">
+                                View Details >>>
+                            </a>
                         </b-table-column>
-                        <b-table-column field="id" label="ID" width="300" >
-                            {{ props.row.id }}
-                        </b-table-column> -->
                     </template> 
                 </b-table>
     <br>
-    <!-- <br><br><br>
-    <div style=" width:20%; float:right; ">
+    <br><br><br>
+    <div style=" width:20%; float:right; display:flex; ">
       <form v-on:submit="pagination">
         <md-input
           style="width:60px; float: left; height:28px;text-align: right; "
@@ -253,7 +249,7 @@
         </b-button>
         &nbsp;&nbsp;
       </b-tooltip>
-    </div> -->
+    </div>
                 </md-card-content>
             </div>
             </div>
@@ -261,9 +257,6 @@
           </md-card-content>
         </md-card>
     </div>
-    <!-- <div v-else>
-        <h3>Not match</h3>
-    </div> -->
 </template>
 
 <script>
@@ -278,7 +271,8 @@ export default {
           isEmpty: false,
           match: false,
           inputMethod: '2',
-          PSRNo: '',
+          PSRNo: null,
+          passPSRNo: null,
           date: null,
           month: null,
           year: null,
@@ -294,11 +288,29 @@ export default {
           page: 1,
           total_page:0,
           psr_no: [],
+          psr_id: []
         }
     },
     async created() {
             this.psrObj.in_page = 1;
             this.psrObj.in_param_5 = true;
+            try {
+                this.isLoading = true;
+                this.psrObj.in_param_5 = true;
+                const data = await psr.approved_np();
+                // this.psrs = data.result[0];
+                this.psrs = data;
+                // this.total_page =data.result[1];
+                for(var j = 0; j<this.psrs.length; j++){
+                  this.psr_no.push(this.psrs[j].psr_no);
+                  this.psr_id.push(this.psrs[j].id);
+                }
+                this.isLoading = false;
+            } catch (err) {
+                alert(err);
+                this.error = err.message;
+                this.isLoading = false;
+            }
             this.getPSR();
 
     },
@@ -306,8 +318,27 @@ export default {
         passPSR(value){
             this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${value.id}` });
         },
+      detail(value) {
+        this.isLoading = false;
+        this.$router.push({
+          path: `/displayPSR/${this.id}/${value.id}/status`
+        });
+      },
     async filter(){
+      this.isLoading = true;
       try {
+        if(this.psr_no == "")
+          this.psr_no = null;
+        if(this.date == "null")
+          this.date = null;
+        if(this.month == "null")
+          this.month = null;
+        if(this.year == "")
+          this.year = null;
+        if(this.department == "")
+          this.department = null;
+        if(this.branch == "")
+          this.branch = null;
         //testing starts
         this.psrObj.in_param_1 = this.PSRNo;
         this.psrObj.in_param_2 = this.date;
@@ -316,7 +347,7 @@ export default {
         this.psrObj.in_param_5 = this.isApproved;
         this.psrObj.in_param_6 = this.department;
         this.psrObj.in_param_7 = this.branch;
-        this.psrObj.in_page = 1;
+        this.psrObj.in_page = this.page;
         console.log(this.psrObj);
         // this.psrObj.toJson();
         //testing ends
@@ -327,35 +358,58 @@ export default {
         this.psrs = psrs1.map(psrs => ({
           ...psrs
         }));
-        alert("Filtering");
         console.log(this.psrs);
+      this.isLoading = false;
       } catch (err) {
         this.error = err.message;
+        this.isLoading = false;
         alert(err);
       }
     },
         async getPSR(){
-            try {
-            this.isLoading = true;
-            this.psrObj.in_param_5 = true;
-            const data = await psr.approved_np();
-            // this.psrs = data.result[0];
-            this.psrs = data;
-            // this.total_page =data.result[1];
-            for(var j = 0; j<this.psrs.length; j++){
-              this.psr_no.push(this.psrs[j].psr_no);
-            }
-
-            for(var i=1; i< this.total_page; i++){
-
-            }
-            this.isLoading = false;
-        } catch (err) {
-            alert(err);
-            this.error = err.message;
-            this.isLoading = false;
-            
-        }
+      try {
+        this.isLoading = true;
+        //testing starts
+        this.psrObj.in_param_1 = this.PSRNo;
+        this.psrObj.in_param_2 = this.date;
+        this.psrObj.in_param_3 = this.month;
+        this.psrObj.in_param_4 = this.year;
+        this.psrObj.in_param_5 = this.isApproved;
+        this.psrObj.in_param_6 = this.department;
+        this.psrObj.in_param_7 = this.branch;
+        // this.psrObj.in_page = 1;
+        console.log(this.psrObj);
+        // this.psrObj.toJson();
+        //testing ends
+        const data = await psr.psr_search(this.psrObj.toJson());
+        const psrs1 = data.result[0];
+        this.total_page = data.result[1];
+        this.psrs = psrs1.map(psrs => ({
+          ...psrs
+        }));
+        this.isLoading = false;
+        console.log(this.psrs);
+      } catch (err) {
+        this.error = err.message;
+        this.isLoading = false;
+        alert(err);
+      }
+            // try {
+            //     this.isLoading = true;
+            //     this.psrObj.in_param_5 = true;
+            //     const data = await psr.approved_np();
+            //     // this.psrs = data.result[0];
+            //     this.psrs = data;
+            //     // this.total_page =data.result[1];
+            //     for(var j = 0; j<this.psrs.length; j++){
+            //       this.psr_no.push(this.psrs[j].psr_no);
+            //     }
+            //     this.isLoading = false;
+            // } catch (err) {
+            //     alert(err);
+            //     this.error = err.message;
+            //     this.isLoading = false;
+            // }
         },
     async nextPage() {
       this.isPrevious = false;
@@ -391,32 +445,37 @@ export default {
       this.psrObj.in_page = this.page;
       this.getPSR();
     },
-        matchPSR(){
-            if(this.psrs != null){
-                // alert(this.psrs.length);
-                // this.PSRNo = parseInt(this.PSRNo);
-                for(var i=0; i<this.psrs.length; i++){
-                    if(this.psrs[i].psr_no == this.PSRNo){
-                        alert("Match");
-                        try{
-                            this.match = true;
-                            this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.psrs[i].id}` });
-                            break;
-                        }
-                        catch(error){
-                            alert("failed");
-                        }
-                    }
+    matchPSR(){
+    if(this.psrs != null){
+        // alert(this.psrs.length);
+        // this.PSRNo = parseInt(this.PSRNo);
+        for(var i=0; i<this.psr_no.length; i++){
+            if(this.psr_no[i] == this.passPSRNo){
+                alert("Match");
+                try{
+                    this.match = true;
+                    this.$router.push({ path: `/purchaseOrder/${localStorage.id}/${this.psr_id[i]}` });
+                    break;
                 }
-                if(!this.match){
-                    alert("PSR not found!!!");
+                catch(error){
+                    alert("failed");
                 }
             }
-            else{
-                alert("No Approved PSR yet");
-            }
-        // alert("Not Found");
-    }
+        }
+        if(!this.match){
+            alert("PSR not found!!!");
+        }
+        }
+        else{
+            alert("No Approved PSR yet");
+        }
+      },
+      openLoading() {
+          this.isLoading = true
+          setTimeout(() => {
+              this.isLoading = false
+          }, 10 * 1000)
+      }
 }
 }
 </script>

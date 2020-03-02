@@ -34,6 +34,11 @@
 import { myLeave, myPO, myPSR } from "@/components";
 
 export default {
+  data() {
+    return {
+      dataBackgroundColor: "blue"
+    };
+  },
   components: {
     myLeave,
     myPO,

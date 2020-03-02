@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container">
+    <div class="content">
       <form action="https://postman-echo.com/post" method="post">
         <div v-show="step === 1">
           <h1>Step One</h1>

@@ -281,7 +281,6 @@ export default {
     },
     detail(value) {
       this.isLoading = false;
-      alert(value.id);
       this.$router.push({
         path: `/displayPSR/${this.id}/${value.id}/audit`
       });

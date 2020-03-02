@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="container"> -->
+  <div class="content">
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
         <h4 class="title">Users</h4>
@@ -48,7 +48,7 @@
         </b-table>
       </md-card-content>
     </md-card>
-  <!-- </div> -->
+  </div>
 </template>
 
 <script>
