@@ -28,7 +28,7 @@
     "vue-material": "1.0.0-beta-11",
     "vue-moment": "^4.1.0",
     "vue-numeral-filter": "^1.1.1",
-    "vue-router": "3.0.6",
+    "vue-router": "^3.0.6",
     "vue-social-sharing": "2.4.5",
     "vuelidate": "^0.7.5"
   },

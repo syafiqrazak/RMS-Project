@@ -25,7 +25,7 @@
           </a>
         </b-table-column>
         <b-table-column field="date_from" label="Start">
-          {{ props.row.date_from | moment("D/MM/YYYY") }}
+          {{ props.row.date_from | moment("Do MMMM YYYY") }}
         </b-table-column>
         <b-table-column field="date_to" label="End">
           {{ props.row.date_to | moment("Do MMMM YYYY") }}

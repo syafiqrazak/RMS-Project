@@ -150,6 +150,12 @@
                 style="float:right"
                 >Next</md-button
               >
+              <md-button
+                class="md-raised md-success"
+                @click.prevent="back()"
+                style="float:right"
+                >Back</md-button
+              >
               <!-- </div> -->
               </md-card-content>
             </div>
@@ -241,7 +247,7 @@
             >
             <md-button
               class="md-raised"
-              @click.prevent="prev()"
+              @click="back()"
               style="float:right"
               >Previous</md-button
             >
@@ -394,6 +400,9 @@ export default {
       }
         else
             alert("Fill all the required fields");
+    },
+    back(){
+      this.$router.push(-1);
     },
     submit() {
       alert("Submit to blah and show blah and etc.");

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <b-loading
+      :is-full-page="false"
+      :active.sync="isLoading"
+      :can-cancel="true"
+    ></b-loading>
     <!-- <div>{{ new Date() | dateFormat('YYYY.MM.DD') }}</div> -->
     <!-- <div>Date: {{psrs.psr_date[0]}}</div> -->
     <md-card>
@@ -37,6 +42,7 @@
                         </td>
                         <td class="clsValue">
                             <b-select v-model="branch" expanded="" style="width:98%;">
+                                <option value= ""> </option>
                                 <option value= "DJSB"> DJSB</option>
                             </b-select>
                         </td>
@@ -47,6 +53,7 @@
                         </td>
                         <td class="clsValue">
                             <b-select v-model="department" expanded="" style="width:98%;">
+                                <option value= ""> </option>
                                 <option value= "mar"> Marine</option>
                                 <option value="cct">Commercial and Contract </option>
                                 <option value="acct">Account</option>
@@ -97,7 +104,7 @@
                                 <option value="31">31 </option>
                             </b-select>
                             <b-select v-model="month">
-                                <option value= ''> </option>
+                                <option value= null > </option>
                                 <option value="1">January </option>
                                 <option value="2">February</option>
                                 <option value="3">March</option>
@@ -152,10 +159,12 @@
                     </a> -->
             </b-table-column>
             <b-table-column field="createdBy" label="Create By" width="500">
-              {{ props.row.create_user }}
+              <p v-if="props.row.create_user">{{ props.row.create_user }} </p>
+              <p v-else>{{ props.row.create_user_psr.username }}</p>
             </b-table-column>
             <b-table-column field="created_at" label="Date Created">
-              {{ props.row.created_at | moment("Do MMMM YYYY") }}
+              <p v-if="props.row.created_at">{{ props.row.created_at | moment("Do MMMM YYYY") }}</p>
+              <p v-else>{{ props.row.createdAt | moment("Do MMMM YYYY") }}</p>
             </b-table-column>
             <!-- <b-table-column>
                     {{ props.row.status }}
@@ -235,7 +244,8 @@ export default {
       t2: null,
       t4: null,
       t3: null,
-      is_admin: null
+      is_admin: null,
+      isLoading: false
     };
   },
   async created() {
@@ -252,19 +262,25 @@ export default {
       console.log(this.psrObj);
       // this.psrObj.toJson();
       //testing ends
-      const data = await psr.psr_search(this.psrObj.toJson());
-      const psrs1 = data.result[0];
-      this.total_page = data.result[1];
-      this.psrs = psrs1.map(psrs => ({
-        ...psrs
-      }));
+      this.getPSR();
     } catch (err) {
       this.error = err.message;
       alert(err);
     }
   },
   methods: {
+    async getPSR(){
+      this.isLoading = true;
+      const data = await psr.psr_search(this.psrObj.toJson());
+      const psrs1 = data.result[0];
+      this.total_page = data.result[1];
+      this.psrs = psrs1.map(psrs => ({
+        ...psrs
+      }));
+      this.isLoading = false;
+    },
     detail(value) {
+      this.isLoading = false;
       alert(value.id);
       this.$router.push({
         path: `/displayPSR/${this.id}/${value.id}/audit`
@@ -272,6 +288,18 @@ export default {
     },
     async filter(){
       try {
+        if(this.psr_no == "")
+          this.psr_no = null;
+        if(this.date == "null")
+          this.date = null;
+        if(this.month == "null")
+          this.month = null;
+        if(this.year == "")
+          this.year = null;
+        if(this.department == "")
+          this.department = null;
+        if(this.branch == "")
+          this.branch = null;
       //testing starts
       this.psrObj.in_param_1 = this.psr_no;
       this.psrObj.in_param_2 = this.date;
@@ -285,12 +313,7 @@ export default {
       // this.psrObj.toJson();
       //testing ends
       this.psrObj.in_page = 1;
-      const data = await psr.psr_search(this.psrObj.toJson());
-      const psrs1 = data.result[0];
-      this.total_page = data.result[1];
-      this.psrs = psrs1.map(psrs => ({
-        ...psrs
-      }));
+      this.getPSR();
       alert("Filtering");
       console.log(this.psrs);
     } catch (err) {
@@ -349,13 +372,9 @@ export default {
       try {
         // alert(this.page);
         this.psrObj.in_page = this.page;
-        const data = await psr.show_psr_page(this.psrObj);
-
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
+        console.log(this.psrObj);
+        this.getPSR();
+        console.log(this.psrs);
       } catch (err) {
         this.error = err.message;
       }
@@ -369,13 +388,7 @@ export default {
       if (this.page == 1) this.isPrevious = true;
       try {
         this.psrObj.in_page = this.page;
-        const data = await psr.show_psr_page(this.psrObj);
-
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
+        this.getPSR();
       } catch (err) {
         this.error = err.message;
       }

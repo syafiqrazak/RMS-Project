@@ -1,5 +1,10 @@
 <template>
   <div>
+    <b-loading
+      :is-full-page="false"
+      :active.sync="isLoading"
+      :can-cancel="true"
+    ></b-loading>
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
         <h4 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h4>
@@ -43,7 +48,7 @@
                         <td class="clsValue">
                             
                           <b-field>
-                            <b-select v-model="date" style="width:10%">
+                            <b-select v-model="date" style="width:13%">
                                 <option value= null> </option>
                                 <option value="1">1 </option>
                                 <option value="2">2</option>
@@ -92,7 +97,7 @@
                                 <option value="11">November</option>
                                 <option value="12">December</option>
                             </b-select>
-                            <b-input v-model="year" style="width:20%"></b-input>
+                            <b-input v-model="year" type="number" maxlength="4" style="width:20%"></b-input>
                         </b-field>
                         {{month}}
                         </td>
@@ -139,7 +144,7 @@
           </template>
         </b-table>
         <br /><br />
-        <div style=" width:15%; float:right; ">
+        <div style=" width:20%; float:right; ">
           <form v-on:submit="pagination">
             <md-input
               style="width:30px; float: left; height:28px;text-align: right; "
@@ -212,41 +217,65 @@ export default {
       date:null,
       month: null,
       year: null,
-      isEmpty: false
+      isEmpty: false,
+      isLoading: false,
     };
   },
   async created() {
-    try {
-      //testing starts
       this.poObj.in_param_1 = null;
       this.poObj.in_param_2 = null;
       this.poObj.in_param_3 = null;
       this.poObj.in_param_4 = null;
       this.poObj.in_param_5 = null;
-      this.poObj.in_param_6 = null;
+      this.poObj.in_param_6 = false;
       this.poObj.in_param_7 = null;
       this.poObj.in_page = 1;
       console.log(this.poObj);
-      // this.poObj.toJson();
-      //testing ends
-      this.poObj.in_page = 1;
-      // const data = await po.po_search(this.poObj.toJson());
-        const data = await po.show_po_page(this.poObj);
-      console.log("data: ");
-      console.log(data);
-      const pos1 = data.result[0];
-      // this.total_page = data.result[1];
-      this.total_page = data.totalrecords;
-      this.pos = pos1.map(pos => ({
-        ...pos
-      }));
-    } catch (err) {
-      this.error = err.message;
-      alert(err);
-    }
+    // try {
+    //   //testing starts
+    //   // this.poObj.toJson();
+    //   //testing ends
+    //   this.poObj.in_page = 1;
+    //   // const data = await po.po_search(this.poObj.toJson());
+    //     const data = await po.show_po_page(this.poObj);
+    //   console.log("data: ");
+    //   console.log(data);
+    //   const pos1 = data.result[0];
+    //   // this.total_page = data.result[1];
+    //   this.total_page = data.totalrecords;
+    //   this.pos = pos1.map(pos => ({
+    //     ...pos
+    //   }));
+    // } catch (err) {
+    //   this.error = err.message;
+    //   alert(err);
+    // }
+    this.getPO();
   },
 
   methods: {
+    async getPO(){
+      try{
+        this.isLoading = true;
+        const data = await po.po_search(this.poObj.toJson());
+        console.log(data);
+
+        const pos1 = data.result[0];
+        console.log(data);
+        // this.total_page = data.result[1];
+        this.total_page = data.result[0][0].totalrecords;
+        this.pos = pos1.map(pos => ({
+          ...pos
+        }));
+        // this.pos = data.result[0];
+        console.log(this.pos);
+        this.isLoading = false;
+        } catch (err) {
+        this.isLoading = false;
+        this.error = err.message;
+        alert(err);
+      }
+    },
     detail(value) {
       console.log(value.po_no);
       this.$router.push({
@@ -255,6 +284,16 @@ export default {
     },
     async filter(){
       try {
+        if(this.poNo == "")
+          this.poNo = null;
+        if(this.date == "null")
+          this.date = null;
+        if(this.month == "")
+          this.month = null;
+        if(this.year == "")
+          this.year = null;
+        if(this.companyName == "")
+          this.companyName = null;
       //testing starts
       this.poObj.in_param_1 = this.poNo;
       this.poObj.in_param_2 = this.companyName;
@@ -262,44 +301,23 @@ export default {
       this.poObj.in_param_4 = this.month;
       this.poObj.in_param_5 = this.year;
       this.poObj.in_param_6 = this.isApproved;
-      this.poObj.in_param_6 = this.isApproved;
-      this.poObj.in_param_6 = this.isApproved;
-      this.poObj.in_page = 1;
+      this.poObj.in_page = this.page;
       console.log(this.poObj);
-      // this.poObj.toJson();
-      //testing ends
       this.poObj.in_page = 1;
-      // alert(new Date().getDate());
       const data = await po.po_search(this.poObj.toJson());
       console.log(data);
 
-      // const pos1 = data.result[0];
-      // console.log(data);
-      // // this.total_page = data.result[1];
-      // this.total_page = data.totalrecords;
-      // this.pos = pos1.map(pos => ({
-      //   ...pos
-      // }));
+      const pos1 = data.result[0];
+      console.log(data);
+      this.total_page = data.totalrecords;
+      this.pos = pos1.map(pos => ({
+        ...pos
+      }));
       console.log(this.pos);
     } catch (err) {
       this.error = err.message;
       alert(err);
     }
-    },
-    async get_pending() {
-      try {
-        const data = await po.get_submits(this.page);
-
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-        return this.pos;
-      } catch (err) {
-        this.error = err.message;
-        return this.error;
-      }
     },
     async get_submits() {
       try {
@@ -314,17 +332,6 @@ export default {
         this.error = err.message;
       }
     },
-    async find() {
-      try {
-        const data = await po.find(this.po_no);
-        this.pos = data.map(pos => ({
-          ...pos,
-          createdAt: new Date(pos.createdAt)
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
-    },
     //create in vue:
     // if page == 1, hide previous button, show next button
     // if page == total_page, show previous button, show next button
@@ -334,18 +341,20 @@ export default {
         this.page = this.total_page;
       } else this.page += 1;
       if (this.page == this.total_page) this.isNext = true;
-      try {
-        this.poObj.in_page = this.page;
-        const data = await po.show_po_page(this.poObj);
+      this.poObj.in_page = this.page;
+      // try {
+      //   this.poObj.in_page = this.page;
+      //   const data = await po.show_po_page(this.poObj);
 
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+      //   const pos1 = data.result[0];
+      //   this.total_page = data.result[1];
+      //   this.pos = pos1.map(pos => ({
+      //     ...pos
+      //   }));
+      // } catch (err) {
+      //   this.error = err.message;
+      // }
+      this.getPO();
     },
     async previousPage() {
       this.isNext = false;
@@ -354,17 +363,20 @@ export default {
         this.isPrevious = true;
       } else this.page -= 1;
       if (this.page == 1) this.isPrevious = true;
-      try {
-        this.poObj.in_page = this.page;
-        const data = await po.show_po_page(this.poObj);
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+      
+      this.poObj.in_page = this.page;
+      // try {
+      //   this.poObj.in_page = this.page;
+      //   const data = await po.show_po_page(this.poObj);
+      //   const pos1 = data.result[0];
+      //   this.total_page = data.result[1];
+      //   this.pos = pos1.map(pos => ({
+      //     ...pos
+      //   }));
+      // } catch (err) {
+      //   this.error = err.message;
+      // }
+      this.getPO();
     },
     async pagination() {
       if (this.page >= this.total_page) {
@@ -374,17 +386,21 @@ export default {
         this.page = 1;
         this.isPrevious = false;
       } else this.page = 1;
-      try {
-        const data = await po.show_po_page(this.page);
+      this.poObj.in_page = this.page;
 
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } catch (err) {
-        this.error = err.message;
-      }
+      // try {
+      //   const data = await po.show_po_page(this.page);
+
+      //   const pos1 = data.result[0];
+      //   this.total_page = data.result[1];
+      //   this.pos = pos1.map(pos => ({
+      //     ...pos
+      //   }));
+      // } catch (err) {
+      //   this.error = err.message;
+      // }
+      
+      this.getPO();
     }
   }
 };
