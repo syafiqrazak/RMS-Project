@@ -1,19 +1,19 @@
 <template>
-    <div v-if="!posted" id="content">
+    <div v-if="!posted" class="content">
         <md-card style="padding-left:10px">
             <md-card-header :data-background-color="dataBackgroundColor">
-                <h4 class="title">Reset Password</h4>
+                <h1 class="title">Reset Password</h1>
                 <!-- <p class="category">Complete your profile</p> -->
             </md-card-header>
             <md-card-content style="width:98%; padding-left:3%;">
                 <br><br>
-                <table cls="clsForm" width="80%:">
+                <table cls="clsForm" width="80%:" border="0">
                     <col width="25%">
                     <col width="70%">
                     
                     <tr>
                         <td class="clsLabel">
-                            <h4>Password:</h4>
+                            Password:
                         </td>
                         <td class="clsValue">
                             <b-field>
@@ -23,7 +23,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Confirm Password:</h4>
+                            Confirm Password:
                         </td>
                         <td class="clsValue">
                             <b-field>

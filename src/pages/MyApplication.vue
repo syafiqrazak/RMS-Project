@@ -2,7 +2,7 @@
   <div class="content">
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">My Application</h4>
+        <h1 class="title">My Application</h1>
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content>

@@ -1,10 +1,10 @@
 <template>
   <!-- <div id="app"> -->
-    <div class="content">
+  <div class="content">
     <form action="https://postman-echo.com/post" method="post">
       <md-card>
         <md-card-header :data-background-color="dataBackgroundColor">
-          <h4 class="title">Purchase, Service and Requisition Application</h4>
+          <h1 class="title">Purchase, Service and Requisition Application</h1>
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
 
@@ -120,7 +120,8 @@
                   style="background-color:white;width:49%; height:120px; display: inline-block; float:right"
                 >
                   <section>
-                    <b-field label="Delivery">
+                    <p><strong>Delivery: </strong></p>
+                    <b-field>
                       <b-input v-model="delv"></b-input>
                     </b-field>
                   </section>
@@ -260,7 +261,7 @@
                     <td>{{ items.index }}.</td>
                     <td>
                       <b-field>
-                        <b-input v-model="items.description" placeholder="" >
+                        <b-input v-model="items.description" placeholder="">
                         </b-input>
                       </b-field>
                     </td>
@@ -299,9 +300,11 @@
                     <td>
                       <b-field>
                         <!-- <b-input disabled type="number" value=items.unitPrice * items.quantity>
-                            </b-input> --> </b-field
-                      >
-                      {{ (items.unitPrice * items.quantity) | numeral("0,0.00")  }}
+                            </b-input> -->
+                      </b-field>
+                      {{
+                        (items.unitPrice * items.quantity) | numeral("0,0.00")
+                      }}
                     </td>
                     <!-- <td>
                         <div @click="remove()">
@@ -314,7 +317,7 @@
             </md-card-content>
             {{ item }}
             <md-button
-              class="md-raised"
+              class="md-raised md-success"
               @click.prevent="psr_adds()"
               style="float:right"
               >Submit</md-button
@@ -331,13 +334,14 @@
         </md-card-content>
       </md-card>
     </form>
-    </div>
+  </div>
   <!-- </div> -->
 </template>
 
 <script>
 import psrs from "@/js/psr.js"; //directory to psr.js
 import psrClass from "@/js/class/psr_class.js"; //directory to admin.js
+import { required } from "vuelidate/lib/validators";
 
 export default {
   data() {
@@ -377,25 +381,47 @@ export default {
       ]
     };
   },
-  async created() {},
+  validations: {
+    pur_class: {
+      required
+    },
+    pur_typ: {
+      required
+    },
+    pur_just: {
+      required
+    },
+    date_req: {
+      required
+    },
+    delv: {
+      required
+    },
+    costType: {
+      required
+    }
+  },
+
   methods: {
     async psr_adds() {
-      try {
-        this.mapObj();
-        console.log(this.psrObj);
-        console.log(localStorage.branch);
-        console.log(localStorage.department);
-        const psr = await psrs.psr_add(this.psrObj);
-        // console.log("PSR");
-        console.log(psr); //can be ignored
-        //add redirect to other page here
-        // alert("Success");
-        localStorage.message = "PSR Application Submitted";
-        this.$router.push({ path: `/message/${this.id}` });
-      } catch (err) {
-        this.error = err.message;
-        alert("Error!!!" + err);
-      }
+      if (!this.$v.$invalid) {
+        try {
+          this.mapObj();
+          console.log(this.psrObj);
+          console.log(localStorage.branch);
+          console.log(localStorage.department);
+          const psr = await psrs.psr_add(this.psrObj);
+          // console.log("PSR");
+          console.log(psr); //can be ignored
+          //add redirect to other page here
+          // alert("Success");
+          localStorage.message = "PSR Application Submitted";
+          this.$router.push({ path: `/message/${this.id}` });
+        } catch (err) {
+          this.error = err.message;
+          alert("Error!!!" + err);
+        }
+      } else alert("Fill all fields");
     },
     prev() {
       this.step--;
@@ -406,9 +432,10 @@ export default {
       var Difference_In_Time = new Date(this.date_req) - today;
       // To calculate the no. of days between two dates
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-
-      if (Difference_In_Time > 0) this.step++;
-      else alert("Required date must later than todays date");
+      if (!this.$v.$invalid) {
+        if (Difference_In_Time > 0) this.step++;
+        else alert("Required date must later than todays date");
+      } else alert("Fill all fields");
     },
     submit() {
       alert("Submit to blah and show blah and etc.");

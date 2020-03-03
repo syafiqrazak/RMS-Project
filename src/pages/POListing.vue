@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <b-loading
       :is-full-page="false"
       :active.sync="isLoading"
@@ -7,7 +7,7 @@
     ></b-loading>
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h4>
+        <h1 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h1>
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-expand>
@@ -21,13 +21,13 @@
           <md-card-content>
             <md-card-content>
           <div class="alert alert-info" style="color: black; background-color:white;width:100%; display: inline-block;">
-            <table cls="clsForm" width="80%:">
+            <table cls="clsForm" width="80%" style="border:0">
                     <col width="25%">
                     <col width="70%">
 
                     <tr>
                         <td class="clsLabel">
-                            <h4>Purchase Order No.: </h4>
+                            Purchase Order No: 
                         </td>
                         <td class="clsValue">
                             <b-input v-model="poNo" style="width:98%"></b-input>
@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Company Name: </h4>
+                            Company Name: 
                         </td>
                         <td class="clsValue">
                             <b-input v-model="companyName" style="width:98%"></b-input>
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Date </h4>
+                            Date 
                         </td>
                         <td class="clsValue">
                             
@@ -97,14 +97,13 @@
                                 <option value="11">November</option>
                                 <option value="12">December</option>
                             </b-select>
-                            <b-input v-model="year" type="number" maxlength="4" style="width:20%"></b-input>
+                            <b-input v-model="year" type="number" maxlength="4" controls="false" style="width:20%"></b-input>
                         </b-field>
-                        {{month}}
                         </td>
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Is Approved </h4>
+                            Is Approved 
                         </td>
                         <td class="clsValue">
                           <b-checkbox v-model="isApproved">
@@ -440,5 +439,11 @@ export default {
 .clsForm{
     border-radius: 30px;
     border: 1px solid #ffffff;
+}
+.content table td, .content table th {
+    border:0;
+    border-width: 0 0 1px;
+    padding: 0.5em 0.75em;
+    vertical-align: top;
 }
 </style>

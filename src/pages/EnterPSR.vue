@@ -2,7 +2,7 @@
     <div class="content">
         <md-card>
           <md-card-header :data-background-color="dataBackgroundColor">
-            <h4 class="title">Purchase Order Application</h4>
+            <h1 class="title">Purchase Order Application</h1>
             <!-- <p class="category">Complete your profile</p> -->
           </md-card-header>
           <md-card-content>
@@ -23,7 +23,7 @@
                         <col width="70%">
                         <tr>
                             <td class="clsLabel">
-                                <h4>PSR NO: </h4>
+                                PSR NO: 
                             </td>
                             <td class="clsValue" style="padding:0.6rem;">
                                 <md-autocomplete v-model="passPSRNo" :md-options="psr_no" md-layout="box" md-dense>
@@ -67,7 +67,7 @@
 
                             <tr>
                                 <td class="clsLabel">
-                                    <h4>PSR No: </h4>
+                                    PSR No: 
                                 </td>
                                 <td class="clsValue">
                                   <md-autocomplete v-model="PSRNo" :md-options="psr_no" md-layout="box" md-dense>
@@ -85,7 +85,7 @@
                             </tr>
                             <tr>
                                 <td class="clsLabel">
-                                    <h4>Branch: </h4>
+                                    Branch: 
                                 </td>
                                 <td class="clsValue">
                                     <b-select v-model="branch" expanded="" style="width:98%;">
@@ -96,7 +96,7 @@
                             </tr>
                             <tr>
                                 <td class="clsLabel">
-                                    <h4>Department: </h4>
+                                    Department: 
                                 </td>
                                 <td class="clsValue">
                                     <b-select v-model="department" expanded="" style="width:98%;">
@@ -111,7 +111,7 @@
                             </tr>
                             <tr>
                                 <td class="clsLabel">
-                                    <h4>Date </h4>
+                                    Date 
                                 </td>
                                 <td class="clsValue">
                                     
@@ -480,6 +480,14 @@ export default {
 }
 </script>
 
-<style scoped src="@/assets/style/style.css">
-
+<style src="@/assets/style/style.css">
+ 
+</style>
+<style scoped > 
+  .content table td, .content table th {
+      border:0;
+      border-width: 0 0 1px;
+      padding: 0.5em 0.75em;
+      vertical-align: top;
+  }
 </style>

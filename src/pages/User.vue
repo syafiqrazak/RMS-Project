@@ -2,7 +2,7 @@
   <div class="content">
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">Users</h4>
+        <h1 class="title">Users</h1>
       </md-card-header>
       <md-card-content>
         <b-loading
@@ -20,7 +20,7 @@
           aria-previous-label="Previous page"
           aria-page-label="Page"
           aria-current-label="Current page"
-          :pagination-simple="true"
+          :pagination-simple="false"
         >
           <template slot-scope="props">
             <b-table-column field="id" label="Username" width="300" sortable="">

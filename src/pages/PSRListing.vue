@@ -1,15 +1,10 @@
 <template>
-  <div>
-    <b-loading
-      :is-full-page="false"
-      :active.sync="isLoading"
-      :can-cancel="true"
-    ></b-loading>
+  <div class="content">
     <!-- <div>{{ new Date() | dateFormat('YYYY.MM.DD') }}</div> -->
     <!-- <div>Date: {{psrs.psr_date[0]}}</div> -->
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h4>
+        <h1 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h1>
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content>
@@ -30,7 +25,7 @@
 
                     <tr>
                         <td class="clsLabel">
-                            <h4>PSR No: </h4>
+                            PSR No: 
                         </td>
                         <td class="clsValue">
                             <b-input v-model="psr_no" style="width:98%"></b-input>
@@ -38,7 +33,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Branch: </h4>
+                            Branch: 
                         </td>
                         <td class="clsValue">
                             <b-select v-model="branch" expanded="" style="width:98%;">
@@ -49,7 +44,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Department: </h4>
+                            Department: 
                         </td>
                         <td class="clsValue">
                             <b-select v-model="department" expanded="" style="width:98%;">
@@ -64,7 +59,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Date </h4>
+                            Date 
                         </td>
                         <td class="clsValue">
                             
@@ -124,7 +119,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Is Approved </h4>
+                            Is Approved
                         </td>
                         <td class="clsValue">
                           <b-checkbox v-model="isApproved">
@@ -143,6 +138,11 @@
           </md-card-content>
         </md-card-expand-content>
       </md-card-expand>
+          <b-loading
+            :is-full-page="false"
+            :active.sync="isLoading"
+            :can-cancel="true"
+          ></b-loading>
         <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true">
           <template slot-scope="props">
             <b-table-column
@@ -172,7 +172,7 @@
           </template>
         </b-table>
         <br /><br />
-        <div style=" width:15%; float:right; display:block-inline; ">
+        <div style=" width:15%; float:right; display:flex; ">
           <form v-on:submit="pagination">
             <md-input
               style="width:30px; float: left; height:28px; text-align: right; "
@@ -208,6 +208,7 @@
             &nbsp;&nbsp;
           </b-tooltip>
         </div>
+        <br><br>
         {{ error }}
       </md-card-content>
     </md-card>
@@ -450,5 +451,11 @@ export default {
 .clsForm{
     border-radius: 30px;
     border: 1px solid #ffffff;
+}
+.content table td, .content table th {
+    border:0;
+    border-width: 0 0 1px;
+    padding: 0.5em 0.75em;
+    vertical-align: top;
 }
 </style>
