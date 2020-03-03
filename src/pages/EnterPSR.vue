@@ -62,8 +62,8 @@
                     <md-card-content>
                   <div class="alert alert-info" style="color: black; background-color:white;width:100%; display: inline-block;">
                     <table cls="clsForm" width="80%:">
-                            <col width="25%">
-                            <col width="70%">
+                            <col width="15%">
+                            <col width="75%">
 
                             <tr>
                                 <td class="clsLabel">
@@ -116,7 +116,7 @@
                                 <td class="clsValue">
                                     
                                   <b-field>
-                                    <b-select v-model="date" style="width:15%">
+                                    <b-select v-model="date" >
                                         <option value= null> </option>
                                         <option value="1">1 </option>
                                         <option value="2">2</option>
