@@ -339,6 +339,7 @@
 </template>
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import psrs from "@/js/psr.js"; //directory to psr.js
 import psrClass from "@/js/class/psr_class.js"; //directory to admin.js
 import { required } from "vuelidate/lib/validators";
@@ -380,6 +381,18 @@ export default {
         }
       ]
     };
+  },
+  async created() {
+    try {
+      const clog = await user.check_logged();
+      if (clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      }
+    } catch (err) {
+      this.error = err.message;
+      alert(err);
+    }
   },
   validations: {
     pur_class: {

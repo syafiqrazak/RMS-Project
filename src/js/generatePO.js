@@ -152,7 +152,7 @@ class generatePO {
     doc.setFontType("bold");
     numeral(totalPrice).format('0,0.00');
     totalPrice = numeral(totalPrice).format('0,0.00');
-    doc.text(130, height + 5, "NetTotal");
+    doc.text(130, height + 5, "Net Total");
     doc.text(170, height + 5, "RM " + totalPrice);
 
     // doc.autoTable(col3, rows3, { startY: 40 });

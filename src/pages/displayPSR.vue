@@ -182,7 +182,10 @@
         <div
           v-if="action == 'audit'"
           style=" float:right;"
-        ><md-card-actions md-alignment="space-between">
+        ><md-card-actions md-alignment="space-between">     
+          <b-button type="is-success" @click="$router.go(-1)"
+              >Back</b-button> 
+              &nbsp;
           <b-button type="is-success" @click.prevent="printPDF()"
               >Generate</b-button
             >

@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import admin from "@/js/admin.js"; //directory to admin.js
 export default {
     data(){
@@ -59,6 +60,18 @@ export default {
         dataBackgroundColor: "blue"
         };
     },
+  async created() {
+    try {
+      const clog = await user.check_logged();
+      if (clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      }
+    } catch (err) {
+      this.error = err.message;
+      alert(err);
+    }
+  },
     methods: {
         async resetPassword(){
             alert("Test");

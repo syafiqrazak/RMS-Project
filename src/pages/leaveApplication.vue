@@ -135,20 +135,27 @@ export default {
   },
   async created() {
     try {
-      const data = await user.get_all_user();
-      console.log("All users");
-      console.log(data);
-      // this.users = data.map(users => ({
-      //   ...users
-      // }));
-      this.users = data;
-      for(var i = 0; i < this.users.length; i++){
-          this.username.push(this.users[i].username);
+      const clog = await user.check_logged();
+      if(clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
       }
-      for(var i = 0; i < this.users.length; i++){
-          this.user_id.push(this.users[i].id);
+      else{
+        const data = await user.get_all_user();
+        console.log("All users");
+        console.log(data);
+        // this.users = data.map(users => ({
+        //   ...users
+        // }));
+        this.users = data;
+        for(var i = 0; i < this.users.length; i++){
+            this.username.push(this.users[i].username);
+        }
+        for(var i = 0; i < this.users.length; i++){
+            this.user_id.push(this.users[i].id);
+        }
+        console.log(this.user_id);
       }
-      console.log(this.user_id);
     } catch (err) {
       this.error = err.message;
       alert(err);

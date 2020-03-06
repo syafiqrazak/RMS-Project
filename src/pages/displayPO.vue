@@ -7,7 +7,7 @@
           <h4 class="title">Purchase Order Details</h4>
         </md-card-header>
         <md-card-content>
-          <div v-if="action == 'status'" style="width:80%; margin-left:10%;">
+          <div v-if="action == 'status' || action == 'audit'" style="width:80%; margin-left:10%;">
             <div
               v-if="pos.status_decline == false && pos.status_t2 == false"
               @click="showDialog = true"
@@ -231,10 +231,12 @@
           <div
             v-if="action == 'audit'"
             style=" float:right;"
-          ><md-card-actions md-alignment="space-between">
+          ><md-card-actions md-alignment="space-between">       
+          <b-button type="is-success" @click="$router.go(-1)"
+              >Back</b-button> 
+              &nbsp;
           <b-button type="is-success" @click.prevent="printPDF()"
-              >Generate PDF</b-button
-            >
+              >Generate PDF</b-button>
             </md-card-actions>
           </div>
           

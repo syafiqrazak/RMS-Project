@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import { myLeave, myPO, myPSR } from "@/components";
 
 export default {
@@ -38,6 +39,18 @@ export default {
     return {
       dataBackgroundColor: "blue"
     };
+  },
+  async created() {
+    try {
+      const clog = await user.check_logged();
+      if (clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      }
+    } catch (err) {
+      this.error = err.message;
+      alert(err);
+    }
   },
   components: {
     myLeave,

@@ -397,16 +397,22 @@ export default {
       document.head.appendChild(pdfScript)
     },
   async created() {
-    try {
-      this.poObj.in_page = 1;
-      this.poObj.po_no = this.po_no;
-      this.poObj.id = this.po_no;
-      const data = await po.report(this.poObj);
-      this.pos = data;
-      
-    } catch (err) {
-      this.error = err.message;
-    }
+      const clog = await user.check_logged();
+      if(clog.err) {
+        alert("User not logged in");
+        this.$router.push({ path: `/` });
+      } else{
+          try {
+            this.poObj.in_page = 1;
+            this.poObj.po_no = this.po_no;
+            this.poObj.id = this.po_no;
+            const data = await po.report(this.poObj);
+            this.pos = data;
+            
+          } catch (err) {
+            this.error = err.message;
+          }
+      }
   },
   methods: {
     detail(value) {

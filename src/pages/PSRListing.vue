@@ -100,15 +100,15 @@
                             </b-select>
                             <b-select v-model="month">
                                 <option value= null > </option>
-                                <option value="1">January </option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">Aptil</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
+                                <option value="01">January </option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">Aptil</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
                                 <option value="10">October</option>
                                 <option value="11">November</option>
                                 <option value="12">December</option>
@@ -148,37 +148,42 @@
             <b-table-column
               field="psr_no"
               label="PSR Number"
-              width="400"
+              width="30%"
               sortable
             >
               <a @click="detail(props.row)">
-                PSR/TRD-{{ props.row.psr_no | numeral("000000") }}
+                {{ props.row.psr_no }}
               </a>
               <!-- <a @click="detail(props.row)">
                         PSR/TRD-{{ props.row.id  }}
                     </a> -->
             </b-table-column>
-            <b-table-column field="createdBy" label="Create By" width="500">
+            <b-table-column field="createdBy" label="Create By" width="30%">
               <p v-if="props.row.create_user">{{ props.row.create_user }} </p>
               <p v-else>{{ props.row.create_user_psr.username }}</p>
             </b-table-column>
-            <b-table-column field="created_at" label="Date Created">
+            <b-table-column field="created_at" label="Date Created" width="20%">
               <p v-if="props.row.created_at">{{ props.row.created_at | moment("Do MMMM YYYY") }}</p>
               <p v-else>{{ props.row.createdAt | moment("Do MMMM YYYY") }}</p>
             </b-table-column>
-            <!-- <b-table-column>
-                    {{ props.row.status }}
-                </b-table-column> -->
+            <b-table-column field="is_approved" label="Is Approved" centered="">
+              <!-- {{ props.row.status }}  -->
+              <span v-if="props.row.status" style="font-size: 2em; color: #84f092;">
+                <i class="far fa-check-circle"></i>
+              </span>
+              <span v-else style="font-size: 2em; color: #f72828;">
+                <i class="far fa-times-circle"></i>
+              </span>
+            </b-table-column>
           </template>
         </b-table>
         <br /><br />
         <div style=" width:15%; float:right; display:flex; ">
           <form v-on:submit="pagination">
             <md-input
-              style="width:30px; float: left; height:28px; text-align: right; "
+              style="width:60px; float: left; height:28px; text-align: right; "
               type="number"
               v-model="page"
-              :disabled="false"
             />
           </form>
           &nbsp; <b>/{{ total_page }}</b>
@@ -216,6 +221,7 @@
 </template>
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import psr from "@/js/psr.js"; //directory to psr.js
 import psrClass from "@/js/class/psr_class.js"; //directory to po_class.js
 
@@ -251,19 +257,22 @@ export default {
   },
   async created() {
     try {
-      //testing starts
-      this.psrObj.in_param_1 = null;
-      this.psrObj.in_param_2 = null;
-      this.psrObj.in_param_3 = null;
-      this.psrObj.in_param_4 = null;
-      this.psrObj.in_param_5 = false;
-      this.psrObj.in_param_6 = null;
-      this.psrObj.in_param_7 = null;
-      this.psrObj.in_page = 1;
-      console.log(this.psrObj);
-      // this.psrObj.toJson();
-      //testing ends
-      this.getPSR();
+      const clog = await user.check_logged();
+      if (clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      }else{
+        this.psrObj.in_param_1 = null;
+        this.psrObj.in_param_2 = null;
+        this.psrObj.in_param_3 = null;
+        this.psrObj.in_param_4 = null;
+        this.psrObj.in_param_5 = false;
+        this.psrObj.in_param_6 = null;
+        this.psrObj.in_param_7 = null;
+        this.psrObj.in_page = 1;
+        console.log(this.psrObj);
+        this.getPSR();
+      }
     } catch (err) {
       this.error = err.message;
       alert(err);
@@ -271,14 +280,20 @@ export default {
   },
   methods: {
     async getPSR(){
-      this.isLoading = true;
-      const data = await psr.psr_search(this.psrObj.toJson());
-      const psrs1 = data.result[0];
-      this.total_page = data.result[1];
-      this.psrs = psrs1.map(psrs => ({
-        ...psrs
-      }));
-      this.isLoading = false;
+      try{
+        this.isLoading = true;
+        const data = await psr.psr_search(this.psrObj.toJson());
+        const psrs1 = data.result[0];
+        this.total_page = data.result[1];
+        this.psrs = psrs1.map(psrs => ({
+          ...psrs
+        }));
+        this.isLoading = false;
+      } catch (err) {
+        this.isLoading = false;
+        this.error = err.message;
+        alert(err);
+    }
     },
     detail(value) {
       this.isLoading = false;
@@ -287,6 +302,7 @@ export default {
       });
     },
     async filter(){
+      var fulldate = null;
       try {
         if(this.psr_no == "")
           this.psr_no = null;
@@ -301,25 +317,45 @@ export default {
         if(this.branch == "")
           this.branch = null;
       //testing starts
+      console.log(this.date);
+      if(this.date){
+        alert(this.month);
+        fulldate = new Date(this.year, this.month-1, this.date); 
+        fulldate = this.year +"-" + this.month + "-" + this.date;
+        console.log(fulldate);
+      }
+      this.resetParameter();
       this.psrObj.in_param_1 = this.psr_no;
-      this.psrObj.in_param_2 = this.date;
-      this.psrObj.in_param_3 = this.month;
-      this.psrObj.in_param_4 = this.year;
       this.psrObj.in_param_5 = this.isApproved;
       this.psrObj.in_param_6 = this.department;
       this.psrObj.in_param_7 = this.branch;
       this.psrObj.in_page = 1;
+      if(!this.date){
+        this.psrObj.in_param_3 = this.month;
+        this.psrObj.in_param_4 = this.year;
+      }
+      else
+        this.psrObj.in_param_2 = fulldate;
       console.log(this.psrObj);
-      // this.psrObj.toJson();
-      //testing ends
+      
       this.psrObj.in_page = 1;
       this.getPSR();
-      alert("Filtering");
       console.log(this.psrs);
     } catch (err) {
       this.error = err.message;
       alert(err);
     }
+    },
+    resetParameter(){
+      console.log("Reset Parameter:");
+      this.psrObj._in_param_1 = null;
+      this.psrObj.in_param_2 = null;
+      this.psrObj.in_param_3 = null;
+      this.psrObj.in_param_4 = null;
+      this.psrObj._in_param_5 = null;
+      this.psrObj._in_param_6 = null;
+      this.psrObj._in_param_7 = null;
+      this.psrObj._in_page = 1;
     },
     async search() {
       try {
@@ -400,15 +436,20 @@ export default {
       } else if (this.page < 1) {
         this.page = 1;
         this.isPrevious = false;
-      } else this.page = 1;
+      } else{
+        console.log(this.psrObj.in_page);
+      } 
       try {
-        const data = await psr.show_psr_page(this.page);
+        this.psrObj.in_page = this.page;
+        console.log(this.psrObj);
+        // const data = await psr.show_psr_page(this.page);
 
-        const psrs1 = data.result[0];
-        this.total_page = data.result[1];
-        this.psrs = psrs1.map(psrs => ({
-          ...psrs
-        }));
+        // const psrs1 = data.result[0];
+        // this.total_page = data.result[1];
+        // this.psrs = psrs1.map(psrs => ({
+        //   ...psrs
+        // }));
+        this.getPSR();
       } catch (err) {
         this.error = err.message;
       }

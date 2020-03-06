@@ -249,24 +249,30 @@ export default {
     };
   },
   async created() {
-    try {
-      //testing starts
-      this.psrObj.in_param_1 = null;
-      this.psrObj.in_param_2 = null;
-      this.psrObj.in_param_3 = null;
-      this.psrObj.in_param_4 = null;
-      this.psrObj.in_param_5 = false;
-      this.psrObj.in_param_6 = null;
-      this.psrObj.in_param_7 = null;
-      this.psrObj.in_page = 1;
-      console.log(this.psrObj);
-      // this.psrObj.toJson();
-      //testing ends
-      this.getPSR();
-    } catch (err) {
-      this.error = err.message;
-      alert(err);
-    }
+      const clog = await user.check_logged();
+      if(clog.err) {
+        alert("User not logged in");
+        this.$router.push({ path: `/` });
+      } else{
+          try {
+            //testing starts
+            this.psrObj.in_param_1 = null;
+            this.psrObj.in_param_2 = null;
+            this.psrObj.in_param_3 = null;
+            this.psrObj.in_param_4 = null;
+            this.psrObj.in_param_5 = false;
+            this.psrObj.in_param_6 = null;
+            this.psrObj.in_param_7 = null;
+            this.psrObj.in_page = 1;
+            console.log(this.psrObj);
+            // this.psrObj.toJson();
+            //testing ends
+            this.getPSR();
+          } catch (err) {
+            this.error = err.message;
+            alert(err);
+          }
+      }
   },
   methods: {
     async getPSR(){

@@ -1,10 +1,5 @@
 <template>
   <div class="content">
-    <b-loading
-      :is-full-page="false"
-      :active.sync="isLoading"
-      :can-cancel="true"
-    ></b-loading>
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
         <h1 class="title">PURCHASE SERVICE AND REQUISITION DETAILS</h1>
@@ -50,15 +45,15 @@
                           <b-field>
                             <b-select v-model="date" style="width:13%">
                                 <option value= null> </option>
-                                <option value="1">1 </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4 </option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7 </option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
+                                <option value="01">1 </option>
+                                <option value="02">2</option>
+                                <option value="03">3</option>
+                                <option value="04">4 </option>
+                                <option value="05">5</option>
+                                <option value="06">6</option>
+                                <option value="07">7 </option>
+                                <option value="08">8</option>
+                                <option value="09">9</option>
                                 <option value="10">10 </option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
@@ -84,15 +79,15 @@
                             </b-select>
                             <b-select v-model="month">
                                 <option value= ''> </option>
-                                <option value="1">January </option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">Aptil</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
+                                <option value="01">January </option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">Aptil</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
                                 <option value="10">October</option>
                                 <option value="11">November</option>
                                 <option value="12">December</option>
@@ -123,22 +118,36 @@
         </md-card-expand-content>
       </md-card-expand>
       <md-card-content>
+        <b-loading
+          :is-full-page="false"
+          :active.sync="isLoading"
+          :can-cancel="true"
+        ></b-loading>
         <b-table
           :data="isEmpty ? [] : pos"
           :striped="true"
           :hoverable="true"
         >
           <template slot-scope="props">
-            <b-table-column field="po_no" label="PO Number" sortable>
+            <b-table-column field="po_no" label="PO Number" width="30%">
               <a @click="detail(props.row)">
                 {{ props.row.po_no }}
               </a>
             </b-table-column>
-            <b-table-column field="create_user" label="Create By">
+            <b-table-column field="create_user" label="Create By" width="30%">
               {{ props.row.create_user }}
             </b-table-column>
-            <b-table-column field="created_at" label="Date Created">
+            <b-table-column field="created_at" label="Date Created" width="20%">
               {{ props.row.created_at | moment("Do MMMM YYYY") }}
+            </b-table-column>
+            <b-table-column field="is_approved" label="Is Approved" centered="">
+              <!-- {{ props.row.status }}  -->
+              <span v-if="props.row.status" style="font-size: 2em; color: #84f092;">
+                <i class="far fa-check-circle"></i>
+              </span>
+              <span v-else style="font-size: 2em; color: #f72828;">
+                <i class="far fa-times-circle"></i>
+              </span>
             </b-table-column>
           </template>
         </b-table>
@@ -146,7 +155,7 @@
         <div style=" width:20%; float:right; ">
           <form v-on:submit="pagination">
             <md-input
-              style="width:30px; float: left; height:28px;text-align: right; "
+              style="width:60px; float: left; height:28px;text-align: right; "
               type="number"
               v-model="page"
               :disabled="false"
@@ -188,6 +197,7 @@
 </template>
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import po from "@/js/po.js"; //directory to po.js
 import poClass from "@/js/class/po_class.js"; //directory to po_class.js
 
@@ -218,38 +228,26 @@ export default {
       year: null,
       isEmpty: false,
       isLoading: false,
+      fullDate: null
     };
   },
   async created() {
-      this.poObj.in_param_1 = null;
-      this.poObj.in_param_2 = null;
-      this.poObj.in_param_3 = null;
-      this.poObj.in_param_4 = null;
-      this.poObj.in_param_5 = null;
-      this.poObj.in_param_6 = false;
-      this.poObj.in_param_7 = null;
-      this.poObj.in_page = 1;
-      console.log(this.poObj);
-    // try {
-    //   //testing starts
-    //   // this.poObj.toJson();
-    //   //testing ends
-    //   this.poObj.in_page = 1;
-    //   // const data = await po.po_search(this.poObj.toJson());
-    //     const data = await po.show_po_page(this.poObj);
-    //   console.log("data: ");
-    //   console.log(data);
-    //   const pos1 = data.result[0];
-    //   // this.total_page = data.result[1];
-    //   this.total_page = data.totalrecords;
-    //   this.pos = pos1.map(pos => ({
-    //     ...pos
-    //   }));
-    // } catch (err) {
-    //   this.error = err.message;
-    //   alert(err);
-    // }
-    this.getPO();
+      const clog = await user.check_logged();
+      if (clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      }else{
+        this.poObj.in_param_1 = null;
+        this.poObj.in_param_2 = null;
+        this.poObj.in_param_3 = null;
+        this.poObj.in_param_4 = null;
+        this.poObj.in_param_5 = null;
+        this.poObj.in_param_6 = false;
+        this.poObj.in_param_7 = null;
+        this.poObj.in_page = 1;
+        console.log(this.poObj);
+        this.getPO();
+      }
   },
 
   methods: {
@@ -257,7 +255,7 @@ export default {
       try{
         this.isLoading = true;
         const data = await po.po_search(this.poObj.toJson());
-        console.log(data);
+        console.log("data");
 
         const pos1 = data.result[0];
         console.log(data);
@@ -282,41 +280,64 @@ export default {
       });
     },
     async filter(){
+      var fulldate = null;
       try {
         if(this.poNo == "")
           this.poNo = null;
         if(this.date == "null")
           this.date = null;
+        if(this.fullDate == "null")
+          this.fullDate = null;
         if(this.month == "")
           this.month = null;
         if(this.year == "")
           this.year = null;
         if(this.companyName == "")
           this.companyName = null;
-      //testing starts
-      this.poObj.in_param_1 = this.poNo;
-      this.poObj.in_param_2 = this.companyName;
-      this.poObj.in_param_3 = this.date;
-      this.poObj.in_param_4 = this.month;
-      this.poObj.in_param_5 = this.year;
-      this.poObj.in_param_6 = this.isApproved;
-      this.poObj.in_page = this.page;
-      console.log(this.poObj);
-      this.poObj.in_page = 1;
-      const data = await po.po_search(this.poObj.toJson());
-      console.log(data);
+        //testing starts
+        if(this.date){
+          fulldate = new Date(this.year, this.month-1, this.date); 
+          fulldate = this.year +"-" + this.month + "-" + this.date;
+          console.log(fulldate);
+        }
+        this.resetParameter();
+        this.poObj.in_param_1 = this.poNo;
+        this.poObj.in_param_2 = this.companyName;
+        this.poObj.in_param_6 = this.isApproved;
+        this.poObj.in_page = this.page;
+        if(!this.date){
+          this.poObj.in_param_4 = this.month;
+          this.poObj.in_param_5 = this.year;
+        }
+        else
+          this.poObj.in_param_3 = fulldate;
 
-      const pos1 = data.result[0];
-      console.log(data);
-      this.total_page = data.totalrecords;
-      this.pos = pos1.map(pos => ({
-        ...pos
-      }));
-      console.log(this.pos);
-    } catch (err) {
-      this.error = err.message;
-      alert(err);
-    }
+        console.log(this.poObj);
+        this.getPO();
+        // this.poObj.in_page = 1;
+        // const data = await po.po_search(this.poObj.toJson());
+        // console.log(data);
+
+        // const pos1 = data.result[0];
+        // console.log(data);
+        // this.total_page = data.totalrecords;
+        // this.pos = pos1.map(pos => ({
+        //   ...pos
+        // }));
+        console.log(this.pos);
+      } catch (err) {
+        this.error = err.message;
+        alert(err);
+      }
+    },
+    resetParameter(){
+      this.poObj.in_param_1 = null;
+      this.poObj.in_param_2 = null;
+      this.poObj.in_param_6 = null;
+      this.poObj.in_page = null;
+      this.poObj.in_param_4 = null;
+      this.poObj.in_param_5 = null;
+      this.poObj.in_param_3 = null;
     },
     async get_submits() {
       try {
@@ -384,8 +405,11 @@ export default {
       } else if (this.page < 1) {
         this.page = 1;
         this.isPrevious = false;
-      } else this.page = 1;
+      } else{
+        console.log(this.page);
+      } 
       this.poObj.in_page = this.page;
+      this.getPO();
 
       // try {
       //   const data = await po.show_po_page(this.page);
@@ -398,8 +422,6 @@ export default {
       // } catch (err) {
       //   this.error = err.message;
       // }
-      
-      this.getPO();
     }
   }
 };

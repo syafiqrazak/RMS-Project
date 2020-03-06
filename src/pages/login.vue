@@ -84,6 +84,7 @@ export default {
         this.$router.push({ path: `/leaveApplication/${clog.id}` });
       }
     } catch (err) {
+      alert(err);
       console.log(err);
     }
   },
@@ -115,8 +116,10 @@ export default {
           this.isLoading = false;
           if(localStorage.acct_t == "true")
             this.$router.push({ path: `/poListing/${login.id}` });
+          else if(localStorage.is_admin == "true")
+            this.$router.push({ path: `/register/${login.id}` });
           else
-            this.$router.push({ path: `/leaveApplication/${login.id}` });
+            this.$router.push({ path: `/poListing/${login.id}` });
         }
         this.isLoading = false;
         console.log(login); //can be ignored
@@ -125,7 +128,7 @@ export default {
         // var x = document.getElementsByClassName("alert alert-danger");
         // x[0].style.visibility = 'visible';
         this.isLoading = false;
-        alert("Enter error" + err);
+        alert("Enter error " + err);
         this.isShow = true;
         console.log("error:");
         console.log(err);

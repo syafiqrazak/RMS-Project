@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import admin from "@/js/admin.js"; //directory to leave.js
 export default {
   name: "notify-leave",
@@ -67,15 +68,21 @@ export default {
   },
   async created() {
     try {
-      this.isLoading = true;
-      const data = await admin.get_all_user();
-      console.log("Users:");
-      this.users = data;
-      console.log(this.users);
-      // this.users = data.map(users => ({
-      //     ...users
-      // }))
-      this.isLoading = false;
+      const clog = await user.check_logged();
+      if (clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      } else {
+        this.isLoading = true;
+        const data = await admin.get_all_user();
+        console.log("Users:");
+        this.users = data;
+        console.log(this.users);
+        // this.users = data.map(users => ({
+        //     ...users
+        // }))
+        this.isLoading = false;
+      }
     } catch (err) {
       this.error = err.message;
     }

@@ -294,35 +294,41 @@ export default {
     },
   },
   async created() {
-    try {
-      this.isLoading = true;
-      this.userObj.id = this.$route.params.user_id;
-      // alert(this.userObj.id);
-      const data = await admin.get_user(this.userObj.toJson());
-      console.log("Users:");
-      this.users = data;
-      // this.users = data.map(users => ({
-      //     ...users
-      // }))
-      // map the object to local variable
-      this.firstname = this.users.firstname;
-      this.lastname =this.users.lastname;
-      this.username = this.users.username;
-      this.email =this.users.email;
-      this.address_1 =this.users.address_1;
-      this.address_2 =this.users.address_2;
-      this.address_3 =this.users.address_3;
-      this.address_4 =this.users.address_4;
-      this.contact_no =this.users.contact_no;
-      this.tier =this.users.tier;
-      // this.department = this.users.department;
-      // this.branch = this.users.branch;
-      this.isLoading = false;
-    } catch (err) {
-      this.isLoading = false;
-      this.error = err.message;
-      alert(err);
-    }
+      const clog = await user.check_logged();
+      if(clog.err) {
+        alert("User not logged in");
+        this.$router.push({ path: `/` });
+      } else{
+          try {
+            this.isLoading = true;
+            this.userObj.id = this.$route.params.user_id;
+            // alert(this.userObj.id);
+            const data = await admin.get_user(this.userObj.toJson());
+            console.log("Users:");
+            this.users = data;
+            // this.users = data.map(users => ({
+            //     ...users
+            // }))
+            // map the object to local variable
+            this.firstname = this.users.firstname;
+            this.lastname =this.users.lastname;
+            this.username = this.users.username;
+            this.email =this.users.email;
+            this.address_1 =this.users.address_1;
+            this.address_2 =this.users.address_2;
+            this.address_3 =this.users.address_3;
+            this.address_4 =this.users.address_4;
+            this.contact_no =this.users.contact_no;
+            this.tier =this.users.tier;
+            // this.department = this.users.department;
+            // this.branch = this.users.branch;
+            this.isLoading = false;
+          } catch (err) {
+            this.isLoading = false;
+            this.error = err.message;
+            alert(err);
+          }
+      }
   },
   methods: {
     detail(value) {

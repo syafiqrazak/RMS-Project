@@ -118,15 +118,15 @@
                                   <b-field>
                                     <b-select v-model="date" >
                                         <option value= null> </option>
-                                        <option value="1">1 </option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4 </option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7 </option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
+                                        <option value="01">1 </option>
+                                        <option value="02">2</option>
+                                        <option value="03">3</option>
+                                        <option value="04">4 </option>
+                                        <option value="05">5</option>
+                                        <option value="06">6</option>
+                                        <option value="07">7 </option>
+                                        <option value="08">8</option>
+                                        <option value="09">9</option>
                                         <option value="10">10 </option>
                                         <option value="11">11</option>
                                         <option value="12">12</option>
@@ -152,15 +152,15 @@
                                     </b-select>
                                     <b-select v-model="month">
                                         <option value= ''> </option>
-                                        <option value="1">January </option>
-                                        <option value="2">February</option>
-                                        <option value="3">March</option>
-                                        <option value="4">Aptil</option>
-                                        <option value="5">May</option>
-                                        <option value="6">June</option>
-                                        <option value="7">July</option>
-                                        <option value="8">August</option>
-                                        <option value="9">September</option>
+                                        <option value="01">January </option>
+                                        <option value="02">February</option>
+                                        <option value="03">March</option>
+                                        <option value="04">Aptil</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
                                         <option value="10">October</option>
                                         <option value="11">November</option>
                                         <option value="12">December</option>
@@ -197,15 +197,15 @@
                 ></b-loading>
                   <b-table :data="isEmpty ? [] : psrs" :striped="true" :hoverable="true" > 
                     <template slot-scope="props">
-                        <b-table-column field="po_no" label="PSR Number" sortable>
+                        <b-table-column field="po_no" label="PSR Number" >
                             <a @click="passPSR(props.row)">
                                 {{ props.row.psr_no }}
                             </a>
                         </b-table-column>
-                        <b-table-column field="created_at" label="Date Created" sortable>
+                        <b-table-column field="created_at" label="Date Created" >
                             {{ props.row.created_at | moment(" Do MMMM YYYY") }}
                         </b-table-column>
-                        <b-table-column field="detail" label="" width="15%" sortable>
+                        <b-table-column field="detail" label="" width="15%" >
                             <a @click="detail(props.row)">
                                 View Details >>>
                             </a>
@@ -260,6 +260,7 @@
 </template>
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import psr from "@/js/psr.js"; //directory to psr.js
 import psrClass from "@/js/class/psr_class.js"; //directory to psr_class.js
 // import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -292,26 +293,34 @@ export default {
         }
     },
     async created() {
-            this.psrObj.in_page = 1;
+      const clog = await user.check_logged();
+      if(clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      }
+      else{
+        this.psrObj.in_page = 1;
+        this.psrObj.in_param_5 = true;
+        try {
+            this.isLoading = true;
             this.psrObj.in_param_5 = true;
-            try {
-                this.isLoading = true;
-                this.psrObj.in_param_5 = true;
-                const data = await psr.approved_np();
-                // this.psrs = data.result[0];
-                this.psrs = data;
-                // this.total_page =data.result[1];
-                for(var j = 0; j<this.psrs.length; j++){
-                  this.psr_no.push(this.psrs[j].psr_no);
-                  this.psr_id.push(this.psrs[j].id);
-                }
-                this.isLoading = false;
-            } catch (err) {
-                alert(err);
-                this.error = err.message;
-                this.isLoading = false;
+            const data = await psr.approved_np();
+            // this.psrs = data.result[0];
+            this.psrs = data;
+            // this.total_page =data.result[1];
+            for(var j = 0; j<this.psrs.length; j++){
+              this.psr_no.push(this.psrs[j].psr_no);
+              this.psr_id.push(this.psrs[j].id);
             }
-            this.getPSR();
+            this.isLoading = false;
+        } catch (err) {
+            alert(err);
+            this.error = err.message;
+            this.isLoading = false;
+        }
+        this.getPSR();
+      }
+            
 
     },
     methods: {
@@ -325,6 +334,7 @@ export default {
         });
       },
     async filter(){
+      var fulldate = null;
       this.isLoading = true;
       try {
         if(this.psr_no == "")
@@ -339,15 +349,26 @@ export default {
           this.department = null;
         if(this.branch == "")
           this.branch = null;
+          
+      if(this.date){
+        alert(this.date);
+        fulldate = new Date(this.year, this.month-1, this.date); 
+        fulldate = this.year +"-" + this.month + "-" + this.date;
+        console.log(fulldate);
+      }
         //testing starts
+        this.resetParameter();
         this.psrObj.in_param_1 = this.PSRNo;
-        this.psrObj.in_param_2 = this.date;
-        this.psrObj.in_param_3 = this.month;
-        this.psrObj.in_param_4 = this.year;
         this.psrObj.in_param_5 = this.isApproved;
         this.psrObj.in_param_6 = this.department;
         this.psrObj.in_param_7 = this.branch;
         this.psrObj.in_page = this.page;
+        if(!this.date){
+          this.psrObj.in_param_3 = this.month;
+          this.psrObj.in_param_4 = this.year;
+        }
+        else
+          this.psrObj.in_param_2 = fulldate;
         console.log(this.psrObj);
         // this.psrObj.toJson();
         //testing ends
@@ -366,7 +387,18 @@ export default {
         alert(err);
       }
     },
-        async getPSR(){
+    resetParameter(){
+      console.log("Reset Parameter:");
+      this.psrObj._in_param_1 = null;
+      this.psrObj.in_param_2 = null;
+      this.psrObj.in_param_3 = null;
+      this.psrObj.in_param_4 = null;
+      this.psrObj._in_param_5 = null;
+      this.psrObj._in_param_6 = null;
+      this.psrObj._in_param_7 = null;
+      this.psrObj._in_page = 1;
+    },
+    async getPSR(){
       try {
         this.isLoading = true;
         //testing starts

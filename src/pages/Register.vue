@@ -178,6 +178,7 @@
 
 
 <script>
+import user from "@/js/user.js"; //directory to user.js
 import admin from "@/js/admin.js"; //directory to admin.js
 import userClass from "@/js/class/user_class.js"; //directory to admin.js
 import { required, minLength, sameAs } from 'vuelidate/lib/validators'
@@ -212,6 +213,18 @@ export default {
         dataBackgroundColor : 'blue',
         validateDepartment: true
     };
+  },
+  async created() {
+    try {
+      const clog = await user.check_logged();
+      if (clog.err) {
+        alert("User not logged in. Please login.")
+        this.$router.push({ path: `/login` });
+      }
+    } catch (err) {
+      this.error = err.message;
+      alert(err);
+    }
   },
   validations: {
     password: {

@@ -380,24 +380,30 @@ export default {
     };
   },
   async created() {
-    try {
-      this.psrObj.in_page = 1;
-      // this.psrObj._psr_no = this.psr_no;
-      this.psrObj._id = this.psr_id;
-      const data = await psr.report(this.psrObj);
-      this.psrs = data;
-      console.log(this.psrObj._id);
-      console.log(data);
-      for (this.i = 0; this.i < data.psr_desc.length; this.i++) {
-        this.totalPrice =
-          this.totalPrice +
-          data.psr_desc[this.i].quantity * data.psr_desc[this.i].unitPrice;
+      const clog = await user.check_logged();
+      if(clog.err) {
+        alert("User not logged in");
+        this.$router.push({ path: `/` });
+      } else{
+          try {
+            this.psrObj.in_page = 1;
+            // this.psrObj._psr_no = this.psr_no;
+            this.psrObj._id = this.psr_id;
+            const data = await psr.report(this.psrObj);
+            this.psrs = data;
+            console.log(this.psrObj._id);
+            console.log(data);
+            for (this.i = 0; this.i < data.psr_desc.length; this.i++) {
+              this.totalPrice =
+                this.totalPrice +
+                data.psr_desc[this.i].quantity * data.psr_desc[this.i].unitPrice;
+            }
+            console.log(this.totalPrice);
+          } catch (err) {
+            this.error = err.message;
+            alert(err);
+          }
       }
-      console.log(this.totalPrice);
-    } catch (err) {
-      this.error = err.message;
-      alert(err);
-    }
   },
   methods: {
     detail(value) {
