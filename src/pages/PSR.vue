@@ -429,7 +429,9 @@ export default {
           //add redirect to other page here
           // alert("Success");
           localStorage.message = "PSR Application Submitted";
-          this.$router.push({ path: `/message/${this.id}` });
+          // this.$router.push({ path: `/message/${this.id}` });
+          this.$router.push({ path: `/myApplication/${this.id}` });
+          this.psrCreated();
         } catch (err) {
           this.error = err.message;
           alert("Error!!!" + err);
@@ -495,7 +497,16 @@ export default {
         unitPrice: 0
       });
       this.index--;
-    }
+    },
+    psrCreated() {
+      this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Purchase, Service and Requisition Created',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+      })
+    },
   }
 };
 </script>
