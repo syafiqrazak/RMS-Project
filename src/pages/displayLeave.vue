@@ -135,6 +135,13 @@
           {{ error }}
         </div>
         <br /><br />
+        <div style=" float:right;" >
+            <md-card-actions md-alignment="space-between">       
+              <b-button type="is-light" @click="$router.go(-1)"
+                  >Back</b-button> 
+                  &nbsp;
+            </md-card-actions>
+          </div>
       </md-card-content>
     </md-card>
   </div>

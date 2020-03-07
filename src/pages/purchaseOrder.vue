@@ -360,8 +360,10 @@ export default {
           try {
             const po = await purchaseOrder.po_add(this.poObj);
             console.log(po); //can be ignored
-              localStorage.message = "Purchase Order Application Submitted";
-              this.$router.push({ path: `/message/${this.id}` });
+              // localStorage.message = "Purchase Order Application Submitted";
+              // this.$router.push({ path: `/message/${this.id}` });
+              this.rerouteToMyApplication();
+              this.poCreated();
           } catch (err) {
             alert("Fail");
             this.error = err.message;
@@ -432,6 +434,19 @@ export default {
         unitPrice: 0
       });
       this.index--;
+    },
+    poCreated() {
+      this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Purchase Order Created',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+      })
+    },
+    rerouteToMyApplication(){
+      this.$router.push({ path: `/myApplication/${localStorage.id}` });
+      this.isLoading = false;
     }
   }
 };

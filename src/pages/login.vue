@@ -118,8 +118,10 @@ export default {
             this.$router.push({ path: `/poListing/${login.id}` });
           else if(localStorage.is_admin == "true")
             this.$router.push({ path: `/register/${login.id}` });
+          else if(localStorage.t2 == "true" || localStorage.t3 == "true" || localStorage.t4 == "true")
+            this.$router.push({ path: `/notification/${login.id}` });
           else
-            this.$router.push({ path: `/poListing/${login.id}` });
+            this.$router.push({ path: `/psrListing/${login.id}` });
         }
         this.isLoading = false;
         console.log(login); //can be ignored

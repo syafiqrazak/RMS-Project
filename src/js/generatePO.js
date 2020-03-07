@@ -142,9 +142,9 @@ class generatePO {
       columnStyles: {
         0: { columnWidth: 10 },
         1: { columnWidth: 100 },
-        2: { columnWidth: 25 },
-        3: { columnWidth: 20 },
-        4: { columnWidth: 25 }
+        2: { columnWidth: 25, halign: "right" },
+        3: { columnWidth: 20, halign: "right" },
+        4: { columnWidth: 25, halign: "right" }
       }
     });
     height = doc.autoTableEndPosY();

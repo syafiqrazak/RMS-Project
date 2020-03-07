@@ -113,7 +113,6 @@ export default {
   },
   methods: {
     detail(value) {
-      alert(value.id);
       console.log(value.psr_no);
       this.$router.push({
         path: `/displayPSR/${this.id}/${value.id}/status`

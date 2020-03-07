@@ -180,13 +180,12 @@
           ></md-card-actions>
         </div>
         <div
-          v-if="action == 'audit'"
           style=" float:right;"
         ><md-card-actions md-alignment="space-between">     
-          <b-button type="is-success" @click="$router.go(-1)"
+          <b-button type="is-light" @click="$router.go(-1)"
               >Back</b-button> 
               &nbsp;
-          <b-button type="is-success" @click.prevent="printPDF()"
+          <b-button type="is-success" @click.prevent="printPDF()" v-if="action == 'audit'"
               >Generate</b-button
             >
           </md-card-actions>

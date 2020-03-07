@@ -48,7 +48,11 @@
       
       <md-table-row  v-if="users.department"> 
         <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Department</md-table-head>
-        <md-table-head width="70%">{{users.department.cd}}</md-table-head>
+        <md-table-head v-if="users.department.cd == 'MAR'" width="70%">Marine</md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'CCT'" width="70%">Commercial and Contract</md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'ACCT'" width="70%">Account</md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'ADM'" width="70%">Admin</md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'TGD'" width="70%">Trading</md-table-head>
       </md-table-row>
       
       <md-table-row>
@@ -91,11 +95,11 @@
       <md-card-content v-if="isEdit" style="width:98%; padding-left:5%;">
                 <br><br>
                 <table cls="clsForm" width="80%:">
-                    <col width="25%">
+                    <col width="20%">
                     <col width="70%">
                     <tr>
                         <td class="clsLabel">
-                            <h4>First Name:</h4>
+                            First Name:
                         </td>
                         <td class="clsValue">
                             <b-input v-model="firstname" style="width:98%"></b-input>
@@ -104,7 +108,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Last Name:</h4>
+                            Last Name:
                         </td>
                         <td class="clsValue">
                             <b-input v-model="lastname" style="width:98%"></b-input>
@@ -113,7 +117,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Email Address:</h4>
+                            Email Address: 
                         </td>
                         <td class="clsValue">
                             <b-input v-model="email" style="width:98%"></b-input>
@@ -122,7 +126,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Username:</h4>
+                            Username:
                         </td>
                         <td class="clsValue">
                             <b-input v-model="username" style="width:98%"></b-input>
@@ -131,7 +135,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Role:</h4>
+                            Role:
                         </td>
                         <td class="clsValue">
                             <div class="block" style="border: 1px solid #dbdbdb; border-radius:4px; padding-left:1em; height:8.5em; width:98%; verticle-align:middle;">
@@ -148,7 +152,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Branch:</h4>
+                            Branch:
                         </td>
                         <td class="clsValue">
                             <b-select v-model="branch" expanded="" style="width:98%;">
@@ -159,7 +163,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Department:</h4>
+                            Department:
                         </td>
                         <td class="clsValue">
                             <b-select v-model="department" expanded="" style="width:98%;">
@@ -174,7 +178,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Home Address:</h4>
+                            Home Address:
                         </td>
                         <td class="clsValue">
                             <b-input v-model="address_1" style="width:98%"></b-input>
@@ -183,7 +187,6 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
                             <b-input v-model="address_2" style="width:98%"></b-input>
@@ -192,7 +195,6 @@
                     </tr>
                      <tr>
                         <td class="clsLabel">
-                            <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
                             <b-input v-model="address_3" style="width:98%"></b-input>
@@ -200,7 +202,6 @@
                     </tr>
                      <tr>
                         <td class="clsLabel">
-                            <!-- <h4>Home Address:</h4> -->
                         </td>
                         <td class="clsValue">
                             <b-input v-model="address_4" style="width:98%"></b-input>
@@ -208,7 +209,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            <h4>Contact Number:</h4>
+                            Contact Number:
                         </td>
                         <td class="clsValue">
                             <b-field>
@@ -340,8 +341,10 @@ export default {
       console.log("Deleting User:");
       localStorage.message = "User Profile Deleted";
       this.isLoading =  false;
-      this.$router.push({ path: `/message/${this.id}` });
+      // this.$router.push({ path: `/message/${this.id}` });
+      this.$router.push({ path: `/user/${this.id}` });
       this.isLoading = false;
+      this.deleteAction();
     } catch (err) {
       this.isLoading = false;
       this.error = err.message;
@@ -420,11 +423,34 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
       }, 10 * 1000);
+    },
+    deleteAction() {
+        this.$buefy.snackbar.open({
+            duration: 3000,
+            message: 'User Has Been Deleted',
+            type: 'is-warning',
+            position: 'is-top',
+            actionText: 'OK',
+        })
+        
+    },
+    rerouteToUser(){
+      this.$router.push({ path: `/user/${localStorage.id}` });
+      this.isLoading = false;
     }
   }
 };
 </script>
 
-<style scoped src="@/assets/style/style.css">
+<style src="@/assets/style/style.css">
 
+</style>
+
+<style scoped > 
+  .content table td, .content table th {
+      border:0;
+      border-width: 0 0 1px;
+      padding: 0.5em 0.75em;
+      vertical-align: top;
+  }
 </style>

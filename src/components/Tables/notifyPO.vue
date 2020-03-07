@@ -26,7 +26,8 @@
         </b-table-column>
       </template>
     </b-table>
-    <br><br><br>
+    <br /><br /><br />
+    {{ pos }}
     <div style=" width:20%; float:right; ">
       <form v-on:submit="pagination">
         <md-input
@@ -70,7 +71,6 @@ import po from "@/js/po.js"; //directory to po.js
 import user from "@/js/user.js"; //directory to user.js
 import poClass from "@/js/class/po_class.js"; //directory to po_class.js
 
-
 export default {
   name: "notify-PO",
   data() {
@@ -110,48 +110,48 @@ export default {
         path: `/displayPO/${this.id}/${value.id}/approval`
       });
     },
-    async getPO(){
-try {
-      this.isLoading = true;
-      if (this.is_admin == "true") {
-        const data = await po.show_po_page(this.poObj);
+    async getPO() {
+      try {
+        this.isLoading = true;
+        if (this.is_admin == "true") {
+          const data = await po.show_po_page(this.poObj);
 
-        const pos1 = data.result[0];
-        this.total_page = data.result[1];
-        this.pos = pos1.map(pos => ({
-          ...pos
-        }));
-      } else if (this.t4 == "true") {
-        try {
-          const data = await po.get_pending(this.poObj);
           const pos1 = data.result[0];
           this.total_page = data.result[1];
           this.pos = pos1.map(pos => ({
             ...pos
           }));
-        } catch (err) {
-          this.error = err.message;
+        } else if (this.t4 == "true") {
+          try {
+            const data = await po.get_pending(this.poObj);
+            const pos1 = data.result[0];
+            this.total_page = data.result[1];
+            this.pos = pos1.map(pos => ({
+              ...pos
+            }));
+          } catch (err) {
+            this.error = err.message;
+          }
+        } else if (this.t2 == "true" || this.t3 == "true") {
+          try {
+            const data = await po.get_submits(this.poObj);
+            const pos1 = data.result[0];
+            this.total_page = data.result[1];
+            this.pos = pos1.map(pos => ({
+              ...pos
+            }));
+          } catch (err) {
+            this.error = err.message;
+          }
+        } else {
+          alert("Invalid user! Please contact your system admin.");
         }
-      } else if (this.t2 == "true" || this.t3 == "true") {
-        try {
-          const data = await po.get_submits(this.poObj);
-          const pos1 = data.result[0];
-          this.total_page = data.result[1];
-          this.pos = pos1.map(pos => ({
-            ...pos
-          }));
-        } catch (err) {
-          this.error = err.message;
-        }
-      } else {
-        alert("Invalid user! Please contact your system admin.");
+
+        this.isLoading = false;
+      } catch (err) {
+        this.isLoading = false;
+        this.error = err.message;
       }
-      
-      this.isLoading = false;
-    } catch (err) {
-      this.isLoading = false;
-      this.error = err.message;
-    }
     },
     async get_pending() {
       try {
@@ -200,9 +200,8 @@ try {
       if (this.page >= this.total_page - 1) {
         this.page = this.total_page;
       } else this.page += 1;
-      if (this.page == this.total_page) 
-        this.isNext = true;
-      
+      if (this.page == this.total_page) this.isNext = true;
+
       this.poObj.in_page = this.page;
       this.getPO();
     },
@@ -213,7 +212,7 @@ try {
         this.isPrevious = true;
       } else this.page -= 1;
       if (this.page == 1) this.isPrevious = true;
-            
+
       this.poObj.in_page = this.page;
       this.getPO();
     },
@@ -225,7 +224,7 @@ try {
         this.page = 1;
         this.isPrevious = false;
       } else this.page = 1;
-            
+
       this.poObj.in_page = this.page;
       this.getPO();
     }

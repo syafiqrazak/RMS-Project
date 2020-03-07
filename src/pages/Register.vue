@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!posted"  class="container">
+    <div class="container">
         <md-card style="padding-left:10px">
             <md-card-header :data-background-color="dataBackgroundColor">
                 <h4 class="title">Register</h4>
@@ -7,6 +7,11 @@
             </md-card-header>
             <md-card-content style="width:98%; padding-left:5%;">
                 <br><br>
+                <b-loading
+                  :is-full-page="false"
+                  :active.sync="isLoading"
+                  :can-cancel="false"
+                ></b-loading>
                 <table cls="clsForm" width="80%:">
                     <col width="25%">
                     <col width="70%">
@@ -170,10 +175,6 @@
         <br><br>
         </md-card>
     </div>
-    <div v-else>
-        <h5>Success</h5>
-        {{posted}}
-    </div>
 </template>
 
 
@@ -211,7 +212,8 @@ export default {
         is_admin: false,
         isPosted : false,
         dataBackgroundColor : 'blue',
-        validateDepartment: true
+        validateDepartment: true,
+        isLoading: false
     };
   },
   async created() {
@@ -264,16 +266,18 @@ export default {
         this.isPosted = true;
         if (!this.$v.$invalid){
             try {
-                // this.userObj.
-                // var temp = this.register.toJson();
-                // temp = toJson(this.register);
+                this.isLoading = true;
                 const users = await admin.new_user(this.userObj.toJson());
                 console.log(users); //can be ignored
                 this.posted = true;
                 localStorage.message = "New User Created";
-                this.$router.push({ path: `/message/${this.id}` });
+                // this.$router.push({ path: `/message/${this.id}` });
+                this.$router.push({ path: `/user/${this.id}` });
+                this.isLoading = false;
+                this.registered();
                 //add redirect to other page here
             } catch (err) {
+                this.isLoading = false;
                 alert(err);
                 this.error = err.message;
             }
@@ -319,7 +323,26 @@ export default {
             this.userObj.acct_t = true;
         else
             this.userObj.is_admin = true;
-    }
+    },
+    registered() {
+        this.$buefy.snackbar.open({
+            duration: 3000,
+            message: 'New User Registered',
+            type: 'is-warning',
+            position: 'is-top',
+            actionText: 'OK',
+            // onAction: () => {
+            //             this.reroute();
+            //             this.isLoading = false;
+            //         }
+        })
+        // setTimeout(this.reroute,3000);
+        
+    },
+    // reroute(){
+    //     this.$router.push({ path: `/user/${this.id}` });
+    //     this.isLoading = false;
+    // }
   }
     
 }
@@ -328,7 +351,11 @@ export default {
 
 
 <style scoped src="@/assets/style/style.css">
-.error{
-    color: red;
-}
+
+</style>
+
+<style scoped>
+.newAction {
+    background-color: #ebe534 !important;
+    }
 </style>

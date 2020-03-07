@@ -228,15 +228,13 @@
             >
             </md-card-actions>
           </div>
-          <div
-            v-if="action == 'audit'"
-            style=" float:right;"
-          ><md-card-actions md-alignment="space-between">       
-          <b-button type="is-success" @click="$router.go(-1)"
-              >Back</b-button> 
-              &nbsp;
-          <b-button type="is-success" @click.prevent="printPDF()"
-              >Generate PDF</b-button>
+          <div style=" float:right;" >
+            <md-card-actions md-alignment="space-between">       
+              <b-button type="is-light" @click="$router.go(-1)"
+                  >Back</b-button> 
+                  &nbsp;
+              <b-button type="is-success" @click.prevent="printPDF()" v-if="action == 'audit'"
+                  >Generate PDF</b-button>
             </md-card-actions>
           </div>
           

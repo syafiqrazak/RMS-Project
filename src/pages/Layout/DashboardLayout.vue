@@ -11,29 +11,29 @@
         <!-- <md-icon>dashboard</md-icon> -->
         <p>User</p>
       </sidebar-link>
-      <sidebar-link :to="{ name: 'Purchase Order Listing', params: { id: this.id } }">
-        <!-- <md-icon>dashboard</md-icon> -->
-        <p>Purchase Order List</p>
+      <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t4 == 'true' " :to="{ name: 'Notification', params: { id: this.id } }">
+        <!-- <md-icon>thumb_up</md-icon> -->
+        <p>Approval</p>
       </sidebar-link>
       <sidebar-link :to="{ name: 'PSR Listing', params: { id: this.id } }">
         <!-- <md-icon>dashboard</md-icon> -->
         <p>PSR List</p>
       </sidebar-link>
-      <sidebar-link  v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true'" :to="{ name: 'Enter PSR', params: { id: this.id } }">
+      <sidebar-link :to="{ name: 'Purchase Order Listing', params: { id: this.id } }">
         <!-- <md-icon>dashboard</md-icon> -->
-        <p>Purchase Order</p>
+        <p>Purchase Order List</p>
       </sidebar-link>
       <sidebar-link  v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true'" :to="{ name: 'PSR', params: { id: this.id } }">
         <!-- <md-icon>thumb_up</md-icon> -->
         <p>PSR</p>
       </sidebar-link>
+      <sidebar-link  v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true'" :to="{ name: 'Enter PSR', params: { id: this.id } }">
+        <!-- <md-icon>dashboard</md-icon> -->
+        <p>Purchase Order</p>
+      </sidebar-link>
       <sidebar-link  v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true'" :to="{ name: 'Leave Application', params: { id: this.id } }" >
         <!-- <md-icon>thumb_up</md-icon> -->
         <p>Leave Application</p>
-      </sidebar-link>
-      <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t4 == 'true' " :to="{ name: 'Notification', params: { id: this.id } }">
-        <!-- <md-icon>thumb_up</md-icon> -->
-        <p>Approval</p>
       </sidebar-link>
       <sidebar-link v-if="t2 == 'true' || t4 == 'true' || t3 == 'true' || t1 == 'true' " :to="{ name: 'My Applications', params: { id: this.id } }">
         <!-- <md-icon>bubble_chart</md-icon> -->
