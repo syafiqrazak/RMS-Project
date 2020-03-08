@@ -415,7 +415,6 @@ export default {
     },
     async decline_psr() {
       try {
-        alert("Decline");
         this.psrObj._id = this.psrs.id;
         const data = await psr.psr_decline(this.psrObj);
         console.log(data); //can be ignored
