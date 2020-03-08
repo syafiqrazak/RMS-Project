@@ -7,6 +7,11 @@
           <h4 class="title">Purchase Order Details</h4>
         </md-card-header>
         <md-card-content>
+          <b-loading
+            :is-full-page="true"
+            :active.sync="isLoading"
+            :can-cancel="true"
+          ></b-loading>
           <div v-if="action == 'status' || action == 'audit'" style="width:80%; margin-left:10%;">
             <div
               v-if="pos.status_decline == false && pos.status_t2 == false"
@@ -387,7 +392,8 @@ export default {
       po_no: this.$route.params.po_no,
       po_id: this.$route.params.po_no,
       status_t1: "",
-      showDialog: false
+      showDialog: false,
+      isLoading: false
       // status_t1: ""
     };
   },
@@ -398,13 +404,15 @@ export default {
     },
   async created() {
     try {
+      this.isLoading = true;
       this.poObj.in_page = 1;
       this.poObj.po_no = this.po_no;
       this.poObj.id = this.po_no;
       const data = await po.report(this.poObj);
       this.pos = data;
-      
+      this.isLoading = false;
     } catch (err) {
+      this.isLoading = false;
       this.error = err.message;
     }
   },
@@ -417,6 +425,7 @@ export default {
       generatePO.printPDF(this.pos);
 		},
     async approve() {
+      this.isLoading = true;
       this.poObj.id = this.po_id;
       if (localStorage.t2 == "true" || localStorage.t3 == "true") {
         try {
@@ -424,10 +433,12 @@ export default {
           const pos = await po.po_stat_1(this.poObj);
           this.status_t1 = pos.status_t1;
           console.log(po); //can be ignored
-          localStorage.message = "Purchase Order Application Approved";
-          this.$router.push({ path: `/message/${this.id}` });
+          // localStorage.message = "Purchase Order Application Approved";
+          // this.$router.push({ path: `/message/${this.id}` });
+          this.isLoading = false;
         } catch (err) {
           alert(err);
+          this.isLoading = false;
           this.error = err.message;
         }
       } else if (localStorage.t4 == "true") {
@@ -436,22 +447,41 @@ export default {
           const pos = await po.po_stat_2(this.poObj);
           this.status_t2 = pos.status_t1;
           console.log(pos); //can be ignored
-          localStorage.message = "Purchae Order Application Approved";
-          this.$router.push({ path: `/message/${this.id}` });
+          // localStorage.message = "Purchae Order Application Approved";
+          // this.$router.push({ path: `/message/${this.id}` });
+          this.isLoading = false;
         } catch (err) {
+          this.isLoading = false;
           this.error = err.message;
         }
       } else {
         alert(
           "Invalid user! Only manager tier 1 & 2 can approve record. Please contact system admin for assistance."
         );
+          this.isLoading = false;
       }
+      this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Purchase Order Approved',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+        })
+        this.$router.push({ path: `/notification/${this.id}` });
     },
     async decline_po() {
       this.poObj.id = this.po_id;
       try {
         const data = await po.po_decline(this.poObj);
         console.log(data); //can be ignored
+        this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Purchase Order Declined',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+        })
+        this.$router.push({ path: `/notification/${this.id}` });
       } catch (err) {
         this.error = err.message;
       }

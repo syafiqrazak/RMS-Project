@@ -164,7 +164,7 @@ export default {
   validations: {
     startDate: {
       required,
-      minValue: value => value > new Date()
+      // minValue: value => value > new Date()
     },
     endDate: {
       required
@@ -219,8 +219,16 @@ export default {
               // alert(leave_data); //can be ignored
               console.log(this.admin);
               this.isLoading = false;
-              localStorage.message = "Leave Application Submitted";
-              this.$router.push({ path: `/message/${this.id}` });
+              // localStorage.message = "Leave Application Submitted";
+              // this.$router.push({ path: `/message/${this.id}` });
+              this.$buefy.snackbar.open({
+                duration: 3000,
+                message: 'Sending Leave Application',
+                type: 'is-warning',
+                position: 'is-top',
+                actionText: 'OK',
+              })
+              this.$router.push({ path: `/myApplication/${this.id}` });
             } else if (Difference_In_Days < 0) {
               alert("End Date must after Start Date");
               this.isLoading = false;

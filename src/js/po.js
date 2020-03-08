@@ -215,7 +215,9 @@ class po {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${poObj._id}/decline`, {
+          `${url}${poObj._id}/decline`,
+          { poObj },
+          {
             withCredentials: true
           }
         );

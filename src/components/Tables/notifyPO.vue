@@ -14,7 +14,7 @@
       <template slot-scope="props">
         <b-table-column field="po_no" label="PO Number" sortable>
           <a @click="detail(props.row)">
-            PO/TRD-{{ props.row.po_no | numeral("000000") }}
+            {{ props.row.po_no }}
           </a>
         </b-table-column>
         <b-table-column field="createdBy" label="Create By">
@@ -27,7 +27,6 @@
       </template>
     </b-table>
     <br /><br /><br />
-    {{ pos }}
     <div style=" width:20%; float:right; ">
       <form v-on:submit="pagination">
         <md-input

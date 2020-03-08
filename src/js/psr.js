@@ -243,7 +243,9 @@ class psr {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(
-          `${url}${psrObj._id}/decline`, {
+          `${url}${psrObj._id}/decline`,
+          { psrObj },
+          {
             withCredentials: true
           }
         );

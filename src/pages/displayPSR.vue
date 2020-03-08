@@ -175,7 +175,7 @@
             @click.prevent="approve()"
             >Approve</b-button
           >
-          <b-button style="float:right;" type="is-danger" @click="decline_psr()"
+          <b-button style="float:right;" type="is-danger" @click.prevent="decline_psr()"
             >Decline</b-button
           ></md-card-actions>
         </div>
@@ -384,8 +384,8 @@ export default {
           const psra = await psr.psr_stat_1(this.psrObj);
           this.status_t1 = psra.status_t1;
           console.log(psra); //can be ignored
-          localStorage.message = "PSR Application Approved";
-          this.$router.push({ path: `/message/${this.id}` });
+          // localStorage.message = "PSR Application Approved";
+          // this.$router.push({ path: `/message/${this.id}` });
         } catch (err) {
           this.error = err.message;
         }
@@ -394,8 +394,8 @@ export default {
           const psra = await psr.psr_stat_2(this.psrObj);
           this.status_t2 = psra.status_t1;
           console.log(psra); //can be ignored
-          localStorage.message = "PSR Application Approved";
-          this.$router.push({ path: `/message/${this.id}` });
+          // localStorage.message = "PSR Application Approved";
+          // this.$router.push({ path: `/message/${this.id}` });
         } catch (err) {
           this.error = err.message;
         }
@@ -404,13 +404,32 @@ export default {
           "Invalid user! Only manager tier 1 & 2 can approve record. Please contact system admin for assistance."
         );
       }
+      this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Purchase, Service and Requisition Approved',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+      })
+      this.$router.push({ path: `/notification/${this.id}` });
     },
     async decline_psr() {
       try {
-        const data = await psr.psr_decline(this.psrs.id);
+        alert("Decline");
+        this.psrObj._id = this.psrs.id;
+        const data = await psr.psr_decline(this.psrObj);
         console.log(data); //can be ignored
+        this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Purchase, Service and Requisition Declined',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+        })
+        this.$router.push({ path: `/notification/${this.id}` });
       } catch (err) {
         this.error = err.message;
+        alert(err);
       }
     },
     async get_pending() {
@@ -511,7 +530,8 @@ export default {
       } catch (err) {
         this.error = err.message;
       }
-    }
+    },
+    
   }
 };
 </script>

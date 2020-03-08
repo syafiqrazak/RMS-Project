@@ -190,9 +190,16 @@ export default {
         this.leaveObj.in_page = 1;
         const leave = await leaves.approve_leave(this.leaveObj);
         this.status = leave.status;
-        alert(this.status);
-        localStorage.message = "Leave Application Approved";
-        this.$router.push({ path: `/message/${this.id}` });
+        // localStorage.message = "Leave Application Approved";
+        // this.$router.push({ path: `/message/${this.id}` });
+        this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Leave Application Declined',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+        })
+        this.$router.push({ path: `/notification/${this.id}` });
       } catch (err) {
         this.error = err.message;
       }
@@ -203,8 +210,16 @@ export default {
         this.leaveObj.in_page = 1;
         const leave = await leaves.decline_leave(this.leaveObj);
         // console.log(data); //can be ignored
-        localStorage.message = "Leave Application Declined";
-        this.$router.push({ path: `/message/${this.id}` });
+        // localStorage.message = "Leave Application Declined";
+        // this.$router.push({ path: `/message/${this.id}` });
+        this.$buefy.snackbar.open({
+          duration: 3000,
+          message: 'Leave Application Declined',
+          type: 'is-warning',
+          position: 'is-top',
+          actionText: 'OK',
+        })
+        this.$router.push({ path: `/notification/${this.id}` });
       } catch (err) {
         this.error = err.message;
       }
