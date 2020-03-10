@@ -47,7 +47,7 @@ class user {
     });
   }
 
-  static reset_password(id, ori_password, new_password, repeat_password) {
+  static reset_password(userObj) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.post(

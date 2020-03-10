@@ -81,7 +81,7 @@ export default {
     try {
       const clog = await user.check_logged();
       if(!clog.err) {
-        this.$router.push({ path: `/leaveApplication/${clog.id}` });
+        this.$router.push({ path: `/psrListing/${clog.id}` });
       }
     } catch (err) {
       alert(err);

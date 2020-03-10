@@ -30,6 +30,7 @@ import message from "@/pages/Message.vue";
 import user from "@/pages/User.vue";
 import poListing from "@/pages/POListing.vue";
 import psrListing from "@/pages/PSRListing.vue";
+import passwordRecovery from "@/pages/passwordRecovery.vue";
 
 
 const routes = [
@@ -93,6 +94,11 @@ const routes = [
         path: "/message/:id",
         name: "Message",
         component: message
+      },
+      {
+        path: "/passwordRecovery/:id/:user_id",
+        name: "Password Recovery",
+        component: passwordRecovery
       },
       {
         path: "/displayPO/:id/:po_no/:action",

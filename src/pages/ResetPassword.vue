@@ -10,10 +10,19 @@
                 <table cls="clsForm" width="80%:" border="0">
                     <col width="25%">
                     <col width="70%">
-                    
                     <tr>
                         <td class="clsLabel">
-                            Password:
+                            Old Password:
+                        </td>
+                        <td class="clsValue">
+                            <b-field>
+                                <b-input type="password" v-model="originalPassword"  style="width:70%"  password-reveal></b-input>
+                            </b-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="clsLabel">
+                            New Password:
                         </td>
                         <td class="clsValue">
                             <b-field>
@@ -23,7 +32,7 @@
                     </tr>
                     <tr>
                         <td class="clsLabel">
-                            Confirm Password:
+                            Confirm New Password:
                         </td>
                         <td class="clsValue">
                             <b-field>
@@ -50,10 +59,13 @@
 
 <script>
 import user from "@/js/user.js"; //directory to user.js
-import admin from "@/js/admin.js"; //directory to admin.js
+import userClass from "@/js/class/user_class.js"; //directory to psr_class.js
+// import admin from "@/js/admin.js"; //directory to admin.js
 export default {
     data(){
         return{
+        userObj: new userClass(),
+        originalPassword: '',
         password: '',
         confirmPassword: '',
         posted:false,
@@ -74,9 +86,7 @@ export default {
   },
     methods: {
         async resetPassword(){
-            alert("Test");
             if(this.password == this.confirmPassword){
-                alert("test qq");
                 // try {
                 //     alert("1232");
                 //     const data = await admin.get_user(localStorage.id);
@@ -93,12 +103,29 @@ export default {
                 //         alert(err);
                 //         this.error = err.message;
                 //     }
-
+                this.mapObj();
+                console.log(this.userObj);
                 try {
-                    const users = await admin.reset_password(localStorage.id, this.password);
+                    const users = await user.reset_password(this.userObj);
                     console.log(users); //can be ignored
-                    this.posted = true;
-                    alert("Success");
+                    if(users.err){
+                        alert(users.err);
+                    }
+                    else{
+                        // this.posted = true;
+                        // alert("Success");
+                        this.$buefy.snackbar.open({
+                            duration: 5000,
+                            message: 'Password Reset',
+                            type: 'is-warning',
+                            position: 'is-top',
+                            actionText: 'Logout',
+                            onAction: () => {
+                                this.logout();
+                            }
+                        })
+                            this.$router.push({ path: `/psrListing/${localStorage.id}` });
+                    }
                     //add redirect to other page here
                 } catch (err) {
                     alert(err);
@@ -109,6 +136,39 @@ export default {
                 alert("Error: Password not identical!")
             }
             
+        },
+        async logout() {
+            try {
+                const logout = await user.logout();
+                // console.log(logout); //can be ignored
+                var scripts = document.getElementsByTagName("script");
+                var torefreshs = ["myscript.js", "myscript2.js"]; // list of js to be refresh
+                var key = 1; // change this key every time you want force a refresh
+                for (var i = 0; i < scripts.length; i++) {
+                for (var j = 0; j < torefreshs; j++) {
+                    if (scripts[i].src && scripts[i].src.indexOf(torefreshs[j]) > -1) {
+                    new_src = scripts[i].src.replace(
+                        torefreshs[j],
+                        torefreshs[j] + "k=" + key
+                    );
+                    scripts[i].src = new_src; // change src in order to refresh js
+                    }
+                }
+                }
+                if (logout) {
+                console.log("Logout success");
+                localStorage.clear();
+                this.$router.push({ path: "/login" }); //add redirect to other page here
+                } else alert("Logout Fail");
+            } catch (err) {
+                this.error = err.message;
+            }
+            },
+        mapObj(){
+            this.userObj.id = localStorage.id;
+            this.userObj.in_param_1 = this.originalPassword;
+            this.userObj.in_param_2 = this.password;
+            this.userObj.in_param_3 = this.confirmPassword;
         }
     }
 }
@@ -116,4 +176,12 @@ export default {
 
 <style scoped src="@/assets/style/style.css">
 
+</style>
+<style scoped > 
+  .content table td, .content table th {
+      border:0;
+      border-width: 0 0 1px;
+      padding: 0.5em 0.75em;
+      vertical-align: top;
+  }
 </style>

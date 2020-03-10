@@ -2,7 +2,7 @@
   <div class="content">
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">Users Profile</h4>
+        <h1 class="title">Users Profile</h1>
         <!-- <p class="category">Complete your profile</p> -->
       </md-card-header>
       <md-card-content v-if="!isEdit">
@@ -17,79 +17,83 @@
       </md-table-toolbar> -->
 
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Username</md-table-head>
-        <md-table-head width="70%"   >{{users.username}}</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Username</b></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.username}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Designation</md-table-head>
-        <md-table-head width="70%"    v-if="users.acct_t">Account Department</md-table-head>
-        <md-table-head width="70%"    v-if="users.t1">User T1 </md-table-head>
-        <md-table-head width="70%"    v-if="users.t2">User T2 </md-table-head>
-        <md-table-head width="70%"    v-if="users.t3">User T3 </md-table-head>
-        <md-table-head width="70%"    v-if="users.t4">User T4 </md-table-head>
-        <md-table-head width="70%"    v-if="users.is_admin">System Admin </md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Designation</b></md-table-head>
+        <md-table-head width="70%"    v-if="users.acct_t"><b>Account Department</b></md-table-head>
+        <md-table-head width="70%"    v-if="users.t1"><b>User T1</b> </md-table-head>
+        <md-table-head width="70%"    v-if="users.t2"><b>User T2</b> </md-table-head>
+        <md-table-head width="70%"    v-if="users.t3"><b>User T3</b> </md-table-head>
+        <md-table-head width="70%"    v-if="users.t4"><b>User T4</b> </md-table-head>
+        <md-table-head width="70%"    v-if="users.is_admin"><b>System Admin</b> </md-table-head>
       </md-table-row>
       
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">First Name</md-table-head>
-        <md-table-head width="70%"   >{{users.firstname}}</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>First Name</b></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.firstname}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Last Name</md-table-head>
-        <md-table-head width="70%"   >{{users.lastname}}</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Last Name</b></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.lastname}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Branch</md-table-head>
-        <md-table-head width="70%"   >{{users.branch.cd}}</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Branch</b></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.branch.cd}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row  v-if="users.department"> 
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Department</md-table-head>
-        <md-table-head v-if="users.department.cd == 'MAR'" width="70%">Marine</md-table-head>
-        <md-table-head v-else-if="users.department.cd == 'CCT'" width="70%">Commercial and Contract</md-table-head>
-        <md-table-head v-else-if="users.department.cd == 'ACCT'" width="70%">Account</md-table-head>
-        <md-table-head v-else-if="users.department.cd == 'ADM'" width="70%">Admin</md-table-head>
-        <md-table-head v-else-if="users.department.cd == 'TGD'" width="70%">Trading</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Department</b></md-table-head>
+        <md-table-head v-if="users.department.cd == 'MAR'" width="70%"><b>Marine</b></md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'CCT'" width="70%"><b>Commercial and Contract</b></md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'ACCT'" width="70%"><b>Account</b></md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'ADM'" width="70%"><b>Admin</b></md-table-head>
+        <md-table-head v-else-if="users.department.cd == 'TGD'" width="70%"><b>Trading</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Email</md-table-head>
-        <md-table-head width="70%"   >{{users.email}}</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Email</b></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.email}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Contact Number</md-table-head>
-        <md-table-head width="70%"   >{{users.contact_no}}</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Contact Number</b></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.contact_no}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3">Address</md-table-head>
-        <md-table-head width="70%"   >{{users.address_1}}</md-table-head>
-      </md-table-row>
-      
-      <md-table-row>
-        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"></md-table-head>
-        <md-table-head width="70%"   >{{users.address_2}}</md-table-head>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"><b>Address</b></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.address_1}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
         <md-table-head width="30%" style="border-right:1px solid #D3D3D3"></md-table-head>
-        <md-table-head width="70%"   >{{users.address_3}}</md-table-head>
+        <md-table-head width="70%"   ><b>{{users.address_2}}</b></md-table-head>
       </md-table-row>
       
       <md-table-row>
         <md-table-head width="30%" style="border-right:1px solid #D3D3D3"></md-table-head>
-        <md-table-head width="70%"   >{{users.address_4}}</md-table-head>
+        <md-table-head width="70%"   ><b>{{users.address_3}}</b></md-table-head>
+      </md-table-row>
+      
+      <md-table-row>
+        <md-table-head width="30%" style="border-right:1px solid #D3D3D3"></md-table-head>
+        <md-table-head width="70%"   ><b>{{users.address_4}}</b></md-table-head>
       </md-table-row>
 
     </md-table>
+    <!-- <md-card-actions md-alignment="left">
+          <b-button  type="is-alert"  @click.prevent="deleteUser()" style="margin-right:1em" >Reset Password</b-button>
+    </md-card-actions> -->
     <md-card-actions md-alignment="right">
+          <b-button  type="is-alert"  @click.prevent="resetPassword()" style="margin-right:1em" >Reset Password</b-button>
           <b-button  type="is-danger"  @click.prevent="deleteUser()" style="margin-right:1em" >Delete</b-button>
           <b-button  type="is-warning"  @click.prevent="isEdit = true">Edit</b-button>
-      </md-card-actions>
+    </md-card-actions>
         
       </md-card-content>
       <md-card-content v-if="isEdit" style="width:98%; padding-left:5%;">
@@ -345,11 +349,28 @@ export default {
       this.$router.push({ path: `/user/${this.id}` });
       this.isLoading = false;
       this.deleteAction();
-    } catch (err) {
-      this.isLoading = false;
-      this.error = err.message;
-      alert(err);
-    }
+      } catch (err) {
+        this.isLoading = false;
+        this.error = err.message;
+        alert(err);
+      }
+    },
+    async resetPassword(){
+        try{
+          this.userObj.id = this.$route.params.user_id;
+          const data = await admin.random_password(this.userObj.toJson());
+          // this.$router.push({ path: `/passwordRecovery/${localStorage.id}/${data.new_pwd} `});
+          localStorage.newPassword = data.new_pwd;
+          this.$router.push({ path: `/passwordRecovery/${localStorage.id}/${this.userObj.id}`});
+          console.log(data.new_pwd);
+        } catch (err) {
+          this.isLoading = false;
+          this.error = err.message;
+          alert(err);
+        }
+    },
+    sendEmail(){
+      
     },
     mapObj(){
       if(this.tier == "acct_t")
