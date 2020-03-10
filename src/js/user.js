@@ -24,7 +24,7 @@ class user {
   static check_logged() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.post(`${url}check_logged`, {
+        const res = await axios.post(`${url}check_logged`, {"checked":"checked"}, {
           withCredentials: true
         });
         resolve(res.data);

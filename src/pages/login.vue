@@ -74,6 +74,7 @@ export default {
         backgroundImage: `url(${this.backgroundImage}) `,
         backgroundRepeat: `no-repeat`,
         backgroundSize: `cover`,
+        // backgroundColor: "linear-gradient(to right, #ff4b1f, #1fddff)",
       };
     }
   },

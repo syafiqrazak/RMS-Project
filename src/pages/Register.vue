@@ -220,6 +220,7 @@ export default {
     try {
       const clog = await user.check_logged();
       if (clog.err) {
+        alert(clog.error);
         alert("User not logged in. Please login.")
         this.$router.push({ path: `/login` });
       }
