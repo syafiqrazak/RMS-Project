@@ -53,6 +53,38 @@
                 </tr>
                 <tr>
                     <td class="clsLabel">
+                        <h4>Company Group:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.group}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Branch:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.branch}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Designation:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.designation}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
+                        <h4>Leave Type:</h4>
+                    </td>
+                    <td class="clsValue">
+                       <h4> {{leaves.leave_type}} </h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="clsLabel">
                         <h4>Start Date:</h4>
                     </td>
                     <td class="clsValue">
@@ -83,7 +115,7 @@
                        <h4> {{leaves.emergency_contact}} </h4>
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="hasReplacement">
                     <td class="clsLabel">
                         <h4>Replacement:</h4>
                     </td>
@@ -165,6 +197,7 @@ export default {
       reason: "",
       status: "",
       error: "",
+      hasReplacement:false,
       leaves: [],
     };
   },
@@ -175,10 +208,12 @@ export default {
       const leave = await leaves.report(this.leaveObj);
       this.leaves = leave;
       console.log("Data");
-      console.log(this.data);
+      console.log(this.leaves);
       this.date_from = leave.date_from;
       this.date_to = leave.date_to;
       this.reason = leave.reason;
+      if(leaves.replace_id)
+        this.hasReplacement = true;
     } catch (err) {
       this.error = err.message;
     }

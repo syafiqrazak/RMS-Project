@@ -101,7 +101,10 @@ export default {
           this.error = login.err;
         } else if (await login.hasOwnProperty("id")) {
           this.isLoading = false;
+          localStorage.user = login;
           localStorage.id = login.id;
+          localStorage.department = login.department.cd;
+          localStorage.branch = login.branch.cd;
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
           localStorage.t4 = login.t4;

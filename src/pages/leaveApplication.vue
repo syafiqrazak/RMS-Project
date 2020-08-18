@@ -14,8 +14,8 @@
         </md-card-header>
         <md-card-content>
           <b-field label="Dinastia Jati Group of Companies:">
-            <b-select v-model="group" expanded style="width:98%;">
-              <option value="DJSB">DJSB </option>
+            <b-select v-model="group" expanded>
+              <option value="DJSB" selected>DJSB </option>
               <option value="DJMS">DJMS</option>
               <option value="JJSB">JJSB</option>
               <option value="LJSB">LJSB</option>
@@ -52,7 +52,7 @@
           </div>
 
           <b-field label="Leave Type:">
-            <b-select v-model="leaveType" expanded style="width:98%;">
+            <b-select v-model="leaveType" expanded>
               <option value="ANNUAL LEAVE">ANNUAL LEAVE </option>
               <option value="EMERGENCY LEAVE">EMERGENCY LEAVE</option>
               <option value="MEDICAL LEAVE">MEDICAL LEAVE</option>
@@ -86,7 +86,7 @@
                 <div
                   class="error"
                   v-if="!$v.startDate.required && isPosted"
-                  style="margin-top:-3em"
+                  style="margin-top:-3.5em"
                 >
                   Start Date is required
                 </div>
@@ -108,7 +108,7 @@
                 <div
                   class="error"
                   v-if="!$v.endDate.required && isPosted"
-                  style="margin-top:-3em"
+                  style="margin-top:-3.5em"
                 >
                   End Date is required
                 </div>
@@ -178,8 +178,8 @@ export default {
       username: [],
       user_id: [],
       designation: "",
-      branch: "",
-      group: "",
+      branch: localStorage.department,
+      group: localStorage.branch,
       leaveType: "",
       passUserId: "",
       leaveObj: new leaveClass(),
@@ -205,6 +205,8 @@ export default {
   },
   async created() {
     try {
+      console.log("Branch")
+      console.log(localStorage.branch);
       const clog = await user.check_logged();
       if (clog.err) {
         alert("User not logged in. Please login.");
@@ -374,5 +376,8 @@ export default {
   padding: 20px;
   width: 100%;
   height: 150px;
+}
+.label {
+  font-size: 10rem;
 }
 </style>
