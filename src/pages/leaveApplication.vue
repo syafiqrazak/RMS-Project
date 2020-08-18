@@ -52,7 +52,7 @@
           </div>
 
           <b-field label="Leave Type:">
-            <b-select v-model="branch" expanded style="width:98%;">
+            <b-select v-model="leaveType" expanded style="width:98%;">
               <option value="ANNUAL LEAVE">ANNUAL LEAVE </option>
               <option value="EMERGENCY LEAVE">EMERGENCY LEAVE</option>
               <option value="MEDICAL LEAVE">MEDICAL LEAVE</option>
@@ -82,20 +82,22 @@
                     md-immediately
                     :md-disabled-dates="disabled"
                   />
-                  <!-- <md-input v-model="startDate" type="date" ></md-input> -->
                 </md-field>
-                <div class="error" v-if="!$v.startDate.required && isPosted">
-                  Start Date is required
-                </div>
                 <div
                   class="error"
+                  v-if="!$v.startDate.required && isPosted"
+                  style="margin-top:-3em"
+                >
+                  Start Date is required
+                </div>
+                <!-- <div
+                  class="error"
                   v-else-if="!$v.startDate.minValue && isPosted"
+                  style="margin-top:-3em"
                 >
                   Start Date must after today date
-                </div>
-                <!-- <div class="error" v-else>  </div> -->
+                </div> -->
               </b-field>
-              <!-- <b-field></b-field> -->
               <b-field
                 label="End Date:"
                 style="display:inline-block; float:right; width:47%"
@@ -103,10 +105,13 @@
                 <md-field>
                   <md-datepicker v-model="endDate" md-immediately />
                 </md-field>
-                <div class="error" v-if="!$v.endDate.required && isPosted" style="top-margin:-3em">
+                <div
+                  class="error"
+                  v-if="!$v.endDate.required && isPosted"
+                  style="margin-top:-3em"
+                >
                   End Date is required
                 </div>
-                <!-- <div class="error" v-else-if="!$v.endDate.minValue && isPosted">  End Date must after start date </div> -->
               </b-field>
             </div>
           </div>
@@ -191,11 +196,11 @@ export default {
       disabled: {
         from: new Date()
       },
-      isDateDisabled2: function() {
-        var today = new Date();
-        // compare if today is greater then the datepickers date
-        return new Date() > today;
-      }
+      // isDateDisabled2: function() {
+      //   var today = new Date();
+      //   // compare if today is greater then the datepickers date
+      //   return new Date() > today;
+      // }
     };
   },
   async created() {
