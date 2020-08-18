@@ -21,14 +21,35 @@
               <option value="LJSB">LJSB</option>
             </b-select>
           </b-field>
+          <div
+            class="error"
+            v-if="!$v.group.required && isPosted"
+            style="margin-top:-1em"
+          >
+            Group is required
+          </div>
 
            <b-field label="Branch:">
             <b-input v-model="branch"></b-input>
           </b-field>
+          <div
+            class="error"
+            v-if="!$v.branch.required && isPosted"
+            style="margin-top:-1em"
+          >
+            Branch is required
+          </div>
 
           <b-field label="Designation:">
             <b-input v-model="designation"></b-input>
           </b-field>
+          <div
+            class="error"
+            v-if="!$v.designation.required && isPosted"
+            style="margin-top:-1em"
+          >
+            Designation is required
+          </div>
 
           <b-field label="Leave Type:">
             <b-select v-model="branch" expanded style="width:98%;">
@@ -39,7 +60,13 @@
               <option value="OTHERS">OTHERS</option>
             </b-select>
           </b-field>
-          
+          <div
+            class="error"
+            v-if="!$v.leaveType.required && isPosted"
+            style="margin-top:-1em"
+          >
+            Leave Type is required
+          </div>
 
           <div class="md-layout">
             <br />
@@ -76,7 +103,7 @@
                 <md-field>
                   <md-datepicker v-model="endDate" md-immediately />
                 </md-field>
-                <div class="error" v-if="!$v.endDate.required && isPosted">
+                <div class="error" v-if="!$v.endDate.required && isPosted" style="top-margin:-3em">
                   End Date is required
                 </div>
                 <!-- <div class="error" v-else-if="!$v.endDate.minValue && isPosted">  End Date must after start date </div> -->
@@ -101,7 +128,7 @@
           <div
             class="error"
             v-if="!$v.emergency_contact.required && isPosted"
-            style="margin-top:-2em"
+            style="margin-top:-1em"
           >
             Emergency Contact is required
           </div>
@@ -199,6 +226,18 @@ export default {
     }
   },
   validations: {
+    group: {
+      required
+    },
+    branch: {
+      required
+    },
+    designation: {
+      required
+    },
+    leaveType: {
+      required
+    },
     startDate: {
       required
       // minValue: value => value > new Date()
@@ -226,7 +265,6 @@ export default {
         this.isLoading = false;
       }, 10 * 1000);
     },
-
     async add_leave() {
       this.isPosted = true;
       if (!this.$v.$invalid) {
@@ -235,7 +273,6 @@ export default {
           // To calculate the time difference of two dates
           var Difference_In_Time =
             this.endDate.getTime() - this.startDate.getTime();
-
           // To calculate the no. of days between two dates
           var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
           if (this.startDate >= new Date()) {
@@ -277,7 +314,6 @@ export default {
             alert("Start date must be later than today");
             this.isLoading = false;
           }
-
           //add redirect to other page here
           // alert("Success");
         } catch (err) {
@@ -288,6 +324,10 @@ export default {
       }
     },
     mapObj() {
+      this.leaveObj.group = this.group;
+      this.leaveObj.branch = this.branch;
+      this.leaveObj.designation = this.designation;
+      this.leaveObj.leave_type = this.leaveType;
       this.leaveObj.date_from = this.startDate;
       this.leaveObj.date_to = this.endDate;
       this.leaveObj.reason = this.reason;
