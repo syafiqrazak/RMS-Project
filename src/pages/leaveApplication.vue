@@ -13,41 +13,75 @@
           <!-- <p class="category">Complete your profile</p> -->
         </md-card-header>
         <md-card-content>
+          <b-field label="Dinastia Jati Group of Companies:">
+            <b-select v-model="group" expanded style="width:98%;">
+              <option value="DJSB">DJSB </option>
+              <option value="DJMS">DJMS</option>
+              <option value="JJSB">JJSB</option>
+              <option value="LJSB">LJSB</option>
+            </b-select>
+          </b-field>
+
+           <b-field label="Branch:">
+            <b-input v-model="branch"></b-input>
+          </b-field>
+
+          <b-field label="Designation:">
+            <b-input v-model="designation"></b-input>
+          </b-field>
+
+          <b-field label="Leave Type:">
+            <b-select v-model="branch" expanded style="width:98%;">
+              <option value="ANNUAL LEAVE">ANNUAL LEAVE </option>
+              <option value="EMERGENCY LEAVE">EMERGENCY LEAVE</option>
+              <option value="MEDICAL LEAVE">MEDICAL LEAVE</option>
+              <option value="UNRECORDED LEAVE">UNRECORDED LEAVE</option>
+              <option value="OTHERS">OTHERS</option>
+            </b-select>
+          </b-field>
+          
+
           <div class="md-layout">
-            <b-field
-              label="Start Date:"
-              style="display:inline-block; float:left; width:47%"
-            >
-              <!-- {{isDateDisabled2}} -->
-              <md-field>
-                <md-datepicker
-                  v-model="startDate"
-                  md-immediately
-                  :md-disabled-dates="disabled"
-                />
-                <!-- <md-input v-model="startDate" type="date" ></md-input> -->
-              </md-field>
-              <div class="error" v-if="!$v.startDate.required && isPosted">
-                Start Date is required
-              </div>
-              <div class="error" v-else-if="!$v.startDate.minValue && isPosted">
-                Start Date must after today date
-              </div>
-              <!-- <div class="error" v-else>  </div> -->
-            </b-field>
-            <!-- <b-field></b-field> -->
-            <b-field
-              label="End Date:"
-              style="display:inline-block; float:right; width:47%"
-            >
-              <md-field>
-                <md-datepicker v-model="endDate" md-immediately />
-              </md-field>
-              <div class="error" v-if="!$v.endDate.required && isPosted">
-                End Date is required
-              </div>
-              <!-- <div class="error" v-else-if="!$v.endDate.minValue && isPosted">  End Date must after start date </div> -->
-            </b-field>
+            <br />
+            <div id="dates">
+              <b-field
+                label="Start Date:"
+                style="display:inline-block; float:left; width:47%"
+              >
+                <!-- {{isDateDisabled2}} -->
+                <md-field>
+                  <md-datepicker
+                    v-model="startDate"
+                    md-immediately
+                    :md-disabled-dates="disabled"
+                  />
+                  <!-- <md-input v-model="startDate" type="date" ></md-input> -->
+                </md-field>
+                <div class="error" v-if="!$v.startDate.required && isPosted">
+                  Start Date is required
+                </div>
+                <div
+                  class="error"
+                  v-else-if="!$v.startDate.minValue && isPosted"
+                >
+                  Start Date must after today date
+                </div>
+                <!-- <div class="error" v-else>  </div> -->
+              </b-field>
+              <!-- <b-field></b-field> -->
+              <b-field
+                label="End Date:"
+                style="display:inline-block; float:right; width:47%"
+              >
+                <md-field>
+                  <md-datepicker v-model="endDate" md-immediately />
+                </md-field>
+                <div class="error" v-if="!$v.endDate.required && isPosted">
+                  End Date is required
+                </div>
+                <!-- <div class="error" v-else-if="!$v.endDate.minValue && isPosted">  End Date must after start date </div> -->
+              </b-field>
+            </div>
           </div>
           <b-field label="Reasons:">
             <md-field>
@@ -62,9 +96,7 @@
             Reason is required
           </div>
           <b-field label="Emergency Contact Number:">
-            <md-field>
-              <md-input v-model="emergency_contact" type="number"></md-input>
-            </md-field>
+            <b-input v-model="emergency_contact" type="number"></b-input>
           </b-field>
           <div
             class="error"
@@ -74,11 +106,13 @@
             Emergency Contact is required
           </div>
           <b-field label="Replacement Username:">
-            <md-field>
-              <!-- <md-input v-model="replacement"></md-input> -->
-              <md-autocomplete v-model="replacement" :md-options="username" :md-open-on-focus="false" >
-              </md-autocomplete>
-            </md-field>
+            <b-autocomplete
+                v-model="replacement"
+                :data="username"
+                clearable
+                @select="option => selected = option">
+                <template slot="empty">No results found</template>
+            </b-autocomplete>
           </b-field>
           <md-button
             class="md-raised md-success"
@@ -111,7 +145,11 @@ export default {
       users: [],
       username: [],
       user_id: [],
-      passUserId: '' ,
+      designation: "",
+      branch: "",
+      group: "",
+      leaveType: "",
+      passUserId: "",
       leaveObj: new leaveClass(),
       isLoading: false,
       error: "",
@@ -136,11 +174,10 @@ export default {
   async created() {
     try {
       const clog = await user.check_logged();
-      if(clog.err) {
-        alert("User not logged in. Please login.")
+      if (clog.err) {
+        alert("User not logged in. Please login.");
         this.$router.push({ path: `/login` });
-      }
-      else{
+      } else {
         const data = await user.get_all_user();
         console.log("All users");
         console.log(data);
@@ -148,11 +185,11 @@ export default {
         //   ...users
         // }));
         this.users = data;
-        for(var i = 0; i < this.users.length; i++){
-            this.username.push(this.users[i].username);
+        for (var i = 0; i < this.users.length; i++) {
+          this.username.push(this.users[i].username);
         }
-        for(var i = 0; i < this.users.length; i++){
-            this.user_id.push(this.users[i].id);
+        for (var i = 0; i < this.users.length; i++) {
+          this.user_id.push(this.users[i].id);
         }
         console.log(this.user_id);
       }
@@ -163,7 +200,7 @@ export default {
   },
   validations: {
     startDate: {
-      required,
+      required
       // minValue: value => value > new Date()
     },
     endDate: {
@@ -223,11 +260,11 @@ export default {
               // this.$router.push({ path: `/message/${this.id}` });
               this.$buefy.snackbar.open({
                 duration: 3000,
-                message: 'Sending Leave Application',
-                type: 'is-warning',
-                position: 'is-top',
-                actionText: 'OK',
-              })
+                message: "Sending Leave Application",
+                type: "is-warning",
+                position: "is-top",
+                actionText: "OK"
+              });
               this.$router.push({ path: `/myApplication/${this.id}` });
             } else if (Difference_In_Days < 0) {
               alert("End Date must after Start Date");
@@ -285,5 +322,12 @@ export default {
   font-weight: 600;
   align-content: center;
   margin-left: 1em;
+}
+#dates {
+  border-radius: 15px;
+  border: 1px solid #d2d2d2;
+  padding: 20px;
+  width: 100%;
+  height: 150px;
 }
 </style>

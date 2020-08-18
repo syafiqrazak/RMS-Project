@@ -122,7 +122,11 @@
                   <section>
                     <p><strong>Delivery: </strong></p>
                     <b-field>
-                      <b-input v-model="delv"></b-input>
+                      <b-select v-model="delv" expanded style="width:98%;">
+                        <option value="CIF">CIF </option>
+                        <option value="Ex-World">Ex-World</option>\
+                        <option value="FOB">FOB</option>
+                      </b-select>
                     </b-field>
                   </section>
                 </div>
