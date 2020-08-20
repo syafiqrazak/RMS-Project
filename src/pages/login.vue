@@ -2,7 +2,11 @@
   <!-- Material form login -->
 
   <div class="background" :style="sidebarStyle">
-    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    ></b-loading>
     <md-card>
       <!-- <div  v-show="isShow" class="alert alert-danger"  style="display:inline-block; margin-left: 15%; top: 50px;  width: 70%; opacity: 30%;">
         <span><b>Warning: </b>{{ error }}</span>
@@ -13,7 +17,7 @@
         <div id="clsImage">
           <img class="logo" src="@/assets/img/dinastiaLogo.png" />
         </div>
-            <!-- </p>
+        <!-- </p>
         </b-modal> -->
         <b-field label="Username:" style="color:#FAFAFA;" center>
           <md-field>
@@ -28,7 +32,8 @@
         <br />
         <md-button
           class="md-raised md-success"
-          @click="login()" style=" margin:auto; display:block;"
+          @click="login()"
+          style=" margin:auto; display:block;"
           >Submit</md-button
         >
 
@@ -45,7 +50,7 @@ import user from "@/js/user.js"; //directory to user.js
 
 export default {
   data() {
-    imageURL: '@/assets/img/sidebar-2.jpg' 
+    imageURL: "@/assets/img/sidebar-2.jpg";
     return {
       // nama: null,
       isShow: false,
@@ -58,22 +63,22 @@ export default {
       t3: "",
       t4: "",
       is_admin: "",
-      staffName: '',
-      isLoading: false,
+      staffName: "",
+      isLoading: false
     };
   },
   props: {
     backgroundImage: {
       type: String,
       default: require("@/assets/img/jetty.jpg")
-    },
+    }
   },
   computed: {
     sidebarStyle() {
       return {
         backgroundImage: `url(${this.backgroundImage}) `,
         backgroundRepeat: `no-repeat`,
-        backgroundSize: `cover`,
+        backgroundSize: `cover`
         // backgroundColor: "linear-gradient(to right, #ff4b1f, #1fddff)",
       };
     }
@@ -81,7 +86,7 @@ export default {
   async created() {
     try {
       const clog = await user.check_logged();
-      if(!clog.err) {
+      if (!clog.err) {
         this.$router.push({ path: `/psrListing/${clog.id}` });
       }
     } catch (err) {
@@ -103,8 +108,12 @@ export default {
           this.isLoading = false;
           localStorage.user = login;
           localStorage.id = login.id;
-          localStorage.department = login.department.cd;
-          localStorage.branch = login.branch.cd;
+          try {
+            localStorage.department = login.department.cd;
+            localStorage.branch = login.branch.cd;
+          } catch {
+            console.log("Admin or Account");
+          }
           localStorage.t1 = login.t1;
           localStorage.t2 = login.t2;
           localStorage.t4 = login.t4;
@@ -112,20 +121,23 @@ export default {
           localStorage.is_admin = login.is_admin;
           localStorage.acct_t = login.acct_t;
           localStorage.staffName = login.firstname + " " + login.lastname;
-          
+
           if (login.department) localStorage.department = login.department.cd;
           else localStorage.department = null;
           if (login.branch) localStorage.branch = login.branch.cd;
-          
+
           this.isLoading = false;
-          if(localStorage.acct_t == "true")
+          if (localStorage.acct_t == "true")
             this.$router.push({ path: `/poListing/${login.id}` });
-          else if(localStorage.is_admin == "true")
+          else if (localStorage.is_admin == "true")
             this.$router.push({ path: `/register/${login.id}` });
-          else if(localStorage.t2 == "true" || localStorage.t3 == "true" || localStorage.t4 == "true")
+          else if (
+            localStorage.t2 == "true" ||
+            localStorage.t3 == "true" ||
+            localStorage.t4 == "true"
+          )
             this.$router.push({ path: `/notification/${login.id}` });
-          else
-            this.$router.push({ path: `/psrListing/${login.id}` });
+          else this.$router.push({ path: `/psrListing/${login.id}` });
         }
         this.isLoading = false;
         console.log(login); //can be ignored
@@ -139,7 +151,7 @@ export default {
         console.log("error:");
         console.log(err);
       }
-    },
+    }
   }
 };
 </script>
@@ -181,15 +193,14 @@ form {
   /* margin-right: 30%; */
 }
 .md-card img {
-    width: 100%;
-    /* height: 20%; */
-    /* padding-left: 33%; */
+  width: 100%;
+  /* height: 20%; */
+  /* padding-left: 33%; */
 }
-#clsImage{
+#clsImage {
   width: 30%;
   margin-left: 35%;
   margin-right: 35%;
-
 }
 /* .label{
   color: #FAFAFA !important;
