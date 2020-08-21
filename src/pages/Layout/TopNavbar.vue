@@ -13,8 +13,19 @@
           </md-list-item>
           <md-list-item @click="logout()">
             <i class="fas fa-power-off"></i>
-            <p style="padding:5px 10px; padding-top:10px; color:#07a8e3;">Logout</p>
+            <p style="padding:5px 10px; padding-top:10px; color:#07a8e3;">
+              Logout
+            </p>
           </md-list-item>
+          <md-button
+            class="md-just-icon md-simple md-toolbar-toggle"
+            :class="{ toggled: $sidebar.showSidebar }"
+            @click="toggleSidebar"
+          >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </md-button>
         </md-list>
       </div>
     </div>
